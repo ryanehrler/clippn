@@ -1,0 +1,18 @@
+.container {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  // grid-template-rows: 100%;
+  // grid-column-gap: 20px;
+  width: 100vw;
+  height: 100vh;
+}
+
+.item {
+  &.side-bar {
+    align-self: stretch;
+    background-color: #111;
+  }
+  &.main-content {
+    align-self: stretch;
+  }
+}

@@ -1,0 +1,14 @@
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+
+import { MaterialModule } from '../../material/material.module';
+import { AddVideoComponent } from './add-video/add-video.component';
+import { AnalyzeVideoComponent } from './analyze-video/analyze-video.component';
+import { AnalyzerRoutingModule } from './analyzer-routing.module';
+import { AnalyzerComponent } from './analyzer/analyzer.component';
+
+@NgModule({
+  imports: [CommonModule, MaterialModule, AnalyzerRoutingModule],
+  declarations: [AddVideoComponent, AnalyzerComponent, AnalyzeVideoComponent]
+})
+export class AnalyzerModule {}

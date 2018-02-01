@@ -1,1 +1,21 @@
 /* You can add global styles to this file, and also import other style files */
+
+// @import '~normalize.css/normalize.css';
+@import '~@angular/material/prebuilt-themes/purple-green.css';
+
+html {
+  width: 100%;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
+body {
+  margin: 0;
+}
+
+ul {
+  list-style: none;
+  list-style-image: none;
+  padding: 0;
+  margin: 0;
+}

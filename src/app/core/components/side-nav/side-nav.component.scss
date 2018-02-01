@@ -1,0 +1,42 @@
+.main-nav {
+  flex: 0 0 100px;
+
+  text-align: center;
+  position: relative;
+  z-index: 30;
+  background: #111;
+  padding: 1rem 0 0 0;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+
+  li:hover {
+    background-color: grey;
+  }
+
+  li > div {
+    font-weight: 500;
+    font-size: 0.66rem;
+    letter-spacing: 0.04rem;
+    color: white;
+    padding: 0.75rem 0.5rem;
+    text-transform: uppercase;
+    position: relative;
+    display: inline-block;
+
+    transition: 0.1s;
+  }
+
+  .mat-icon {
+    pointer-events: none;
+    width: 40px;
+    height: 40px;
+    display: block;
+    margin: 0 auto 0.1rem;
+    fill: white;
+    display: block;
+  }
+
+  .span {
+    pointer-events: none;
+  }
+}
