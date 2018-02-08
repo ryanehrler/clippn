@@ -95,13 +95,8 @@ export class AuthService {
     });
   }
 
-<<<<<<< HEAD
-  private updateUserData(user) {
-    const userRef: AngularFirestoreDocument<any> = this.afs.doc(
-=======
   private updateUserData(user: IUser) {
-    const userRef: AngularFirestoreDocument<any> = this.firestore.doc(
->>>>>>> e8de19a432f661435fc8d2e21d0a4d471ffb16a8
+    const userRef: AngularFirestoreDocument<any> = this.afs.doc(
       `users/${user.uid}`
     );
 
