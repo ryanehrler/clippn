@@ -14,7 +14,9 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/take';
 import { Observable } from 'rxjs/Observable';
 
-import { IUser } from './user';
+import { error } from 'selenium-webdriver';
+import { IUser } from '../../../shared/models/user';
+// import { IUser } from './user';
 
 @Injectable()
 export class AuthService {
@@ -27,7 +29,7 @@ export class AuthService {
     private afs: AngularFirestore,
     private router: Router
   ) {
-    //// Get auth data, then get firestore user document || null
+    // Get auth data, then get firestore user document || null
     this.user = this.fireAuth.authState.switchMap(user => {
       if (user) {
         this.isLoggedIn = true;
@@ -40,6 +42,7 @@ export class AuthService {
     });
   }
 
+  // this currently does nothing -- may be used for route guard
   authenticated() {
     return this.user
       .take(1)
@@ -57,6 +60,29 @@ export class AuthService {
     return this.oAuthLogin(provider);
   }
 
+  createUser(user: IUser) {
+    console.log(user);
+    this.fireAuth.auth
+      .createUserWithEmailAndPassword(user.username, user.password)
+      .then(data => {
+        console.log(data);
+        this.updateUserData(data);
+      });
+  }
+
+  signInUser(user: IUser) {
+    console.log(user);
+    this.fireAuth.auth
+      .signInWithEmailAndPassword(user.username, user.password)
+      .then(data => {
+        console.log(data);
+        this.updateUserData(data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
   signOut() {
     this.fireAuth.auth.signOut().then(() => {
       this.router.navigate(['/']);
@@ -69,11 +95,17 @@ export class AuthService {
     });
   }
 
+<<<<<<< HEAD
   private updateUserData(user) {
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(
+=======
+  private updateUserData(user: IUser) {
+    const userRef: AngularFirestoreDocument<any> = this.firestore.doc(
+>>>>>>> e8de19a432f661435fc8d2e21d0a4d471ffb16a8
       `users/${user.uid}`
     );
 
+    // console.log(userRef);
     const data: IUser = {
       uid: user.uid,
       email: user.email,
