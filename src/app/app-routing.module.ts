@@ -8,27 +8,25 @@ import { LoginPageComponent } from './features/login/login-page/login-page.compo
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'login',
-    pathMatch: 'full'
+    canActivate: [AuthGuard],
+    children: [
+      {
+        path: 'add-video',
+        loadChildren: './features/analyzer/analyzer.module#AnalyzerModule'
+      },
+      {
+        path: 'library',
+        loadChildren: './features/library/library.module#LibraryModule'
+      },
+      {
+        path: 'admin',
+        loadChildren: './features/admin/admin.module#AdminModule'
+      }
+    ]
   },
   {
     path: 'login',
     component: LoginPageComponent
-  },
-  {
-    path: 'add-video',
-    loadChildren: './features/analyzer/analyzer.module#AnalyzerModule',
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'library',
-    loadChildren: './features/library/library.module#LibraryModule',
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'admin',
-    loadChildren: './features/admin/admin.module#AdminModule',
-    canActivate: [AuthGuard]
   }
 ];
 

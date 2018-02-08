@@ -19,18 +19,20 @@ import { IUser } from './user';
 @Injectable()
 export class AuthService {
   user: Observable<IUser>;
+  userId: string;
   isLoggedIn = false;
 
   constructor(
     private fireAuth: AngularFireAuth,
-    private firestore: AngularFirestore,
+    private afs: AngularFirestore,
     private router: Router
   ) {
     //// Get auth data, then get firestore user document || null
     this.user = this.fireAuth.authState.switchMap(user => {
       if (user) {
         this.isLoggedIn = true;
-        return this.firestore.doc<IUser>(`users/${user.uid}`).valueChanges();
+        this.userId = user.uid;
+        return this.afs.doc<IUser>(`users/${user.uid}`).valueChanges();
       } else {
         this.isLoggedIn = false;
         return Observable.of(null);
@@ -68,7 +70,7 @@ export class AuthService {
   }
 
   private updateUserData(user) {
-    const userRef: AngularFirestoreDocument<any> = this.firestore.doc(
+    const userRef: AngularFirestoreDocument<any> = this.afs.doc(
       `users/${user.uid}`
     );
 

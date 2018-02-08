@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ClipService } from '../../../core/services/clip/clip.service';
 
 @Component({
   selector: 'app-library',
@@ -6,10 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./library.component.scss']
 })
 export class LibraryComponent implements OnInit {
+  constructor(private clipService: ClipService) {}
 
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

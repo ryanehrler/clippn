@@ -10,6 +10,10 @@ import { MaterialModule } from '../material/material.module';
 import { SideNavComponent } from './components/side-nav/side-nav.component';
 import { AuthGuard } from './services/auth/auth.guard';
 import { AuthService } from './services/auth/auth.service';
+import { ClipAnalyzerService } from './services/clip/clip-analyzer.service';
+import { ClipService } from './services/clip/clip.service';
+import { FirestoreService } from './services/firestore/firestore.service';
+import { GoogleAnalyticsService } from './services/google-analytics/index';
 
 @NgModule({
   imports: [
@@ -17,11 +21,18 @@ import { AuthService } from './services/auth/auth.service';
     MaterialModule,
     RouterModule,
     AngularFireAuthModule,
-    AngularFirestoreModule
+    AngularFirestoreModule.enablePersistence()
   ],
   declarations: [SideNavComponent],
   exports: [SideNavComponent],
-  providers: [AuthService, AuthGuard]
+  providers: [
+    FirestoreService,
+    AuthService,
+    AuthGuard,
+    GoogleAnalyticsService,
+    ClipService,
+    ClipAnalyzerService
+  ]
 })
 export class CoreModule {
   forRoot(): ModuleWithProviders {
