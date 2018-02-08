@@ -28,7 +28,7 @@
             </mat-grid-tile>
             <mat-grid-tile [colspan]="7">
               <mat-input-container class="justifier">
-                <input matInput placeholder="Username" text="text">
+                <input matInput placeholder="Username" [(ngModel)]="user.username" text="text">
               </mat-input-container>
             </mat-grid-tile>
           </mat-grid-list>
@@ -41,18 +41,29 @@
             </mat-grid-tile>
             <mat-grid-tile [colspan]="7">
               <mat-input-container class="justifier">
-                <input matInput placeholder="Password" text="password">
+                <input matInput placeholder="Password" [(ngModel)]="user.password" text="password">
               </mat-input-container>
             </mat-grid-tile>
           </mat-grid-list>
-          <!-- Markup for getting Password ends -->
+          <!-- Markup for getting Password ends signInUser createUser-->
 
-          <button mat-raised-button class="login-button">
-            <mat-icon>input</mat-icon> Login
-          </button>
-          <button mat-raised-button (click)="auth.googleLogin()" class="login-button">
-            <mat-icon>input</mat-icon> Google Login
-          </button>
+          <div class="ui-g">
+            <div class="ui-g-4">
+              <button mat-raised-button (click)="auth.signInUser(user)" flex class="login-button flex">
+                <mat-icon>input</mat-icon> Login
+              </button>
+            </div>
+            <div class="ui-g-4">
+              <button mat-raised-button (click)="auth.createUser(user)" flex class="login-button flex">
+                <mat-icon>input</mat-icon> Register
+              </button>
+            </div>
+            <div class="ui-g-4">
+              <button mat-raised-button (click)="auth.googleLogin()" flex class="login-button flex">
+                <mat-icon>input</mat-icon> Google Login
+              </button>
+            </div>
+          </div>
 
         </div>
         <!-- Template Body ends -->
