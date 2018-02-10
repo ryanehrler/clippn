@@ -7,13 +7,32 @@ import { NgModule } from '@angular/core';
 
 import {
   MatButtonModule,
+  MatCardModule,
   MatCheckboxModule,
   MatGridListModule,
   MatIconModule,
   MatInputModule,
   MatListModule,
-  MatToolbarModule
+  MatSidenavModule,
+  MatToolbarModule,
+  MatTabsModule
 } from '@angular/material';
+
+import {
+  CovalentCommonModule,
+  CovalentDataTableModule,
+  CovalentDialogsModule,
+  CovalentExpansionPanelModule,
+  CovalentLayoutModule,
+  CovalentLoadingModule,
+  CovalentMediaModule,
+  CovalentMenuModule,
+  CovalentMessageModule,
+  CovalentNotificationsModule,
+  CovalentPagingModule,
+  CovalentSearchModule,
+  CovalentStepsModule
+} from '@covalent/core';
 
 @NgModule({
   imports: [
@@ -25,7 +44,25 @@ import {
     MatCheckboxModule,
     MatGridListModule,
     MatInputModule,
-    MatIconModule
+    MatIconModule,
+    MatSidenavModule,
+    MatCardModule,
+    MatTabsModule,
+
+    // Covalent -- duh but prettier removes spaces so we have this comment .. fun!
+    CovalentCommonModule,
+    CovalentLayoutModule,
+    CovalentMediaModule,
+    CovalentExpansionPanelModule,
+    CovalentStepsModule,
+    CovalentDialogsModule,
+    CovalentLoadingModule,
+    CovalentSearchModule,
+    CovalentPagingModule,
+    CovalentNotificationsModule,
+    CovalentMenuModule,
+    CovalentDataTableModule,
+    CovalentMessageModule
   ],
   exports: [
     MatToolbarModule,
@@ -35,7 +72,25 @@ import {
     MatCheckboxModule,
     MatGridListModule,
     MatInputModule,
-    MatIconModule
+    MatIconModule,
+    MatSidenavModule,
+    MatCardModule,
+    MatTabsModule,
+
+    // again Covalent
+    CovalentCommonModule,
+    CovalentLayoutModule,
+    CovalentMediaModule,
+    CovalentExpansionPanelModule,
+    CovalentStepsModule,
+    CovalentDialogsModule,
+    CovalentLoadingModule,
+    CovalentSearchModule,
+    CovalentPagingModule,
+    CovalentNotificationsModule,
+    CovalentMenuModule,
+    CovalentDataTableModule,
+    CovalentMessageModule
   ],
   declarations: []
 })

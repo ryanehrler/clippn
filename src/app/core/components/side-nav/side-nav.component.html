@@ -1,10 +1,5 @@
-<nav class="main-nav">
-  <ul>
-    <li *ngFor="let item of navItems">
-      <div routerLink="{{item.path}}" [routerLinkActive]="['active']">
-        <mat-icon>{{ item.iconName }}</mat-icon>
-        <span>{{ item.label }}</span>
-      </div>
-    </li>
-  </ul>
+<nav mat-stretch-tabs mat-tab-nav-bar class="pull-bottom-xl pull-top-md text-upper" flex color="accent">
+  <a mat-tab-link *ngFor="let item of navItems" [routerLink]="item.path" routerLinkActive #rla="routerLinkActive" [active]="rla.isActive">
+    {{item.label}}
+  </a>
 </nav>

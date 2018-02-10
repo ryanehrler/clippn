@@ -1,0 +1,37 @@
+@import '~@angular/material/theming';
+@import '~@covalent/core/theming/all-theme';
+
+// (optional) Additional themes
+@import '~@covalent/markdown/markdown-theme';
+@import '~@covalent/highlight/highlight-theme';
+
+// Define a custom typography config that overrides the font-family
+// or any typography level.
+$typography: mat-typography-config(
+  $font-family: 'Helvetica, Verdana',
+  $headline: mat-typography-level(32px, 48px, 700)
+);
+
+@include mat-core($typography); // $typography is an **optional** argument for the mat-core
+
+/*
+  Use this link to lookup colors which are pre-configured.
+  https://material.io/color/#!/?view.left=0&view.right=0&primary.color=76FF03&secondary.color=E53935
+
+  Use map-get to retrieve value from here.  Example: map-get($primary, 'default-contrast')
+*/
+$primary: mat-palette($mat-light-green, A400, 100, 700);
+$accent: mat-palette($mat-blue, 600, 100, 900);
+$warn: mat-palette($mat-red, 600, 100, 900);
+
+$bg-color: #e1e2e1;
+$bg-color-2: #f5f5f6;
+
+$theme: mat-light-theme($primary, $accent, $warn);
+
+@include angular-material-theme($theme);
+@include covalent-theme($theme, $typography); // $typography is an **optional** argument for the covalent-theme
+
+// (optional) Additional themes
+@include covalent-markdown-theme($theme);
+@include covalent-highlight-theme();

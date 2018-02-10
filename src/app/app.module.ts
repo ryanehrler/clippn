@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AngularFireModule } from 'angularfire2';
@@ -22,6 +23,7 @@ import { SharedModule } from './shared/shared.module';
     SharedModule,
     MaterialModule,
     AngularFireModule.initializeApp(environment.firebase),
+    BrowserAnimationsModule,
 
     // Feature Modules
     AdminModule,
