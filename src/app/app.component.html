@@ -22,14 +22,30 @@
           <mat-icon>account_circle</mat-icon>
         </button>
         <mat-menu #userMenu="matMenu">
-          <button mat-menu-item>Settings</button>
-          <button mat-menu-item (click)="auth.signOut()">Logout</button>
+          <button mat-menu-item>
+            <mat-icon>settings</mat-icon>Settings</button>
+          <button mat-menu-item (click)="auth.signOut()">
+            <mat-icon>exit_to_app</mat-icon>Logout</button>
         </mat-menu>
       </div>
       <mat-sidenav-container fullscreen>
         <mat-sidenav #sidenav mode="side" opened="true" style="width:257px;border-right:1px solid #ccc">
           <div flex class="mat-content bgc-grey-50">
+
             <mat-nav-list>
+              <mat-accordion>
+                <mat-expansion-panel>
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      Clip One
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+
+                  <div>
+                    Here's a POI
+                  </div>
+                </mat-expansion-panel>
+              </mat-accordion>
               <a mat-list-item class="active">
                 <mat-icon matListIcon>contacts</mat-icon>Contacts</a>
               <a mat-list-item>
@@ -50,6 +66,7 @@
                 <mat-icon matListIcon>help</mat-icon>Help</a>
               <a mat-list-item>
                 <mat-icon matListIcon>exit_to_app</mat-icon>Go to the old version</a>
+
             </mat-nav-list>
           </div>
         </mat-sidenav>

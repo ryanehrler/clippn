@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatSnackBar, MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material';
 import { AuthService } from '../../../core/services/auth/auth.service';
 import { IUser } from '../../../shared/models/user';
 
