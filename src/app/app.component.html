@@ -18,9 +18,13 @@
         <button mat-icon-button>
           <mat-icon>notifications</mat-icon>
         </button>
-        <button mat-icon-button>
+        <button mat-icon-button [matMenuTriggerFor]="userMenu">
           <mat-icon>account_circle</mat-icon>
         </button>
+        <mat-menu #userMenu="matMenu">
+          <button mat-menu-item>Settings</button>
+          <button mat-menu-item (click)="auth.signOut()">Logout</button>
+        </mat-menu>
       </div>
       <mat-sidenav-container fullscreen>
         <mat-sidenav #sidenav mode="side" opened="true" style="width:257px;border-right:1px solid #ccc">

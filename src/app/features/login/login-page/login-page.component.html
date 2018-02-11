@@ -41,27 +41,32 @@
             </mat-grid-tile>
             <mat-grid-tile [colspan]="7">
               <mat-input-container class="justifier">
-                <input matInput placeholder="Password" [(ngModel)]="user.password" text="password">
+                <input matInput placeholder="Password" [(ngModel)]="user.password" type="password">
               </mat-input-container>
             </mat-grid-tile>
           </mat-grid-list>
           <!-- Markup for getting Password ends signInUser createUser-->
-
-          <div class="ui-g">
-            <div class="ui-g-4">
-              <button mat-raised-button (click)="auth.signInUser(user)" flex class="login-button flex">
-                <mat-icon>input</mat-icon> Login
-              </button>
-            </div>
-            <div class="ui-g-4">
-              <button mat-raised-button (click)="auth.createUser(user)" flex class="login-button flex">
-                <mat-icon>input</mat-icon> Register
-              </button>
-            </div>
-            <div class="ui-g-4">
-              <button mat-raised-button (click)="auth.googleLogin()" flex class="login-button flex">
-                <mat-icon>input</mat-icon> Google Login
-              </button>
+          <div>
+            <div layout="row">
+              <div flex="30">
+                <button flex layout-fill mat-raised-button color="accent" (click)="auth.signInUser(user)">
+                  <mat-icon>input</mat-icon> Login
+                </button>
+              </div>
+              <div flex="3">
+              </div>
+              <div flex="30">
+                <button flex layout-fill mat-raised-button (click)="auth.googleLogin()" color="accent">
+                  <mat-icon>input</mat-icon> Google Login
+                </button>
+              </div>
+              <div flex="3">
+              </div>
+              <div flex="30">
+                <button flex layout-fill mat-raised-button (click)="openDialog()" color="accent">
+                  <mat-icon>input</mat-icon> Register
+                </button>
+              </div>
             </div>
           </div>
 
