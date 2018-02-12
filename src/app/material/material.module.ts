@@ -9,16 +9,17 @@ import {
   MatButtonModule,
   MatCardModule,
   MatCheckboxModule,
+  MatExpansionModule,
   MatGridListModule,
   MatIconModule,
   MatInputModule,
   MatListModule,
   MatMenuModule,
+  MatProgressBarModule,
   MatSidenavModule,
   MatSnackBarModule,
   MatTabsModule,
-  MatToolbarModule,
-  MatExpansionModule
+  MatToolbarModule
 } from '@angular/material';
 
 import {
@@ -53,6 +54,7 @@ import {
     MatSnackBarModule,
     MatMenuModule,
     MatExpansionModule,
+    MatProgressBarModule,
     MatTabsModule,
 
     // Covalent -- duh but prettier removes spaces so we have this comment .. fun!
@@ -84,6 +86,7 @@ import {
     MatCardModule,
     MatMenuModule,
     MatExpansionModule,
+    MatProgressBarModule,
     MatTabsModule,
 
     // again Covalent

@@ -31,44 +31,50 @@
       <mat-sidenav-container fullscreen>
         <mat-sidenav #sidenav mode="side" opened="true" style="width:257px;border-right:1px solid #ccc">
           <div flex class="mat-content bgc-grey-50">
-
-            <mat-nav-list>
-              <mat-accordion>
-                <mat-expansion-panel>
-                  <mat-expansion-panel-header>
-                    <mat-panel-title>
-                      Clip One
-                    </mat-panel-title>
-                  </mat-expansion-panel-header>
-
-                  <div>
-                    Here's a POI
-                  </div>
-                </mat-expansion-panel>
-              </mat-accordion>
-              <a mat-list-item class="active">
-                <mat-icon matListIcon>contacts</mat-icon>Contacts</a>
+            <mat-nav-list layout-fill>
               <a mat-list-item>
-                <mat-icon matListIcon>history</mat-icon>Frequently contacted</a>
-              <a mat-list-item>
-                <mat-icon matListIcon>business</mat-icon>Directory</a>
-              <a mat-list-item>
-                <mat-icon matListIcon>content_copy</mat-icon>Duplicates</a>
-              <mat-divider></mat-divider>
-              <a mat-list-item>
-                <mat-icon matListIcon>add</mat-icon>Create label</a>
-              <mat-divider></mat-divider>
-              <a mat-list-item>
-                <mat-icon matListIcon>settings</mat-icon>Settings</a>
-              <a mat-list-item>
-                <mat-icon matListIcon>announcement</mat-icon>Send feedback</a>
-              <a mat-list-item>
-                <mat-icon matListIcon>help</mat-icon>Help</a>
-              <a mat-list-item>
-                <mat-icon matListIcon>exit_to_app</mat-icon>Go to the old version</a>
-
+                <mat-icon matListIcon>history</mat-icon>Processed Clips</a>
             </mat-nav-list>
           </div>
+          <mat-accordion>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Clip One
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <div>
+                <mat-list>
+                  <mat-list-item>Here's a POI</mat-list-item>
+                </mat-list>
+              </div>
+            </mat-expansion-panel>
+          </mat-accordion>
+          <div flex class="mat-content bgc-grey-50">
+            <mat-nav-list layout-fill>
+              <a mat-list-item>
+                <mat-icon matListIcon>hourglass_empty</mat-icon>Clips In Process</a>
+            </mat-nav-list>
+          </div>
+          <mat-accordion>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Clips
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <div>
+                <mat-list>
+                  <div *ngFor="let clip of clips">
+                    <mat-list-item>{{clip.name}}</mat-list-item>
+                    <mat-progress-bar [color]="clip.currentProgress < 50 ? 'warn' : 'primary'" md-mode="determinate" [value]="clip.currentProgress"></mat-progress-bar>
+                  </div>
+                  <!-- <mat-list-item>Clip Two</mat-list-item>
+                  <mat-progress-bar #clip2 [color]="clip2.value < 50 ? 'warn' : 'primary'" md-mode="determinate" value="35"></mat-progress-bar> -->
+                </mat-list>
+              </div>
+            </mat-expansion-panel>
+          </mat-accordion>
         </mat-sidenav>
         <!-- ng content or router would go here -->
         <div tdMediaToggle="gt-xs" [mediaClasses]="['push-md']">

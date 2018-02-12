@@ -7,4 +7,5 @@ export class Clip {
   archived: boolean;
   gameTitle: string;
   pois: Poi[];
+  currentProgress: number;
 }
