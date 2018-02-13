@@ -7,6 +7,11 @@ import { ClipService } from '../../../core/services/clip/clip.service';
   styleUrls: ['./analyzer.component.scss']
 })
 export class AnalyzerComponent implements OnInit {
+  navItems = [
+    { label: 'Add', iconName: 'add', path: 'add-video' },
+    { label: 'Analyze', iconName: 'dns', path: 'analyze' }
+  ];
+
   constructor() {}
 
   ngOnInit() {}

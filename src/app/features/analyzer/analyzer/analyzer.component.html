@@ -1,10 +1,11 @@
 <mat-toolbar color="accent">
-  <button mat-raised-button color="accent" routerLink="add-video" [routerLinkActive]="['active']">
-    <mat-icon>add</mat-icon>Add
-  </button>
-  <button mat-raised-button color="accent" routerLink="analyze" [routerLinkActive]="['active']">
-    <mat-icon>dns</mat-icon>Analyze
-  </button>
+  <nav mat-tab-nav-bar>
+    <a mat-tab-link *ngFor="let link of navItems" [routerLink]="link.path" routerLinkActive #rla="routerLinkActive" [active]="rla.isActive">
+      <mat-icon>{{link.iconName}}</mat-icon>
+      {{link.label}}
+    </a>
+  </nav>
 </mat-toolbar>
+
 
 <router-outlet></router-outlet>
