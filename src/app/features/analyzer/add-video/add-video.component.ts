@@ -6,10 +6,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./add-video.component.scss']
 })
 export class AddVideoComponent implements OnInit {
+  fileSelectMsg = 'No file selected yet.';
+  fileUploadMsg = 'No file uploaded yet.';
+  disabled = false;
+  videoFile: File;
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  selectEvent(file: File): void {
+    this.videoFile = file;
+    this.disabled = true;
   }
-
 }

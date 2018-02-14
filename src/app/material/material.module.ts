@@ -35,7 +35,8 @@ import {
   CovalentNotificationsModule,
   CovalentPagingModule,
   CovalentSearchModule,
-  CovalentStepsModule
+  CovalentStepsModule,
+  CovalentFileModule
 } from '@covalent/core';
 
 @NgModule({
@@ -70,7 +71,8 @@ import {
     CovalentNotificationsModule,
     CovalentMenuModule,
     CovalentDataTableModule,
-    CovalentMessageModule
+    CovalentMessageModule,
+    CovalentFileModule
   ],
   exports: [
     MatToolbarModule,
@@ -102,7 +104,8 @@ import {
     CovalentNotificationsModule,
     CovalentMenuModule,
     CovalentDataTableModule,
-    CovalentMessageModule
+    CovalentMessageModule,
+    CovalentFileModule
   ],
   declarations: []
 })

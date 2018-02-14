@@ -1,15 +1,14 @@
 .file-upload {
   height: 300px;
   width: 300px;
-  border-radius: 20px 20px 20px 20px;
-  -moz-border-radius: 20px 20px 20px 20px;
-  -webkit-border-radius: 20px 20px 20px 20px;
-  border: 4px dashed #dddddd;
-  background-color: #fafafa;
+  // border-radius: 20px 20px 20px 20px;
+  // -moz-border-radius: 20px 20px 20px 20px;
+  // -webkit-border-radius: 20px 20px 20px 20px;
+  // border: 4px dashed #dddddd;
+  // background-color: #fafafa;
   font-size: 18px;
-  .row {
-    height: 100%;
-    .col {
-    }
+
+  .mat-icon {
+    font-size: 64px;
   }
 }
