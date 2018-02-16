@@ -19,7 +19,8 @@ import {
   MatSidenavModule,
   MatSnackBarModule,
   MatTabsModule,
-  MatToolbarModule
+  MatToolbarModule,
+  MatTooltipModule
 } from '@angular/material';
 
 import {
@@ -27,6 +28,7 @@ import {
   CovalentDataTableModule,
   CovalentDialogsModule,
   CovalentExpansionPanelModule,
+  CovalentFileModule,
   CovalentLayoutModule,
   CovalentLoadingModule,
   CovalentMediaModule,
@@ -35,8 +37,7 @@ import {
   CovalentNotificationsModule,
   CovalentPagingModule,
   CovalentSearchModule,
-  CovalentStepsModule,
-  CovalentFileModule
+  CovalentStepsModule
 } from '@covalent/core';
 
 @NgModule({
@@ -56,6 +57,7 @@ import {
     MatMenuModule,
     MatExpansionModule,
     MatProgressBarModule,
+    MatTooltipModule,
     MatTabsModule,
 
     // Covalent -- duh but prettier removes spaces so we have this comment .. fun!
@@ -89,6 +91,7 @@ import {
     MatMenuModule,
     MatExpansionModule,
     MatProgressBarModule,
+    MatTooltipModule,
     MatTabsModule,
 
     // again Covalent
