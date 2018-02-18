@@ -1,0 +1,71 @@
+<div>
+  <mat-toolbar color="accent">My Processed Clips</mat-toolbar>
+  <div layout="row" layout-wrap>
+    <div *ngFor="let clip of clips | clipFilter: [['isProcessed', true]]" flex="25">
+      <mat-card class="example-card">
+        <mat-card-header>
+          <mat-card-title>{{clip.name}}</mat-card-title>
+          <mat-card-subtitle># of POIs</mat-card-subtitle>
+        </mat-card-header>
+        <img mat-card-image src="" alt="Screen Grab from Clip">
+        <mat-card-content>
+          <p>
+            This clip has 8 POIs. 4 were warm. 3 were hot and 1 was fire.
+          </p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button>View Details</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+  <div layout="row">
+    <mat-toolbar color="accent">My Clips In Process</mat-toolbar>
+  </div>
+  <div layout="row" layout-wrap>
+    <div *ngFor="let clip of clips | clipFilter: [['isProcessed', false]]" flex="25" style="min-width: 275px;">
+      <div *ngIf="clip.currentProgress > -1">
+        <mat-card class="example-card">
+          <mat-card-header>
+            <mat-card-title>{{clip.name}}</mat-card-title>
+            <mat-card-subtitle># of POIs</mat-card-subtitle>
+          </mat-card-header>
+          <img mat-card-image src="" alt="Screen Grab from Clip">
+          <mat-card-content>
+            <p>
+              This clip has 8 POIs. 4 were warm. 3 were hot and 1 was fire.
+            </p>
+          </mat-card-content>
+          <mat-card-actions>
+            <mat-progress-bar matTooltip="Current Progress" [color]="clip.currentProgress < 50 ? 'warn' : 'primary'" md-mode="determinate"
+              [value]="clip.currentProgress"></mat-progress-bar>
+
+
+          </mat-card-actions>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+  <div layout="row">
+    <mat-toolbar color="accent">My Clips To Process</mat-toolbar>
+  </div>
+  <div layout="row" layout-wrap>
+    <div *ngFor="let clip of clips | clipFilter: [['currentProgress', -1]]" flex="25">
+      <mat-card class="example-card">
+        <mat-card-header>
+          <mat-card-title>{{clip.name}}</mat-card-title>
+          <mat-card-subtitle># of POIs</mat-card-subtitle>
+        </mat-card-header>
+        <img mat-card-image src="" alt="Screen Grab from Clip">
+        <mat-card-content>
+          <p>
+            This clip has 8 POIs. 4 were warm. 3 were hot and 1 was fire.
+          </p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button>Begin Processing</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div>

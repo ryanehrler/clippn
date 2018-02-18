@@ -1,5 +1,4 @@
 <div class="container">
-
   <div *ngIf="auth.user | async; then authenticated else guest"></div>
 </div>
 
@@ -83,10 +82,12 @@
 </ng-template>
 
 <ng-template #authenticated>
-  <div *ngIf="auth.user | async as user">
-    <h3>Howdy, {{ user.displayName?.length >= 1 ? user.displayName : user.email }}</h3>
-    <img [src]="user.photoURL != null ? user.photoURL : ''">
-    <p>UID: {{ user.uid }}</p>
-    <p>Favorite Color: {{ user?.favoriteColor }} </p>
+  <div>
+    <div *ngIf="auth.user | async as user">
+      <h3>Howdy, {{ user.displayName?.length >= 1 ? user.displayName : user.email }}</h3>
+      <img [src]="user.photoURL != null ? user.photoURL : ''">
+      <p>UID: {{ user.uid }}</p>
+      <p>Favorite Color: {{ user?.favoriteColor }} </p>
+    </div>
   </div>
 </ng-template>
