@@ -1,7 +1,7 @@
 <div>
   <mat-toolbar color="accent">My Processed Clips</mat-toolbar>
   <div layout="row" layout-wrap>
-    <div *ngFor="let clip of clips | clipFilter: [['isProcessed', true]]" flex="25">
+    <div *ngFor="let clip of clips | clipFilter: [['isProcessed', true]]" flex="25" style="min-width: 275px;">
       <mat-card class="example-card">
         <mat-card-header>
           <mat-card-title>{{clip.name}}</mat-card-title>
@@ -50,7 +50,7 @@
     <mat-toolbar color="accent">My Clips To Process</mat-toolbar>
   </div>
   <div layout="row" layout-wrap>
-    <div *ngFor="let clip of clips | clipFilter: [['currentProgress', -1]]" flex="25">
+    <div *ngFor="let clip of clips | clipFilter: [['currentProgress', -1]]" flex="25" style="min-width: 275px;">
       <mat-card class="example-card">
         <mat-card-header>
           <mat-card-title>{{clip.name}}</mat-card-title>

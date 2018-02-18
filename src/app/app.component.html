@@ -1,7 +1,6 @@
 <ng-container *ngIf="!(auth.user | async)">
   <router-outlet></router-outlet>
 </ng-container>
-
 <ng-container *ngIf="auth.user | async">
   <td-layout>
     <td-layout-nav>
@@ -9,7 +8,7 @@
         <button mat-icon-button class="td-menu-button" (click)="sidenav.toggle()" mdTooltip="Main menu">
           <mat-icon>menu</mat-icon>
         </button>
-        <img src="../assets/Logo.png" class="logo">
+        <img src="./assets/Logo.png" class="logo">
         <!-- <span>Clippin</span> -->
         <span flex></span>
         <app-side-nav></app-side-nav>

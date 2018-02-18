@@ -40,7 +40,7 @@ export class ClipService {
           this.save();
         } else {
           // New up clip.
-          this.clip = this.setupDefaultClip(name, fileType, duration);
+          this.clip = this.setupDefaultClip(name, fileType);
           this.saveClip(this.clip);
         }
       })
