@@ -3,49 +3,43 @@
   <div flex-lg="70" flex="100">
     <mat-card>
       <mat-card-content>
-        <div layout="row" layout-xs="column">
+        <div layout="row" layout-xs="column" layout-align="center">
           <!-- Inputs -->
-          <div flex="30">
+          <div flex="30" *ngIf="clip">
             <form>
               <mat-form-field color="accent" class="full-width">
-                <input matInput placeholder="Name" value="">
+                <input matInput placeholder="Name">
               </mat-form-field>
               <mat-form-field color="accent" class="full-width">
                 <input matInput placeholder="File Path" disabled value="">
               </mat-form-field>
               <mat-form-field color="accent" class="full-width">
-                <input matInput placeholder="Game" disabled value="">
-              </mat-form-field>
-              <mat-form-field color="accent" class="full-width">
-                <input matInput placeholder="Duration" disabled value="">
+                <input matInput placeholder="Game" disabled>
               </mat-form-field>
             </form>
-
-            <div *ngIf="videoFile">{{videoFile.name}}</div>
           </div>
-
-          <td-file-upload #singleFileUpload (select)="selectEvent($event)" [disabled]="disabled" required accept=".mp4">
-            <ng-template td-file-input-label>
-              <div flex layout="row" layout-align="center center">
-                <div class="file-upload">
+          <div flex="auto">
+            <td-file-upload #singleFileUpload (select)="selectEvent($event)" [disabled]="disabled" required accept=".mp4">
+              <ng-template td-file-input-label>
+                <div flex layout="row" layout-align="center center" class="file-upload">
                   <div layout="column" layout-align="center center" class="full-height">
-                    <ng-container *ngIf="!videoFile">
+                    <ng-container *ngIf="!clip">
                       <div flex="30">
                         <mat-icon>attach_file</mat-icon>
                       </div>
                       <div flex="10">Open/Drop .mp4 to start</div>
                     </ng-container>
-                    <ng-container *ngIf="videoFile">
+                    <ng-container *ngIf="clip">
                       <div flex="30">
                         <mat-icon>check</mat-icon>
                       </div>
-                      <div flex="10">{{videoFile.name}}</div>
+                      <div flex="10">{{clip.name}}</div>
                     </ng-container>
                   </div>
                 </div>
-              </div>
-            </ng-template>
-          </td-file-upload>
+              </ng-template>
+            </td-file-upload>
+          </div>
 
         </div>
 

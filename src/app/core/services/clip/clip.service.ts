@@ -32,25 +32,54 @@ export class ClipService {
   }
 
   initializeClip(name: string, fileType: string) {
-    return this.getClip('test').switchMap(clip => {
-      // Get clip from firebase
-      if (clip != null) {
-        this.clip = clip;
-        return Observable.of(clip);
-      } else {
-        // New up clip.
-        this.clip = this.setupDefaultClip(name, fileType);
-        return Observable.of(this.clip);
-      }
-    });
+    return this.getClip(name)
+      .map(clip => {
+        // Get clip from firebase
+        if (clip != null && clip.length > 0) {
+          this.clip = clip[0];
+          this.save();
+        } else {
+          // New up clip.
+          this.clip = this.setupDefaultClip(name, fileType, duration);
+          this.saveClip(this.clip);
+        }
+      })
+      .toPromise();
   }
 
+  save() {
+    return this.saveClip(this.clip);
+  }
   saveClip(clip: Clip) {
     // GA - SaveClip
     this.googleAnalyticsService.emitEvent(
       EventCategory.ClipService.toString(),
       'SaveClip'
     );
+
+    if (clip.id == null) {
+      console.log('save-clip-update');
+      return this.db
+        .add('clips', clip)
+        .then(() => {
+          console.log('**Added Clip:', clip.name);
+          return true;
+        })
+        .catch(() => {
+          return false;
+        });
+    } else {
+      console.log('save-clip-update');
+      return this.db
+        .update('clips/' + clip.id, clip)
+        .then(() => {
+          console.log('**Updated Clip:', clip.name);
+          return true;
+        })
+        .catch(() => {
+          return false;
+        });
+    }
   }
 
   deleteClip(name: string) {
@@ -64,7 +93,7 @@ export class ClipService {
     this.removeClip(name);
   }
 
-  getClip(id: string) {
+  getClip(name: string) {
     // GA - GetClip
     this.googleAnalyticsService.emitEvent(
       EventCategory.ClipService.toString(),
@@ -72,7 +101,13 @@ export class ClipService {
       name
     );
 
-    return this.db.doc$<Clip>('clips/' + id);
+    return this.db
+      .colWithIds$<Clip>('clips', ref =>
+        ref
+          .where('uid', '==', this.authService.userId)
+          .where('name', '==', name)
+      )
+      .take(1);
   }
 
   getAllClips() {

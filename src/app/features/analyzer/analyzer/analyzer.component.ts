@@ -4,7 +4,8 @@ import { ClipService } from '../../../core/services/clip/clip.service';
 @Component({
   selector: 'app-analyzer',
   templateUrl: './analyzer.component.html',
-  styleUrls: ['./analyzer.component.scss']
+  styleUrls: ['./analyzer.component.scss'],
+  providers: [ClipService]
 })
 export class AnalyzerComponent implements OnInit {
   navItems = [

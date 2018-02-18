@@ -23,6 +23,7 @@ export class AuthService {
   user: Observable<IUser>;
   userId: string;
   isLoggedIn = false;
+  onLoginRoute = 'add-video/add-video';
 
   constructor(
     private fireAuth: AngularFireAuth,
@@ -32,8 +33,13 @@ export class AuthService {
     // Get auth data, then get firestore user document || null
     this.user = this.fireAuth.authState.switchMap(user => {
       if (user) {
-        this.isLoggedIn = true;
+        if (!this.isLoggedIn) {
+          this.isLoggedIn = true;
+          this.router.navigate([this.onLoginRoute]);
+        }
+
         this.userId = user.uid;
+
         return this.afs.doc<IUser>(`users/${user.uid}`).valueChanges();
       } else {
         this.isLoggedIn = false;
