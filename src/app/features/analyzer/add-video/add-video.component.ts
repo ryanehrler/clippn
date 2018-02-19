@@ -28,7 +28,7 @@ export class AddVideoComponent implements OnInit {
   selectEvent(file: File): void {
     this.fileStorageService.addFile(file);
     this.clipService
-      .initializeClip(file.name, file.type)
+      .initializeClip(file.name, file.type, 'battlefield1')
       .then(() => {
         this.clip = this.clipService.clip;
       })

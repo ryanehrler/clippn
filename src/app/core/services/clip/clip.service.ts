@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Injector, OnInit } from '@angular/core';
 
 import {
   AngularFirestore,
@@ -26,12 +26,13 @@ export class ClipService {
   constructor(
     private googleAnalyticsService: GoogleAnalyticsService,
     private db: FirestoreService,
-    private authService: AuthService
+    private authService: AuthService,
+    private injector: Injector
   ) {
     // this.clipsRef = this.afs.collection('clips', ref => ref.where('uid', '==', this.authService.userId));
   }
 
-  initializeClip(name: string, fileType: string) {
+  initializeClip(name: string, fileType: string, gameTitle: string) {
     return this.getClip(name)
       .map(clip => {
         // Get clip from firebase
@@ -40,7 +41,7 @@ export class ClipService {
           this.save();
         } else {
           // New up clip.
-          this.clip = this.setupDefaultClip(name, fileType, duration);
+          this.clip = this.setupDefaultClip(name, fileType, gameTitle);
           this.saveClip(this.clip);
         }
       })
@@ -138,12 +139,13 @@ export class ClipService {
     return uniqueTags;
   }
 
-  private setupDefaultClip(name: string, fileType: string) {
+  private setupDefaultClip(name: string, fileType: string, gameTitle: string) {
     const c = new Clip();
     c.name = name;
     c.uid = this.authService.userId;
     c.fileType = fileType;
     c.pois = [];
+    c.gameTitle = gameTitle;
 
     return c;
   }
