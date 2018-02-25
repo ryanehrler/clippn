@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
-import { ClipService } from '../../../core/services/clip/clip.service';
-import { Battlefield1AnalyzerService } from '../../../core/services/game-analyzer/battlefield1-analyzer.service';
-import { FortniteAnalyzerService } from '../../../core/services/game-analyzer/fortnite-analyzer.service';
-import { IGameAnalyzer } from '../../../core/services/game-analyzer/IGameAnalyzer';
-import { PoiAnalyzerService } from '../../../core/services/game-analyzer/poi-analyzer.service';
+import { ClipService } from '../../../core/services/clip';
+import {
+  Battlefield1AnalyzerService,
+  FortniteAnalyzerService,
+  PoiAnalyzerService
+} from '../../../core/services/game-analyzer';
 
 @Component({
   selector: 'app-analyzer',

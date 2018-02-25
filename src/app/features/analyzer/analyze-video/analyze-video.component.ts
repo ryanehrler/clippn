@@ -14,14 +14,14 @@ import * as moment from 'moment';
 
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { Clip } from '../../../core/services/clip/clip';
-import { ClipService } from '../../../core/services/clip/clip.service';
 import { FileStorageService } from '../../../core/services/file-storage/file-storage.service';
-import { GameAnalyzerService } from '../../../core/services/game-analyzer/game-analyzer.service';
-import { IGameAnalyzer } from '../../../core/services/game-analyzer/IGameAnalyzer';
-import { PoiAnalyzerService } from '../../../core/services/game-analyzer/poi-analyzer.service';
 
-import { Poi } from '../../../core/services/clip/poi';
+import { Clip, ClipService, Poi } from '../../../core/services/clip/index';
+import {
+  GameAnalyzerService,
+  IGameAnalyzer,
+  PoiAnalyzerService
+} from '../../../core/services/game-analyzer/index';
 import {
   EventCategory,
   GoogleAnalyticsService
@@ -35,6 +35,7 @@ import {
 export class AnalyzeVideoComponent implements OnInit, OnDestroy {
   frameRate = 29.97; // THIS NEEDS TO BE PULLED FROM VIDEO NOT HARDCODED
   totalFrameCount: number;
+  currentAnalysisFPS: number;
 
   videoFile: File;
   videoFileUrl: SafeUrl;
@@ -42,6 +43,7 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy {
   clip: Clip;
   video: any;
   currentTime: string;
+  stopwatch: number;
 
   startAnalysis = false;
 
@@ -82,6 +84,9 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy {
       this.gameAnalyzer = this.injector.get(
         this.gameAnalyzerService.analyzerMap[this.clip.gameTitle]
       );
+
+      // Setup the video element
+      this.setVideoElementIfNull();
     } else {
       this.router.navigate(['add-video']);
     }
@@ -202,6 +207,7 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy {
     if (this.startAnalysis) {
       this.processVideo();
     }
+    this.updateAnalysisFPS();
     this.setCurrentTime();
   }
   setCurrentTime() {
@@ -214,7 +220,17 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy {
       .seconds(Math.round(t))
       .format('HH:mm:ss');
   }
+  private updateAnalysisFPS() {
+    if (this.stopwatch) {
+      this.stopwatch = moment().milliseconds();
+    }
+    const current = moment().milliseconds();
+    const timeDif = current - this.stopwatch;
+    console.log(timeDif, current, this.stopwatch);
 
+    this.currentAnalysisFPS = 1000 / timeDif;
+    this.stopwatch = current;
+  }
   processVideo() {
     const currentTime = this.video.currentTime;
     const killDetected = this.gameAnalyzer.processVideo(

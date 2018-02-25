@@ -1,0 +1,39 @@
+$timeline-height: 300px;
+$timeline-opacity: 0.75;
+$timeline-color: black;
+$timeline-width: 4px;
+
+$interval-tick-height: 80px;
+$interval-tick-width: 4px;
+
+.poi-timeline {
+  overflow-x: auto;
+  height: $timeline-height;
+  position: relative;
+
+  .timeline {
+    position: absolute;
+    top: $timeline-height / 2;
+    height: $timeline-width;
+    background-color: $timeline-color;
+    opacity: $timeline-opacity;
+  }
+
+  .interval-tick {
+    position: absolute;
+
+    opacity: $timeline-opacity;
+    background-color: $timeline-color;
+
+    &.major {
+      top: ($timeline-height / 2) - ($interval-tick-height / 2);
+      height: $interval-tick-height;
+      width: $interval-tick-width;
+    }
+    &.minor {
+      top: ($timeline-height / 2) - ($interval-tick-height / 4);
+      height: $interval-tick-height / 2;
+      width: $interval-tick-width / 2;
+    }
+  }
+}

@@ -32,6 +32,7 @@
     "@covalent/highlight": "^1.0.0-rc.5",
     "@covalent/http": "^1.0.0-rc.5",
     "@covalent/markdown": "^1.0.0-rc.5",
+    "@types/angular-material": "^1.1.58",
     "angular2-moment": "^1.8.0",
     "angularfire2": "^5.0.0-rc.6",
     "core-js": "^2.4.1",
