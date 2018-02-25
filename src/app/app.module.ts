@@ -18,12 +18,12 @@ import { SharedModule } from './shared/shared.module';
   declarations: [AppComponent],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     CoreModule,
     AppRoutingModule,
     SharedModule,
     MaterialModule,
     AngularFireModule.initializeApp(environment.firebase),
-    BrowserAnimationsModule,
 
     // Feature Modules
     AdminModule,
