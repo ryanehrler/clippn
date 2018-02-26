@@ -1,0 +1,60 @@
+<div>
+  <mat-toolbar class="mat-dialog-title" color="primary">
+    <div class="mat-toolbar-tools">
+      <h2>Details for {{this.data.clip.name}}</h2>
+    </div>
+  </mat-toolbar>
+
+  <div>
+    <mat-card class="example-card">
+      <mat-card-header>
+        <mat-card-title>{{this.data.clip.name}}</mat-card-title>
+        <mat-card-subtitle>{{this.data.clip.gameTitle}}</mat-card-subtitle>
+
+      </mat-card-header>
+
+      <hr>
+      <mat-card-content>
+
+
+        <h4>{{(this.data.clip.pois | clipFilter: [['fireLevel', 'fire']])?.length}} Fire POI</h4>
+        <div layout="row" style="padding-bottom: 5px" *ngFor="let fireClip of this.data.clip.pois | clipFilter: [['fireLevel', 'fire']]">
+          <div flex="10">
+            <mat-chip-list>
+              <mat-chip matTooltip="Jump to clip" selected="true" disabled color="warn">{{fireClip.displayTime}}</mat-chip>
+            </mat-chip-list>
+          </div>
+          <div flex="">
+            <mat-chip-list>
+              <mat-chip disabled *ngFor="let fireClipTag of fireClip.tags">
+                {{fireClipTag.value}}
+              </mat-chip>
+            </mat-chip-list>
+          </div>
+        </div>
+        <h4>{{(this.data.clip.pois | clipFilter: [['fireLevel', 'hot']])?.length}} Hot POI</h4>
+        <div layout="row" style="padding-bottom: 5px" *ngFor="let fireClip of this.data.clip.pois | clipFilter: [['fireLevel', 'hot']]">
+          <mat-chip-list>
+            <mat-chip matTooltip="Jump to clip" selected="true" disabled color="warn">{{fireClip.displayTime}}</mat-chip>
+            <mat-chip disabled *ngFor="let fireClipTag of fireClip.tags">
+              {{fireClipTag.value}}
+            </mat-chip>
+          </mat-chip-list>
+        </div>
+        <h4>{{(this.data.clip.pois | clipFilter: [['fireLevel', 'warm']])?.length}} Warm POI</h4>
+        <div layout="row" style="padding-bottom: 5px" *ngFor="let fireClip of this.data.clip.pois | clipFilter: [['fireLevel', 'warm']]">
+          <mat-chip-list>
+            <mat-chip matTooltip="Jump to clip" selected="true" disabled color="warn">{{fireClip.displayTime}}</mat-chip>
+            <mat-chip disabled *ngFor="let fireClipTag of fireClip.tags">
+              {{fireClipTag.value}}
+            </mat-chip>
+          </mat-chip-list>
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+        <h4>Total Points of Interest: {{this.data.clip.pois.length}}</h4>
+      </mat-card-actions>
+    </mat-card>
+
+  </div>
+</div>
