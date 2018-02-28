@@ -1,6 +1,7 @@
 <div class="full-width poi-timeline">
   <mat-slider class="interval-slider" [min]="1" max="20" [step]="'1'" [(ngModel)]="intervalTime" (change)="setupTimeline()"></mat-slider>
 
+  <div class="mouse-cursor" [ngStyle]="mouseCursor.style"></div>
   <div class="video-cursor" [ngStyle]="videoCursor.style"></div>
   <div class="poi tick" *ngFor="let poiTick of poiTicks" [ngStyle]="poiTick.style" [ngClass]="poiTick.class">
     <!-- <mat-icon>fiber_manual_record</mat-icon> -->

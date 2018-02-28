@@ -18,6 +18,11 @@ $video-cursor-height: 150px;
 $video-cursor-width: 3px;
 $video-cursor-color: green;
 
+$mouse-cursor-height: 150px;
+$mouse-cursor-width: 3px;
+$mouse-cursor-color: red;
+$mouse-curso-opacity: 0.75;
+
 .poi-timeline {
   overflow-x: auto;
   height: $timeline-height;
@@ -107,6 +112,13 @@ $video-cursor-color: green;
     height: $video-cursor-height;
     width: $video-cursor-width;
     background-color: $video-cursor-color;
+  }
+  .mouse-cursor {
+    position: absolute;
+    top: ($timeline-height / 2) - ($mouse-cursor-height / 2);
+    height: $mouse-cursor-height;
+    width: $mouse-cursor-width;
+    background-color: $mouse-cursor-color;
   }
 
   .interval-slider {

@@ -1,4 +1,12 @@
-import { Component, Input, OnInit, OnChanges } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Input,
+  OnChanges,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 
 import * as _ from 'lodash';
 import * as moment from 'moment';
@@ -10,7 +18,7 @@ import { Clip, Poi } from '../../../core/services/clip/index';
   templateUrl: './poi-timeline.component.html',
   styleUrls: ['./poi-timeline.component.scss']
 })
-export class PoiTimelineComponent implements OnInit, OnChanges {
+export class PoiTimelineComponent implements OnInit, OnChanges, AfterViewInit {
   private _clip: Clip;
   @Input() // clip
   set clip(value: Clip) {
@@ -41,13 +49,33 @@ export class PoiTimelineComponent implements OnInit, OnChanges {
   videoNullCheckTimer: any;
   videoCursor = { style: {} };
 
-  constructor() {}
+  mouseCursor = { style: {} };
+  mouseCursorX = 0;
+  mouseCursorScrollOffset = 0;
+
+  constructor(private elementRef: ElementRef) {}
 
   ngOnInit() {
     this.videoNullCheckTimer = setInterval(() => {
       this.setupTimeline();
     }, 250);
   }
+
+  ngAfterViewInit() {
+    // I would much rather add a #poi-timeline to the element then find
+    //  it with an @ViewChild().  That seems to be a more obvious way
+    //  also less error prone.  Since someone could theoretically duplicate
+    const timeline = this.elementRef.nativeElement.querySelector(
+      '.poi-timeline'
+    );
+    timeline.addEventListener('mousemove', e => {
+      this.setMouseCursor(e.clientX, e.clientY);
+    });
+    timeline.addEventListener('scroll', e => {
+      this.mouseCursorScrollOffset = e.srcElement.scrollLeft;
+    });
+  }
+
   ngOnChanges() {
     this.setupTimeline();
   }
@@ -84,7 +112,6 @@ export class PoiTimelineComponent implements OnInit, OnChanges {
       width: this.timelineWidth + 'px'
     };
   }
-
   // Sets up the interval ticks on the timeline
   setIntervalTicks() {
     this.intervalTicks = [];
@@ -152,5 +179,22 @@ export class PoiTimelineComponent implements OnInit, OnChanges {
   }
   private getXPositionForSeconds(seconds: number) {
     return seconds * (this.intervalWidth / this.intervalTimeSeconds);
+  }
+  private setMouseCursor(mouseX: number, mouseY: number) {
+    this.mouseCursorX = mouseX + this.mouseCursorScrollOffset - 33;
+    // why minus thirty three .. I don't know probably need to figure this out someday
+
+    this.mouseCursor.style = {
+      left: this.mouseCursorX + 'px'
+    };
+
+    // console.log(
+    //   'mouse-cursor',
+    //   this.mouseCursorX,
+    //   'mouse-x',
+    //   mouseX,
+    //   'scroll-offset',
+    //   this.mouseCursorScrollOffset
+    // );
   }
 }
