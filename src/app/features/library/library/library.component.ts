@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material';
 import { ClipService } from '../../../core/services/clip/clip.service';
+import { Poi } from '../../../core/services/clip/poi';
+import { Tag } from '../../../core/services/clip/tag';
+import { ClipDetailModalComponent } from '../clip-detail-modal/clip-detail-modal.component';
 
 @Component({
   selector: 'app-library',
@@ -7,7 +11,8 @@ import { ClipService } from '../../../core/services/clip/clip.service';
   styleUrls: ['./library.component.scss']
 })
 export class LibraryComponent implements OnInit {
-  constructor(private clipService: ClipService) {}
+  constructor(private clipService: ClipService, public dialog: MatDialog) {}
+
   clips: any[] = [
     {
       name: 'Clip',
@@ -48,8 +53,71 @@ export class LibraryComponent implements OnInit {
     {
       name: 'Clip4',
       uid: 2,
-      currentProgress: -1,
-      isProcessed: false
+      currentProgress: 100,
+      isProcessed: true,
+      gameTitle: 'Call of duty brah',
+      pois: [
+        {
+          time: 1,
+          displayTime: '2:01',
+          fireLevel: 'fire',
+          tags: [
+            {
+              value: 'sniper',
+              deleted: false
+            },
+            {
+              value: 'headshot',
+              deleted: false
+            }
+          ],
+          deleted: false
+        },
+        {
+          time: 5,
+          displayTime: '5:27',
+          fireLevel: 'fire',
+          tags: [
+            {
+              value: 'pistol',
+              deleted: false
+            },
+            {
+              value: 'headshot',
+              deleted: false
+            },
+            {
+              value: 'other tag',
+              deleted: false
+            }
+          ],
+          deleted: false
+        },
+        {
+          time: 7,
+          displayTime: '7:27',
+          fireLevel: 'warm',
+          tags: [
+            {
+              value: 'pistol',
+              deleted: false
+            }
+          ],
+          deleted: false
+        },
+        {
+          time: 9,
+          displayTime: '9:27',
+          fireLevel: 'hot',
+          tags: [
+            {
+              value: 'smg',
+              deleted: false
+            }
+          ],
+          deleted: false
+        }
+      ]
     }
   ];
 
@@ -67,7 +135,7 @@ export class LibraryComponent implements OnInit {
         )
         .forEach(clip => {
           clip.currentProgress++;
-          console.log(clip);
+          //console.log(clip);
           if (clip.currentProgress === 100) {
             clip.isProcessed = true;
           }
@@ -78,5 +146,18 @@ export class LibraryComponent implements OnInit {
         setTimeout(resolve, 200);
       });
     } while (counts < this.maxCounts);
+  }
+
+  processClip(clip: any) {
+    clip.currentProgress = 0;
+  }
+
+  openDialog(myClip: any) {
+    const dialogRef = this.dialog.open(ClipDetailModalComponent, {
+      width: '600px',
+      data: {
+        clip: myClip
+      }
+    });
   }
 }

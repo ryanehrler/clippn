@@ -11,6 +11,7 @@ import { AdminModule } from './features/admin/admin.module';
 import { AnalyzerModule } from './features/analyzer/analyzer.module';
 import { LibraryModule } from './features/library/library.module';
 import { LoginModule } from './features/login/login.module';
+import { TaggingModule } from './features/tagging/tagging.module';
 import { MaterialModule } from './material/material.module';
 import { SharedModule } from './shared/shared.module';
 
@@ -29,6 +30,7 @@ import { SharedModule } from './shared/shared.module';
     AdminModule,
     AnalyzerModule,
     LibraryModule,
+    TaggingModule,
     LoginModule
   ],
   providers: [],

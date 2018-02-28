@@ -1,0 +1,33 @@
+<div>
+  <mat-form-field>
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search Tags">
+  </mat-form-field>
+</div>
+<div layout="row" layout-wrap>
+  <ng-container *ngFor="let clip of clips | clipFilter: [['isProcessed', true]]">
+    <ng-container *ngIf="this.haveMatch(clip) == true">
+      <div layout-fill flex="25" style="min-width: 275px;">
+        <mat-card class="example-card">
+          <mat-card-header>
+            <mat-card-title>{{clip.name}}</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div layout="row" style="padding-bottom: 5px" *ngFor="let poi of clip.pois">
+              <div *ngIf="this.havePoiMatch(poi) == true">
+                <mat-chip-list>
+                  <mat-chip matTooltip="Jump to clip" selected="true" disabled color="warn">{{poi.displayTime}}</mat-chip>
+                  <div *ngFor="let fireClipTag of poi.tags">
+                    <mat-chip disabled *ngIf="fireClipTag.value.toLowerCase().indexOf(this.filterValue) > -1 ">
+                      {{fireClipTag.value}}
+                    </mat-chip>
+                  </div>
+
+                </mat-chip-list>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </ng-container>
+  </ng-container>
+</div>

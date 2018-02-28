@@ -3,8 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AuthGuard } from './core/services/auth/auth.guard';
 
-import { LoginPageComponent } from './features/login/login-page/login-page.component';
 import { ErrorComponent } from './core/components/error/error.component';
+import { LoginPageComponent } from './features/login/login-page/login-page.component';
 
 const routes: Routes = [
   {
@@ -22,6 +22,10 @@ const routes: Routes = [
       {
         path: 'admin',
         loadChildren: './features/admin/admin.module#AdminModule'
+      },
+      {
+        path: 'tagging',
+        loadChildren: './features/tagging/tagging.module#TaggingModule'
       }
     ]
   },

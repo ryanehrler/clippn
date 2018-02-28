@@ -10,7 +10,8 @@ export class SideNavComponent implements OnInit {
   navItems = [
     { label: 'Add Clip', iconName: 'add', path: 'add-video' },
     { label: 'Library', iconName: 'video_library', path: 'library' },
-    { label: 'Admin', iconName: 'settings', path: 'admin' }
+    { label: 'Admin', iconName: 'settings', path: 'admin' },
+    { label: 'Tagging', iconName: 'tagging', path: 'tagging' }
   ];
 
   constructor() {}
