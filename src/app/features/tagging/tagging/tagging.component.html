@@ -37,7 +37,7 @@
                 <mat-chip-list>
                   <mat-chip matTooltip="Jump to clip" selected="true" disabled color="warn">{{poi.displayTime}}</mat-chip>
                   <div *ngFor="let fireClipTag of poi.tags">
-                    <mat-chip disabled *ngIf="this.foundTags.indexOf(fireClipTag.value) > -1">
+                    <mat-chip disabled *ngIf="this.foundTags.indexOf(fireClipTag.value.toLowerCase()) > -1">
                       {{fireClipTag.value}}
                     </mat-chip>
                   </div>

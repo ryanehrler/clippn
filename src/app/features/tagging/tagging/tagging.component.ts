@@ -328,12 +328,14 @@ export class TaggingComponent implements OnInit {
     let matched = false;
     clip.pois.forEach(poi => {
       poi.tags.forEach(tag => {
-        this.filterTags(tag.value);
+        this.filterTags(tag.value.toLowerCase());
       });
 
       // or version
       if (this.filterMethod == 'or') {
-        if (poi.tags.some(r => this.foundTags.indexOf(r.value) > -1)) {
+        if (
+          poi.tags.some(r => this.foundTags.indexOf(r.value.toLowerCase()) > -1)
+        ) {
           matched = true;
           return true;
         }
@@ -341,7 +343,9 @@ export class TaggingComponent implements OnInit {
       // and version
       if (this.filterMethod == 'and') {
         if (
-          this.foundTags.every(r => poi.tags.findIndex(x => x.value == r) > -1)
+          this.foundTags.every(
+            r => poi.tags.findIndex(x => x.value.toLowerCase() == r) > -1
+          )
         ) {
           matched = true;
           return true;
@@ -363,7 +367,9 @@ export class TaggingComponent implements OnInit {
 
     // or version
     if (this.filterMethod == 'or') {
-      if (poi.tags.some(r => this.foundTags.indexOf(r.value) > -1)) {
+      if (
+        poi.tags.some(r => this.foundTags.indexOf(r.value.toLowerCase()) > -1)
+      ) {
         matched = true;
       }
     }
@@ -371,7 +377,9 @@ export class TaggingComponent implements OnInit {
     // and version
     if (this.filterMethod == 'and') {
       if (
-        this.foundTags.every(r => poi.tags.findIndex(x => x.value == r) > -1)
+        this.foundTags.every(
+          r => poi.tags.findIndex(x => x.value.toLowerCase() == r) > -1
+        )
       ) {
         matched = true;
         return true;
