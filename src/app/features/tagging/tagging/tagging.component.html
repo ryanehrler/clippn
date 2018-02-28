@@ -1,7 +1,27 @@
 <div>
   <mat-form-field>
-    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search Tags">
+    <input id="filterInput" matInput (keyup)="applyFilter($event.target.value)" [(ngModel)]="this.filterInput" placeholder="Search Tags">
   </mat-form-field>
+  <button mat-raised-button color="accent" (click)="addSearchTag(this.filterValue)">
+    <mat-icon>add</mat-icon> Add Another Tag
+  </button>
+  <mat-chip-list>
+    <mat-chip color="primary" selected="true" *ngFor="let filter of filterArray" [selectable]="true" [removable]="true" (remove)="remove(filter)">
+      {{filter}}
+      <mat-icon matChipRemove>cancel</mat-icon>
+    </mat-chip>
+  </mat-chip-list>
+  <section class="radio-section">
+    <label class="label-margin">Filter Method:</label>
+    <mat-radio-group [(ngModel)]="filterMethod">
+      <mat-radio-button class="example-margin" value="and">
+        And
+      </mat-radio-button>
+      <mat-radio-button class="example-margin" value="or">
+        Or
+      </mat-radio-button>
+    </mat-radio-group>
+  </section>
 </div>
 <div layout="row" layout-wrap>
   <ng-container *ngFor="let clip of clips | clipFilter: [['isProcessed', true]]">
@@ -17,7 +37,7 @@
                 <mat-chip-list>
                   <mat-chip matTooltip="Jump to clip" selected="true" disabled color="warn">{{poi.displayTime}}</mat-chip>
                   <div *ngFor="let fireClipTag of poi.tags">
-                    <mat-chip disabled *ngIf="fireClipTag.value.toLowerCase().indexOf(this.filterValue) > -1 ">
+                    <mat-chip disabled *ngIf="this.foundTags.indexOf(fireClipTag.value) > -1">
                       {{fireClipTag.value}}
                     </mat-chip>
                   </div>

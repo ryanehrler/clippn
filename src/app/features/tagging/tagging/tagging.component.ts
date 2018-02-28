@@ -303,7 +303,12 @@ export class TaggingComponent implements OnInit {
       ]
     }
   ];
+  filterInput = '';
   filterValue = '';
+  filterArray: any[] = new Array();
+  filterMethod = 'or';
+  foundTags: any[] = new Array();
+
   constructor() {}
 
   ngOnInit() {
@@ -311,32 +316,114 @@ export class TaggingComponent implements OnInit {
     this.clips = this.clips.filter(x => x.pois.length > 0);
   }
 
-  applyFilter(filterValue: string) {
-    filterValue = filterValue.trim(); // Remove whitespace
-    filterValue = filterValue.toLowerCase(); // default to lowercase
-    this.filterValue = filterValue;
+  applyFilter(filterInput: string) {
+    this.filterValue = filterInput;
+    // this.filterValue = this.filterValue.trim();
+    // Remove whitespace -- removed for now since i think including spaces in search is useful in this case
+    this.filterValue = this.filterValue.toLowerCase(); // default to lowercase
   }
 
+  // these probably need better function names but this filters the main clip white box
   haveMatch(clip: Clip) {
     let matched = false;
     clip.pois.forEach(poi => {
-      if (
-        poi.tags.some(x => x.value.toLowerCase().indexOf(this.filterValue) > -1)
-      ) {
-        matched = true;
-        return true;
+      poi.tags.forEach(tag => {
+        this.filterTags(tag.value);
+      });
+
+      // or version
+      if (this.filterMethod == 'or') {
+        if (poi.tags.some(r => this.foundTags.indexOf(r.value) > -1)) {
+          matched = true;
+          return true;
+        }
       }
+      // and version
+      if (this.filterMethod == 'and') {
+        if (
+          this.foundTags.every(r => poi.tags.findIndex(x => x.value == r) > -1)
+        ) {
+          matched = true;
+          return true;
+        }
+      }
+
+      // i think this could be used for an 'exact' filter version
+      // if (poi.tags.every(r => this.foundTags.indexOf(r.value) > -1)) {
+      //   matched = true;
+      //   return true;
+      // }
     });
     return matched;
   }
 
+  // these probably need better function names -- and this one filters the poi row out
   havePoiMatch(poi: Poi) {
     let matched = false;
-    if (
-      poi.tags.some(x => x.value.toLowerCase().indexOf(this.filterValue) > -1)
-    ) {
-      matched = true;
+
+    // or version
+    if (this.filterMethod == 'or') {
+      if (poi.tags.some(r => this.foundTags.indexOf(r.value) > -1)) {
+        matched = true;
+      }
     }
+
+    // and version
+    if (this.filterMethod == 'and') {
+      if (
+        this.foundTags.every(r => poi.tags.findIndex(x => x.value == r) > -1)
+      ) {
+        matched = true;
+        return true;
+      }
+    }
+
     return matched;
+  }
+
+  filterTags(tag: string) {
+    if (tag) {
+      tag = tag.toLowerCase();
+      if (this.filterArray.length > 0) {
+        if (this.filterArray.some(x => tag.indexOf(x) > -1)) {
+          if (this.foundTags.indexOf(tag) < 0) {
+            this.foundTags.push(tag);
+          }
+          return true;
+        }
+        if (this.filterValue != '' && tag.indexOf(this.filterValue) > -1) {
+          if (this.foundTags.indexOf(tag) < 0) {
+            this.foundTags.push(tag);
+          }
+          return true;
+        }
+      } else {
+        if (tag.indexOf(this.filterValue) > -1) {
+          if (this.foundTags.indexOf(tag) < 0) {
+            this.foundTags.push(tag);
+          }
+          return true;
+        }
+      }
+    }
+    this.foundTags = this.foundTags.filter(z => z !== tag);
+    return false;
+  }
+
+  addSearchTag(tag: string) {
+    if (tag) {
+      this.filterInput = '';
+      this.filterValue = '';
+      this.filterArray.push(tag);
+      document.getElementById('filterInput').focus();
+    }
+  }
+
+  remove(filter: any): void {
+    const index = this.filterArray.indexOf(filter);
+
+    if (index >= 0) {
+      this.filterArray.splice(index, 1);
+    }
   }
 }
