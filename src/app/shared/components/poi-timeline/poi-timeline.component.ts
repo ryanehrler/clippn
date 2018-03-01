@@ -5,7 +5,8 @@ import {
   Input,
   OnChanges,
   OnInit,
-  ViewChild
+  ViewChild,
+  OnDestroy
 } from '@angular/core';
 
 import * as _ from 'lodash';
@@ -18,18 +19,20 @@ import { Clip, Poi } from '../../../core/services/clip/index';
   templateUrl: './poi-timeline.component.html',
   styleUrls: ['./poi-timeline.component.scss']
 })
-export class PoiTimelineComponent implements OnInit, OnChanges, AfterViewInit {
+export class PoiTimelineComponent
+  implements OnInit, OnChanges, AfterViewInit, OnDestroy {
   private _clip: Clip;
   @Input() // clip
   set clip(value: Clip) {
     this._clip = value;
-    // this.setupTimeline();
+    this.setupTimeline();
   }
   get clip(): Clip {
     return this._clip;
   }
 
   @Input() video: any;
+  @Input() killDuration: number; // length of a single kill duration
 
   intervalWidth = 400; // pixels
   intervalTime = 5; // minutes
@@ -41,6 +44,7 @@ export class PoiTimelineComponent implements OnInit, OnChanges, AfterViewInit {
 
   poiTicks = [];
 
+  timeline: any; // timeline element used to add event listeners to
   timelineWidth: number; // pixels
   timelineStyle = {};
 
@@ -65,19 +69,31 @@ export class PoiTimelineComponent implements OnInit, OnChanges, AfterViewInit {
     // I would much rather add a #poi-timeline to the element then find
     //  it with an @ViewChild().  That seems to be a more obvious way
     //  also less error prone.  Since someone could theoretically duplicate
-    const timeline = this.elementRef.nativeElement.querySelector(
+    this.timeline = this.elementRef.nativeElement.querySelector(
       '.poi-timeline'
     );
-    timeline.addEventListener('mousemove', e => {
+    this.timeline.addEventListener('mousemove', e => {
       this.setMouseCursor(e.clientX, e.clientY);
     });
-    timeline.addEventListener('scroll', e => {
+    this.timeline.addEventListener('scroll', e => {
       this.mouseCursorScrollOffset = e.srcElement.scrollLeft;
+    });
+    // ngClick isn't playing nice ..
+    this.timeline.addEventListener('click', e => {
+      this.seekVideoToCursor();
     });
   }
 
   ngOnChanges() {
     this.setupTimeline();
+  }
+  ngOnDestroy() {
+    clearInterval(this.videoNullCheckTimer);
+    if (this.timeline != null) {
+      this.timeline.removeEventListener('mousemove');
+      this.timeline.removeEventListener('scroll');
+      this.timeline.removeEventListener('click');
+    }
   }
 
   setupTimeline() {
@@ -154,6 +170,11 @@ export class PoiTimelineComponent implements OnInit, OnChanges, AfterViewInit {
       this.setVideoCursor();
     });
   }
+
+  seekVideoToCursor() {
+    console.log('seek-video', this.getSecondsForX(this.mouseCursorX));
+    this.video.currentTime = this.getSecondsForX(this.mouseCursorX);
+  }
   private createIntervalTick(tickX: number, cssClass: any[], label: string) {
     this.intervalTicks.push({
       style: {
@@ -164,9 +185,15 @@ export class PoiTimelineComponent implements OnInit, OnChanges, AfterViewInit {
     });
   }
   private createPoiTick(tickX, cssClass: any[]) {
+    let width = this.getXPositionForSeconds(this.killDuration);
+    if (width < 5) {
+      // 5px is the thinnest it will get
+      width = 5;
+    }
     this.poiTicks.push({
       style: {
-        left: tickX + 'px'
+        left: tickX + 'px',
+        width: width + 'px'
       },
       class: cssClass
     });
@@ -177,8 +204,17 @@ export class PoiTimelineComponent implements OnInit, OnChanges, AfterViewInit {
       left: x + 'px'
     };
   }
+  /*
+  * x = seconds * (interval width / interval seconds)
+  * */
   private getXPositionForSeconds(seconds: number) {
     return seconds * (this.intervalWidth / this.intervalTimeSeconds);
+  }
+  /*
+  * seconds = x * (interval seconds / interval width)
+  * */
+  private getSecondsForX(x: number) {
+    return x * (this.intervalTimeSeconds / this.intervalWidth);
   }
   private setMouseCursor(mouseX: number, mouseY: number) {
     this.mouseCursorX = mouseX + this.mouseCursorScrollOffset - 33;

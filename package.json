@@ -11,8 +11,9 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "electronq": "./node_modules/.bin/electron .",
-    "electron": "ng build && .\\node_modules\\.bin\\electron .",
-    "electron-build": "ng build --prod && .\\node_modules\\.bin\\electron ."
+    "electron": "ng build --base-href ./ && .\\node_modules\\.bin\\electron .",
+    "electron-build":
+      "ng build --prod --base-href ./ && .\\node_modules\\.bin\\electron ."
   },
   "private": true,
   "dependencies": {

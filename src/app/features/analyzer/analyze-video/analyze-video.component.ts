@@ -16,6 +16,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { FileStorageService } from '../../../core/services/file-storage/file-storage.service';
 
+import { Duration } from 'moment';
 import { Clip, ClipService, Poi } from '../../../core/services/clip/index';
 import {
   GameAnalyzerService,
@@ -35,7 +36,8 @@ import {
 export class AnalyzeVideoComponent implements OnInit, OnDestroy {
   frameRate = 29.97; // THIS NEEDS TO BE PULLED FROM VIDEO NOT HARDCODED
   totalFrameCount: number;
-  currentAnalysisFPS: number;
+  analysisFps: number;
+  analysisFpsFrameCount = 0;
 
   videoFile: File;
   videoFileUrl: SafeUrl;
@@ -43,7 +45,11 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy {
   clip: Clip;
   video: any;
   currentTime: string;
-  stopwatch: number;
+  currentTimeDur: Duration;
+  analysisTimeRemainingSec: number;
+  analysisTimeRemaining: string;
+  stopwatch: any;
+  killDuration: number; // length of kill - gameAnalyzer.durationOfKill
 
   startAnalysis = false;
 
@@ -84,6 +90,7 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy {
       this.gameAnalyzer = this.injector.get(
         this.gameAnalyzerService.analyzerMap[this.clip.gameTitle]
       );
+      this.killDuration = this.gameAnalyzer.durationOfKill;
 
       // Setup the video element
       this.setVideoElementIfNull();
@@ -207,6 +214,10 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy {
     if (this.startAnalysis) {
       this.processVideo();
     }
+    if (this.totalFrameCount == null) {
+      this.setNumberOfFrames();
+    }
+
     this.updateAnalysisFPS();
     this.setCurrentTime();
   }
@@ -216,20 +227,70 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy {
       t = this.video.currentTime;
     }
 
+    this.currentTimeDur = moment.duration(t, 'seconds');
     this.currentTime = moment('2000-01-01 00:00:00')
       .seconds(Math.round(t))
       .format('HH:mm:ss');
   }
   private updateAnalysisFPS() {
-    if (this.stopwatch) {
-      this.stopwatch = moment().milliseconds();
+    if (this.stopwatch == null) {
+      this.stopwatch = new Date();
     }
-    const current = moment().milliseconds();
-    const timeDif = current - this.stopwatch;
-    console.log(timeDif, current, this.stopwatch);
+    const frameMaxCount = 250;
+    if (this.analysisFpsFrameCount < frameMaxCount) {
+      this.analysisFpsFrameCount++;
+    } else {
+      this.analysisFpsFrameCount = 0;
 
-    this.currentAnalysisFPS = 1000 / timeDif;
-    this.stopwatch = current;
+      const current = new Date();
+
+      // This is a sucky way to get the date.  This won't work at the top of a minute.
+      const stopwatch = this.stopwatch;
+      const cSec =
+        current.getMinutes() * 60 * 1000 +
+        current.getSeconds() * 1000 +
+        current.getMilliseconds();
+      const sSec =
+        stopwatch.getMinutes() * 60 * 1000 +
+        stopwatch.getSeconds() * 1000 +
+        stopwatch.getMilliseconds();
+
+      const timeDif = cSec - sSec;
+      // console.log(timeDif, current, this.stopwatch);
+
+      this.analysisFps =
+        Math.round(100 * (frameMaxCount / (timeDif / 1000))) / 100;
+      if (this.analysisFps > 0) {
+        const currentVidTime = this.video.currentTime;
+        const remainingDuration = this.video.duration - currentVidTime;
+        const currentFrame = Math.round(currentVidTime * this.frameRate);
+        const remainingFrames = this.totalFrameCount - currentFrame;
+        this.analysisTimeRemainingSec = remainingFrames / this.analysisFps;
+        console.log(
+          'time-remaining',
+          this.analysisTimeRemainingSec,
+          'total-frame-count',
+          this.totalFrameCount,
+          'current-frame',
+          currentFrame,
+          'remaining-frames',
+          remainingFrames,
+          'remaining-duration',
+          remainingDuration,
+          'video-current-time',
+          this.video.currentTime,
+          'video-duration',
+          this.video.duration
+        );
+        this.analysisTimeRemaining = moment
+          .duration(this.analysisTimeRemainingSec, 'seconds')
+          .humanize();
+        // .asMinutes()
+        // .toString();
+      }
+
+      this.stopwatch = new Date();
+    }
   }
   processVideo() {
     const currentTime = this.video.currentTime;

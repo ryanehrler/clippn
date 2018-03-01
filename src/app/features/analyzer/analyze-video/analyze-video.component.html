@@ -12,10 +12,10 @@
     </div>
   </mat-card>
   <mat-card flex="77" layout="row">
-    FPS: {{currentAnalysisFPS}}
+    FPS: {{analysisFps}} {{analysisFpsFrameCount}} Remaining Time: {{analysisTimeRemaining}}
   </mat-card>
   <mat-card flex="100" layout="row">
-    <clpn-poi-timeline [clip]="clip" [video]="video"></clpn-poi-timeline>
+    <clpn-poi-timeline [clip]="clip" [video]="video" [killDuration]="killDuration"></clpn-poi-timeline>
   </mat-card>
 </div>
 <div layout="row">

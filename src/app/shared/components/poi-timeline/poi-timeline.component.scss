@@ -8,10 +8,10 @@ $timeline-width: 2px;
 $interval-tick-height: 80px;
 $interval-tick-width: 2px;
 
-$poi-size-fire: 50px;
-$poi-size-hot: 40px;
-$poi-size-warm: 30px;
-$poi-size-cool: 20px;
+$poi-size-fire: 100px;
+$poi-size-hot: 80px;
+$poi-size-warm: 60px;
+$poi-size-cool: 40px;
 $poi-opacity: 0.9;
 
 $video-cursor-height: 150px;
@@ -64,7 +64,8 @@ $mouse-curso-opacity: 0.75;
 
   .poi {
     top: ($timeline-height / 2) - ($poi-size-cool / 2);
-    color: $fire-color-cool;
+    background-color: $fire-color-cool;
+    height: $poi-size-cool;
 
     // Use to test icon center placement -- uncomment to get a black line at the exact point the icon should be
     // width: 1px;
@@ -78,17 +79,21 @@ $mouse-curso-opacity: 0.75;
       font-size: $poi-size-cool;
       opacity: $poi-opacity;
     }
+
     &.fire {
-      color: $fire-color-fire;
+      background-color: $fire-color-fire;
       top: ($timeline-height / 2) - ($poi-size-fire / 2);
+      height: $poi-size-fire;
+
       .mat-icon {
         margin-left: -$poi-size-fire / 2;
         font-size: $poi-size-fire;
       }
     }
     &.hot {
-      color: $fire-color-hot;
+      background-color: $fire-color-hot;
       top: ($timeline-height / 2) - ($poi-size-hot / 2);
+      height: $poi-size-hot;
 
       .mat-icon {
         margin-left: -$poi-size-hot / 2;
@@ -96,8 +101,9 @@ $mouse-curso-opacity: 0.75;
       }
     }
     &.warm {
-      color: $fire-color-warm;
+      background-color: $fire-color-warm;
       top: ($timeline-height / 2) - ($poi-size-warm / 2);
+      height: $poi-size-warm;
 
       .mat-icon {
         margin-left: -$poi-size-warm / 2;
