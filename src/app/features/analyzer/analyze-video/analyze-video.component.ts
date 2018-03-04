@@ -102,6 +102,13 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy {
     this.saveClip();
   }
 
+  togglePlayVideo() {
+    if (this.video.paused) {
+      this.video.play();
+    } else {
+      this.video.pause();
+    }
+  }
   analyzeVideo() {
     // GA - AnalyzeVideo
     this.googleAnalyticsService.emitEvent(
@@ -110,6 +117,7 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy {
       'Start'
     );
 
+    this.video.pause();
     this.setVideoElementIfNull();
     this.startAnalysis = true;
     this.incrementVideoFrame();
@@ -154,6 +162,9 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy {
     this.startAnalysis = false;
     this.gameAnalyzer.reset();
   }
+  pauseAnalysis() {
+    this.startAnalysis = false;
+  }
   setVideoElementIfNull() {
     if (this.video == null) {
       this.setVideoElement();
@@ -162,6 +173,7 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy {
 
   setVideoElement() {
     this.video = this.videoPlayer.nativeElement;
+    this.video.controls = false;
 
     const width = this.gameAnalyzer.width;
     const height = this.gameAnalyzer.height;

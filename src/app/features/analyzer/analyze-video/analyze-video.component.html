@@ -6,13 +6,24 @@
       </video>
     </div>
     <div flex="100">
-      <button mat-button color="primary" (click)="analyzeVideo()">Start Analysis</button>
-      <button mat-button color="primary" (click)="resetVideo()">Restart</button>
-      <button mat-button color="primary" (click)="analyzeFireLevels()">Re-Analyze Fire Levels</button>
+      <button mat-button color="primary" (click)="togglePlayVideo()" [disabled]="startAnalysis">
+        <mat-icon *ngIf="video.paused">play_arrow</mat-icon>
+        <mat-icon *ngIf="!video.paused">pause</mat-icon>
+      </button>
+      <button mat-button color="primary" (click)="seekTime(-3)">
+        <mat-icon>skip_previous</mat-icon>
+      </button>
+      <button mat-button color="primary" (click)="seekTime(3)">
+        <mat-icon>skip_next</mat-icon>
+      </button>
+      <button mat-button color="primary" (click)="analyzeVideo()" [disabled]="startAnalysis">Start Analysis</button>
+      <button mat-button color="primary" (click)="resetVideo()" *ngIf="!startAnalysis">Restart</button>
+      <button mat-button color="primary" (click)="pauseAnalysis()" *ngIf="startAnalysis">Stop</button>
     </div>
   </mat-card>
   <mat-card flex="77" layout="row">
     FPS: {{analysisFps}} {{analysisFpsFrameCount}} Remaining Time: {{analysisTimeRemaining}}
+    <button mat-button color="primary" (click)="analyzeFireLevels()">Re-Analyze Fire Levels</button>
   </mat-card>
   <mat-card flex="100" layout="row">
     <clpn-poi-timeline [clip]="clip" [video]="video" [killDuration]="killDuration"></clpn-poi-timeline>
