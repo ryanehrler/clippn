@@ -1,6 +1,7 @@
 // Classes
 export * from './IGameAnalyzer';
 export * from './game-analyzer-base';
+export * from './analyzer-list-item';
 
 // General purpose services
 export * from './poi-analyzer.service';

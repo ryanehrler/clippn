@@ -5,10 +5,13 @@ export interface IGameAnalyzer {
   yStart: number;
 
   totalFrameCount: number;
-  analysisFPS: number;
   missedKillDetectionThreshold: number;
   durationOfKill: number;
   fireThresholdSeconds: number;
+
+  analysisFPS: number;
+  analysisVideoWidth: number;
+  analysisVideoHeight: number;
 
   pixelRedValue: number;
   pixelGreenValue: number;
@@ -25,4 +28,5 @@ export interface IGameAnalyzer {
   ): boolean;
   hasPoi(colorArray: Uint8Array): boolean;
   reset();
+  setVideoResolution(width: number, height: number);
 }

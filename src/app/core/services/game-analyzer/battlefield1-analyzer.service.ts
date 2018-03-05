@@ -5,16 +5,24 @@ import { IGameAnalyzer } from './IGameAnalyzer';
 @Injectable()
 export class Battlefield1AnalyzerService extends GameAnalyzerBase
   implements IGameAnalyzer {
-  width = 110;
-  height = 90;
-  xStart = 979;
-  yStart = 650;
+  baseWidth = 110;
+  baseHeight = 90;
+  baseXStart = 979;
+  baseYStart = 650;
+
+  width: number;
+  height: number;
+  xStart: number;
+  yStart: number;
 
   totalFrameCount = 0;
-  analysisFPS = 5;
   missedKillDetectionThreshold = 2;
   durationOfKill = 1.8;
   fireThresholdSeconds = 10;
+
+  analysisFPS = 5;
+  analysisVideoWidth = 1920;
+  analysisVideoHeight = 1080;
 
   pixelRedValue = 154;
   pixelGreenValue = 47;
@@ -52,8 +60,17 @@ export class Battlefield1AnalyzerService extends GameAnalyzerBase
   }
 
   processVideo(webGl: any, canvas2d: any, video: any, currentTime: any) {
-    console.log('battlefield1-process-video');
-    const typedArray = new Uint8Array(this.width * this.height * 4);
+    if (!this.isResolutionSet()) {
+      return false;
+    }
+    // console.log('battlefield1-process-video');
+    const w = this.scaledWidth;
+    const h = this.scaledHeight;
+    const xS = this.scaledXStart;
+    const yS = this.scaledYStart;
+    console.log(w, h, xS, yS);
+
+    const typedArray = new Uint8Array(w * h * 4);
 
     webGl.texImage2D(
       webGl.TEXTURE_2D,
@@ -63,23 +80,16 @@ export class Battlefield1AnalyzerService extends GameAnalyzerBase
       webGl.UNSIGNED_BYTE,
       video
     );
-    webGl.readPixels(
-      this.xStart,
-      this.yStart,
-      this.width,
-      this.height,
-      webGl.RGBA,
-      webGl.UNSIGNED_BYTE,
-      typedArray
-    );
+    webGl.readPixels(xS, yS, w, h, webGl.RGBA, webGl.UNSIGNED_BYTE, typedArray);
 
     // Render video partial to canvas
-    const palette = canvas2d.getImageData(0, 0, this.width, this.height);
+    const palette = canvas2d.getImageData(0, 0, w, h);
     palette.data.set(new Uint8ClampedArray(typedArray));
     canvas2d.putImageData(palette, 0, 0);
 
     if (this.hasPoi(typedArray)) {
       this.addDetection();
+      console.log('POI Detected');
     } else {
       this.missedDetection();
     }
@@ -94,5 +104,31 @@ export class Battlefield1AnalyzerService extends GameAnalyzerBase
 
   reset() {
     this.resetDetections();
+  }
+
+  setVideoResolution(userVideoWidth: number, userVideoHeight: number) {
+    this.setVideoResolutionBase(
+      userVideoWidth,
+      userVideoHeight,
+      this.analysisVideoWidth,
+      this.analysisVideoHeight,
+      this.baseWidth,
+      this.baseHeight,
+      this.baseXStart,
+      this.baseYStart
+    );
+
+    this.width = this.scaledWidth;
+    this.height = this.scaledHeight;
+    this.xStart = this.scaledXStart;
+    this.yStart = this.scaledYStart;
+
+    // console.log(
+    //   'set-video-res',
+    //   this.width,
+    //   this.height,
+    //   this.xStart,
+    //   this.yStart
+    // );
   }
 }

@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 
+import { TdDialogService } from '@covalent/core';
 import { MaterialModule } from '../material/material.module';
 import { ErrorComponent } from './components/error/error.component';
 import { SideNavComponent } from './components/side-nav/side-nav.component';

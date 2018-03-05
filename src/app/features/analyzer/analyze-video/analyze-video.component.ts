@@ -16,7 +16,6 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { FileStorageService } from '../../../core/services/file-storage/file-storage.service';
 
-import { Duration } from 'moment';
 import { Clip, ClipService, Poi } from '../../../core/services/clip/index';
 import {
   GameAnalyzerService,
@@ -45,7 +44,7 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy {
   clip: Clip;
   video: any;
   currentTime: string;
-  currentTimeDur: Duration;
+  currentTimeDur: moment.Duration;
   analysisTimeRemainingSec: number;
   analysisTimeRemaining: string;
   stopwatch: any;
@@ -173,38 +172,52 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy {
 
   setVideoElement() {
     this.video = this.videoPlayer.nativeElement;
+    this.setVideoPropertiesAndEvents(() => {
+      const width = this.gameAnalyzer.width;
+      const height = this.gameAnalyzer.height;
+      // Load Canvas2d Context
+      this.canvas2d = this.myCanvasTwo.nativeElement.getContext('2d');
+      this.canvas2d.width = width;
+      this.canvas2d.height = height;
+
+      // Load WebGL bullshit
+      const c = this.myCanvas.nativeElement;
+
+      c.width = width;
+      c.height = height;
+      this.webGl = c.getContext('webgl');
+
+      const tex = this.webGl.createTexture();
+      this.webGl.bindTexture(this.webGl.TEXTURE_2D, tex);
+
+      const fbo = this.webGl.createFramebuffer();
+      this.webGl.bindFramebuffer(this.webGl.FRAMEBUFFER, fbo);
+      this.webGl.viewport(0, 0, width, height);
+      this.webGl.framebufferTexture2D(
+        this.webGl.FRAMEBUFFER,
+        this.webGl.COLOR_ATTACHMENT0,
+        this.webGl.TEXTURE_2D,
+        tex,
+        0
+      );
+    });
+  }
+  setVideoPropertiesAndEvents(callback: () => void) {
+    // .. Hide video controls ..
     this.video.controls = false;
 
-    const width = this.gameAnalyzer.width;
-    const height = this.gameAnalyzer.height;
-
-    // Load Canvas2d Context
-    this.canvas2d = this.myCanvasTwo.nativeElement.getContext('2d');
-    this.canvas2d.width = width;
-    this.canvas2d.height = height;
-
-    // Load WebGL bullshit
-    const c = this.myCanvas.nativeElement;
-
-    c.width = width;
-    c.height = height;
-    this.webGl = c.getContext('webgl');
-
-    const tex = this.webGl.createTexture();
-    this.webGl.bindTexture(this.webGl.TEXTURE_2D, tex);
-
-    const fbo = this.webGl.createFramebuffer();
-    this.webGl.bindFramebuffer(this.webGl.FRAMEBUFFER, fbo);
-    this.webGl.viewport(0, 0, width, height);
-    this.webGl.framebufferTexture2D(
-      this.webGl.FRAMEBUFFER,
-      this.webGl.COLOR_ATTACHMENT0,
-      this.webGl.TEXTURE_2D,
-      tex,
-      0
+    this.video.addEventListener(
+      'loadedmetadata',
+      e => {
+        const width = e.srcElement.videoWidth;
+        const height = e.srcElement.videoHeight;
+        console.log('video resolution', width, height, e);
+        this.gameAnalyzer.setVideoResolution(width, height);
+        callback();
+      },
+      false
     );
   }
-
   setNumberOfFrames() {
     if (this.video == null) {
       this.setVideoElementIfNull();

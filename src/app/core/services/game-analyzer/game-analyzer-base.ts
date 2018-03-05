@@ -2,6 +2,15 @@ export class GameAnalyzerBase {
   detections = [];
   currentKillDetections = 0;
   currentMissedKillDetections = 0;
+  videoWidth: number;
+  videoHeight: number;
+  widthScale: number;
+  heightScale: number;
+
+  scaledWidth: number;
+  scaledHeight: number;
+  scaledXStart: number;
+  scaledYStart: number;
 
   isAround(pixelColor: number, desiredColor: number, range: number) {
     return (
@@ -44,5 +53,42 @@ export class GameAnalyzerBase {
 
   resetDetections() {
     this.detections = [];
+  }
+  setVideoResolutionBase(
+    width: number,
+    height: number,
+    analysisVideoWidth: number,
+    analysisVideoHeight: number,
+    analyzerWidth: number,
+    analyzerHeight: number,
+    xStart: number,
+    yStart: number
+  ) {
+    this.videoWidth = width;
+    this.videoHeight = height;
+
+    this.widthScale = Math.round(width / analysisVideoWidth * 100) / 100;
+    this.heightScale = Math.round(height / analysisVideoHeight * 100) / 100;
+
+    this.scaledWidth = Math.round(analyzerWidth * this.widthScale);
+    this.scaledHeight = Math.round(analyzerHeight * this.heightScale);
+    this.scaledXStart = Math.round(xStart * this.widthScale);
+    this.scaledYStart = Math.round(yStart * this.heightScale);
+  }
+
+  isResolutionSet() {
+    if (this.scaledWidth <= 0) {
+      console.log('*RED ALERT*');
+      console.log(
+        'Please call setVideoResolution() and pass the video width/height.'
+      );
+      console.log(
+        'Use loadedmetadata event listener on video element.  Get from srcElement.videoWidth'
+      );
+
+      return false;
+    }
+
+    return true;
   }
 }

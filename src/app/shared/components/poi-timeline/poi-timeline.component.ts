@@ -57,7 +57,21 @@ export class PoiTimelineComponent
   mouseCursorX = 0;
   mouseCursorScrollOffset = 0;
 
-  constructor(private elementRef: ElementRef) {}
+  private onScroll: (e) => void;
+  private onClick: (e) => void;
+  private mouseMove: (e) => void;
+
+  constructor(private elementRef: ElementRef) {
+    this.onScroll = event => {
+      this.mouseCursorScrollOffset = event.srcElement.scrollLeft;
+    };
+    this.onClick = event => {
+      this.seekVideoToCursor();
+    };
+    this.mouseMove = event => {
+      this.setMouseCursor(event.clientX, event.clientY);
+    };
+  }
 
   ngOnInit() {
     this.videoNullCheckTimer = setInterval(() => {
@@ -72,16 +86,10 @@ export class PoiTimelineComponent
     this.timeline = this.elementRef.nativeElement.querySelector(
       '.poi-timeline'
     );
-    this.timeline.addEventListener('mousemove', e => {
-      this.setMouseCursor(e.clientX, e.clientY);
-    });
-    this.timeline.addEventListener('scroll', e => {
-      this.mouseCursorScrollOffset = e.srcElement.scrollLeft;
-    });
+    this.timeline.addEventListener('mousemove', this.mouseMove);
+    this.timeline.addEventListener('scroll', this.onScroll);
     // ngClick isn't playing nice ..
-    this.timeline.addEventListener('click', e => {
-      this.seekVideoToCursor();
-    });
+    this.timeline.addEventListener('click', this.onClick);
   }
 
   ngOnChanges() {
@@ -90,9 +98,9 @@ export class PoiTimelineComponent
   ngOnDestroy() {
     clearInterval(this.videoNullCheckTimer);
     if (this.timeline != null) {
-      this.timeline.removeEventListener('mousemove');
-      this.timeline.removeEventListener('scroll');
-      this.timeline.removeEventListener('click');
+      this.timeline.removeEventListener('mousemove', this.mouseMove);
+      this.timeline.removeEventListener('scroll', this.onScroll);
+      this.timeline.removeEventListener('click', this.onClick);
     }
   }
 
@@ -175,6 +183,7 @@ export class PoiTimelineComponent
     console.log('seek-video', this.getSecondsForX(this.mouseCursorX));
     this.video.currentTime = this.getSecondsForX(this.mouseCursorX);
   }
+
   private createIntervalTick(tickX: number, cssClass: any[], label: string) {
     this.intervalTicks.push({
       style: {

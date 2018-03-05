@@ -24,7 +24,8 @@ import {
   MatSnackBarModule,
   MatTabsModule,
   MatToolbarModule,
-  MatTooltipModule
+  MatTooltipModule,
+  MatSelectModule
 } from '@angular/material';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -67,6 +68,7 @@ import {
     MatChipsModule,
     MatSliderModule,
     MatRadioModule,
+    MatSelectModule,
 
     // Covalent -- duh but prettier removes spaces so we have this comment .. fun!
     CovalentCommonModule,
@@ -82,7 +84,8 @@ import {
     CovalentMenuModule,
     CovalentDataTableModule,
     CovalentMessageModule,
-    CovalentFileModule
+    CovalentFileModule,
+    CovalentDialogsModule
   ],
   exports: [
     MatToolbarModule,
@@ -104,6 +107,7 @@ import {
     MatChipsModule,
     MatSliderModule,
     MatRadioModule,
+    MatSelectModule,
 
     // again Covalent
     CovalentCommonModule,
