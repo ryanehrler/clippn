@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import {
+  MatAutocompleteModule,
   MatButtonModule,
   MatCardModule,
   MatCheckboxModule,
@@ -18,14 +19,14 @@ import {
   MatMenuModule,
   MatProgressBarModule,
   MatRadioModule,
+  MatSelectModule,
   MatSidenavModule,
   MatSlider,
   MatSliderModule,
   MatSnackBarModule,
   MatTabsModule,
   MatToolbarModule,
-  MatTooltipModule,
-  MatSelectModule
+  MatTooltipModule
 } from '@angular/material';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -69,6 +70,7 @@ import {
     MatSliderModule,
     MatRadioModule,
     MatSelectModule,
+    MatAutocompleteModule,
 
     // Covalent -- duh but prettier removes spaces so we have this comment .. fun!
     CovalentCommonModule,
@@ -108,6 +110,7 @@ import {
     MatSliderModule,
     MatRadioModule,
     MatSelectModule,
+    MatAutocompleteModule,
 
     // again Covalent
     CovalentCommonModule,

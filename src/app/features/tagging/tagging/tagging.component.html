@@ -1,6 +1,12 @@
 <div>
   <mat-form-field>
-    <input id="filterInput" matInput (keyup)="applyFilter($event.target.value)" [(ngModel)]="this.filterInput" placeholder="Search Tags">
+    <input id="filterInput" matInput (keyup)="applyFilter($event.target.value)" [formControl]="myTagControl" [(ngModel)]="this.filterInput"
+      [matAutocomplete]="auto" placeholder="Search Tags">
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="tagSelected($event)">
+      <mat-option *ngFor="let option of filteredTagArray | async" [value]="option">
+        {{ option }}
+      </mat-option>
+    </mat-autocomplete>
   </mat-form-field>
   <button mat-raised-button color="accent" (click)="addSearchTag(this.filterValue)">
     <mat-icon>add</mat-icon> Add Another Tag
