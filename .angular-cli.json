@@ -21,7 +21,8 @@
         "styles.scss",
         "../node_modules/gridlex/src/gridlex.scss",
         "../node_modules/normalize.css/normalize.css",
-        "app/material/theme.scss"
+        "app/material/theme.scss",
+        "../node_modules/dragula/dist/dragula.css"
       ],
       "scripts": [],
       "environmentSource": "environments/environment.ts",

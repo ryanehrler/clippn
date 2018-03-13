@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { DragulaService } from 'ng2-dragula';
 import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators/map';
 import { startWith } from 'rxjs/operators/startWith';
@@ -316,10 +317,35 @@ export class TaggingComponent implements OnInit {
   gameArray: any[] = new Array();
   filteredTagArray: Observable<string[]>;
   selectedGame = '';
+  public newVideo: string[] = [];
 
   myTagControl = new FormControl();
 
-  constructor() {}
+  constructor(private dragulaService: DragulaService) {
+    dragulaService.setOptions('first-bag', {
+      // copy: true,
+      copySortSource: true,
+      copy: (el: Element, source: Element): boolean => {
+        return source.id !== 'content';
+      },
+      removeOnSpill: (el: Element, source: Element): boolean => {
+        return source.id === 'content';
+      },
+      accepts(el, target, source, sibling) {
+        if (target.id == 'content') {
+          // dragged to a container that should add the element
+          return true;
+        }
+      }
+    });
+    dragulaService.drop.subscribe(value => {
+      this.onDrop(value);
+    });
+
+    dragulaService.remove.subscribe(value => {
+      this.onRemove(value);
+    });
+  }
 
   ngOnInit() {
     this.clips = this.clips.filter(x => x.pois != null);
@@ -335,6 +361,32 @@ export class TaggingComponent implements OnInit {
       startWith(''),
       map(val => this.filterAutocomplete(val))
     );
+  }
+
+  // (0 - bagname, 1 - el, 2 - container, 3 - source)
+  private onRemove(value) {
+    this.newVideo = this.newVideo.filter(x => x != value[1].id);
+  }
+
+  // (0 - bagname, 1 - el, 2 - target, 3 - source, 4 - sibling)
+  private onDrop(value) {
+    console.log(value);
+    console.log(this.newVideo);
+    if (value[2] != value[3] && this.newVideo.includes(value[1].id)) {
+      this.newVideo = Array.from(new Set(this.newVideo));
+      value[1].remove();
+      return;
+    }
+    if (value[2] == null) {
+      // dragged outside any of the bags
+      return;
+    }
+    if (value[2].id !== 'content') {
+      // dragged to a container that should not add the element
+      value[1].remove();
+      return;
+    }
+    this.newVideo.push(value[1].id);
   }
 
   filterAutocomplete(val: string): string[] {

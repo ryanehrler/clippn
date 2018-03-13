@@ -35,6 +35,19 @@
     </mat-select>
   </mat-form-field>
 </div>
+<div>
+  <div layout-fill flex="25" style="min-width: 275px;">
+    <mat-card class="example-card">
+      <mat-card-header>
+        <mat-card-title>Create custom video</mat-card-title>
+        <mat-card-subtitle>Drop your clips here beeotch</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content [dragula]='"first-bag"' id="content">
+
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
 <div layout="row" layout-wrap>
   <ng-container *ngFor="let clip of clips | clipFilter: [['isProcessed', true]]">
     <ng-container *ngIf="this.haveMatch(clip) == true">
@@ -44,20 +57,22 @@
             <mat-card-title>{{clip.name}}</mat-card-title>
             <mat-card-subtitle>{{clip.gameTitle}}</mat-card-subtitle>
           </mat-card-header>
-          <mat-card-content>
-            <div layout="row" style="padding-bottom: 5px" *ngFor="let poi of clip.pois">
-              <div *ngIf="this.havePoiMatch(poi) == true">
-                <mat-chip-list>
-                  <mat-chip matTooltip="Jump to clip" selected="true" disabled color="warn">{{poi.displayTime}}</mat-chip>
-                  <div *ngFor="let fireClipTag of poi.tags">
-                    <mat-chip disabled *ngIf="this.foundTags.indexOf(fireClipTag.value.toLowerCase()) > -1">
-                      {{fireClipTag.value}}
-                    </mat-chip>
-                  </div>
+          <mat-card-content [dragula]='"first-bag"'>
+            <ng-container *ngFor="let poi of clip.pois">
+              <div layout="row" style="padding-bottom: 5px" id={{clip.name+poi.time}}>
+                <div *ngIf="this.havePoiMatch(poi) == true">
+                  <mat-chip-list>
+                    <mat-chip matTooltip="Jump to clip" selected="true" disabled color="warn">{{poi.displayTime}}</mat-chip>
+                    <div *ngFor="let fireClipTag of poi.tags">
+                      <mat-chip disabled *ngIf="this.foundTags.indexOf(fireClipTag.value.toLowerCase()) > -1">
+                        {{fireClipTag.value}}
+                      </mat-chip>
+                    </div>
 
-                </mat-chip-list>
+                  </mat-chip-list>
+                </div>
               </div>
-            </div>
+            </ng-container>
           </mat-card-content>
         </mat-card>
       </div>
