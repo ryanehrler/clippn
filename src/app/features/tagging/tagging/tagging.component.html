@@ -28,6 +28,12 @@
       </mat-radio-button>
     </mat-radio-group>
   </section>
+  <mat-form-field>
+    <mat-select placeholder="Game Filter" [(ngModel)]="selectedGame">
+      <mat-option>None</mat-option>
+      <mat-option *ngFor="let title of gameArray" [value]="title">{{title}}</mat-option>
+    </mat-select>
+  </mat-form-field>
 </div>
 <div layout="row" layout-wrap>
   <ng-container *ngFor="let clip of clips | clipFilter: [['isProcessed', true]]">
@@ -36,6 +42,7 @@
         <mat-card class="example-card">
           <mat-card-header>
             <mat-card-title>{{clip.name}}</mat-card-title>
+            <mat-card-subtitle>{{clip.gameTitle}}</mat-card-subtitle>
           </mat-card-header>
           <mat-card-content>
             <div layout="row" style="padding-bottom: 5px" *ngFor="let poi of clip.pois">

@@ -313,7 +313,9 @@ export class TaggingComponent implements OnInit {
   filterMethod = 'or';
   foundTags: any[] = new Array();
   tagArray: any[] = new Array();
+  gameArray: any[] = new Array();
   filteredTagArray: Observable<string[]>;
+  selectedGame = '';
 
   myTagControl = new FormControl();
 
@@ -322,6 +324,13 @@ export class TaggingComponent implements OnInit {
   ngOnInit() {
     this.clips = this.clips.filter(x => x.pois != null);
     this.clips = this.clips.filter(x => x.pois.length > 0);
+
+    this.clips.forEach(clip => {
+      if (this.gameArray.indexOf(clip.gameTitle) < 0) {
+        this.gameArray.push(clip.gameTitle);
+      }
+    });
+
     this.filteredTagArray = this.myTagControl.valueChanges.pipe(
       startWith(''),
       map(val => this.filterAutocomplete(val))
@@ -349,6 +358,13 @@ export class TaggingComponent implements OnInit {
         this.filterTags(tag.value.toLowerCase());
       });
     });
+
+    if (this.selectedGame) {
+      if (clip.gameTitle != this.selectedGame) {
+        matched = false;
+        return matched;
+      }
+    }
 
     clip.pois.some(poi => {
       if (this.havePoiMatch(poi)) {
