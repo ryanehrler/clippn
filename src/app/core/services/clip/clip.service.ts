@@ -138,6 +138,15 @@ export class ClipService {
     });
     return uniqueTags;
   }
+  getPercentDone(currentTime: number, duration: number) {
+    let percent = Math.round(currentTime / duration * 100);
+    if (percent >= 97) {
+      // We don't necessarily process up to the last second since it is done by frames.
+      percent = 100;
+    }
+
+    return percent;
+  }
 
   private setupDefaultClip(name: string, fileType: string, gameTitle: string) {
     const c = new Clip();

@@ -18,7 +18,7 @@ export class FortniteAnalyzerService extends GameAnalyzerBase
 
   totalFrameCount = 0;
   missedKillDetectionThreshold = 2;
-  durationOfKill = 2.1; //71 frames
+  durationOfKill = 2.1; // 71 frames
   fireThresholdSeconds = 10;
 
   analysisFPS = 5;
