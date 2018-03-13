@@ -256,6 +256,13 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy {
     this.currentTime = moment('2000-01-01 00:00:00')
       .seconds(Math.round(t))
       .format('HH:mm:ss');
+    this.setAnalysisPercentDone();
+  }
+  private setAnalysisPercentDone() {
+    this.clip.currentProgress = this.clipService.getPercentDone(
+      this.video.currentTime,
+      this.video.duration
+    );
   }
   private updateAnalysisFPS() {
     if (this.stopwatch == null) {

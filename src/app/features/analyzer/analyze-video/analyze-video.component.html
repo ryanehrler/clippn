@@ -22,17 +22,23 @@
     </div>
   </mat-card>
   <mat-card flex="77" layout="row">
-    FPS: {{analysisFps}} {{analysisFpsFrameCount}} Remaining Time: {{analysisTimeRemaining}}
-    <button mat-button color="primary" (click)="analyzeFireLevels()">Re-Analyze Fire Levels</button>
+    <mat-tab-group>
+      <mat-tab label="POI's" layout="column">
+        <p flex>FPS: {{analysisFps}} {{analysisFpsFrameCount}} Remaining Time: {{analysisTimeRemaining}}</p>
+        <mat-progress-bar color="primary" mode="determinate" [value]="clip.currentProgress"></mat-progress-bar>
+        <div flex="auto" class="poi-chips">
+          <clpn-poi-chip *ngFor="let poi of clip.pois" [poi]="poi"></clpn-poi-chip>
+        </div>
+      </mat-tab>
+      <mat-tab label="Interval Analysis" layout="row">
+        <h1>Some more tab content</h1>
+        <p>...</p>
+      </mat-tab>
+    </mat-tab-group>
   </mat-card>
   <mat-card flex="100" layout="row">
     <clpn-poi-timeline [clip]="clip" [video]="video" [killDuration]="killDuration"></clpn-poi-timeline>
   </mat-card>
-</div>
-<div layout="row">
-  <mat-chip-list>
-    <mat-chip *ngFor="let poi of clip.pois" color="primary">{{poi.displayTime}}</mat-chip>
-  </mat-chip-list>
 </div>
 
 <canvas #myCanvasTwo></canvas>

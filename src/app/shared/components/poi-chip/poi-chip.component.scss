@@ -1,0 +1,21 @@
+@import '../../../material/theme';
+
+.poi-chip {
+  display: inline-block;
+  border-radius: 24px;
+  padding: 5px;
+  margin: 5px;
+  text-align: center;
+
+  background-color: $fire-color-cool;
+
+  &.fire {
+    background-color: $fire-color-fire;
+  }
+  &.hot {
+    background-color: $fire-color-hot;
+  }
+  &.warm {
+    background-color: $fire-color-warm;
+  }
+}

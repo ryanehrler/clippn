@@ -68,7 +68,7 @@ export class Battlefield1AnalyzerService extends GameAnalyzerBase
     const h = this.scaledHeight;
     const xS = this.scaledXStart;
     const yS = this.scaledYStart;
-    console.log(w, h, xS, yS);
+    // console.log(w, h, xS, yS);
 
     const typedArray = new Uint8Array(w * h * 4);
 
@@ -89,7 +89,7 @@ export class Battlefield1AnalyzerService extends GameAnalyzerBase
 
     if (this.hasPoi(typedArray)) {
       this.addDetection();
-      console.log('POI Detected');
+      // console.log('POI Detected');
     } else {
       this.missedDetection();
     }
