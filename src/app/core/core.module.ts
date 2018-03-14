@@ -10,6 +10,7 @@ import { TdDialogService } from '@covalent/core';
 import { MaterialModule } from '../material/material.module';
 import { ErrorComponent } from './components/error/error.component';
 import { SideNavComponent } from './components/side-nav/side-nav.component';
+import { AnalysisTimeRemainingCalcService } from './services/analysis-time-remaining-calc.service';
 import { AuthGuard } from './services/auth/auth.guard';
 import { AuthService } from './services/auth/auth.service';
 import { ClipAnalyzerService } from './services/clip/clip-analyzer.service';
@@ -35,7 +36,8 @@ import { GoogleAnalyticsService } from './services/google-analytics/index';
     GoogleAnalyticsService,
     ClipService,
     ClipAnalyzerService,
-    FileStorageService
+    FileStorageService,
+    AnalysisTimeRemainingCalcService
   ]
 })
 export class CoreModule {

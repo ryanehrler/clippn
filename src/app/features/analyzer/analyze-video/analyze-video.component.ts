@@ -16,6 +16,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { FileStorageService } from '../../../core/services/file-storage/file-storage.service';
 
+import { AnalysisTimeRemainingCalcService } from '../../../core/services/analysis-time-remaining-calc.service';
 import { Clip, ClipService, Poi } from '../../../core/services/clip/index';
 import {
   GameAnalyzerService,
@@ -47,7 +48,6 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy {
   currentTimeDur: moment.Duration;
   analysisTimeRemainingSec: number;
   analysisTimeRemaining: string;
-  stopwatch: any;
   killDuration: number; // length of kill - gameAnalyzer.durationOfKill
 
   startAnalysis = false;
@@ -68,7 +68,8 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy {
     private injector: Injector,
     private gameAnalyzerService: GameAnalyzerService,
     private googleAnalyticsService: GoogleAnalyticsService,
-    private poiAnalyzerService: PoiAnalyzerService
+    private poiAnalyzerService: PoiAnalyzerService,
+    private analysisTimeRemainingCalc: AnalysisTimeRemainingCalcService
   ) {}
 
   ngOnInit() {
@@ -120,6 +121,13 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy {
     this.setVideoElementIfNull();
     this.startAnalysis = true;
     this.incrementVideoFrame();
+    this.analysisTimeRemainingCalc.start(
+      this.analysisFpsFrameCount,
+      this.analysisFps,
+      this.video.duration,
+      this.frameRate,
+      this.totalFrameCount
+    );
   }
 
   saveClip() {
@@ -223,10 +231,12 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy {
       this.setVideoElementIfNull();
     }
 
-    const analysisFPS = this.gameAnalyzer.analysisFPS;
+    const gameAnalysisFps = this.gameAnalyzer.analysisFPS;
 
-    this.totalFrameCount = Math.round(
-      this.video.duration * this.frameRate / analysisFPS - analysisFPS * 2
+    this.totalFrameCount = this.analysisTimeRemainingCalc.getTotalFrameCount(
+      this.video.duration,
+      gameAnalysisFps,
+      this.frameRate
     );
   }
 
@@ -265,65 +275,16 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy {
     );
   }
   private updateAnalysisFPS() {
-    if (this.stopwatch == null) {
-      this.stopwatch = new Date();
-    }
-    const frameMaxCount = 250;
-    if (this.analysisFpsFrameCount < frameMaxCount) {
-      this.analysisFpsFrameCount++;
-    } else {
-      this.analysisFpsFrameCount = 0;
-
-      const current = new Date();
-
-      // This is a sucky way to get the date.  This won't work at the top of a minute.
-      const stopwatch = this.stopwatch;
-      const cSec =
-        current.getMinutes() * 60 * 1000 +
-        current.getSeconds() * 1000 +
-        current.getMilliseconds();
-      const sSec =
-        stopwatch.getMinutes() * 60 * 1000 +
-        stopwatch.getSeconds() * 1000 +
-        stopwatch.getMilliseconds();
-
-      const timeDif = cSec - sSec;
-      // console.log(timeDif, current, this.stopwatch);
-
-      this.analysisFps =
-        Math.round(100 * (frameMaxCount / (timeDif / 1000))) / 100;
-      if (this.analysisFps > 0) {
-        const currentVidTime = this.video.currentTime;
-        const remainingDuration = this.video.duration - currentVidTime;
-        const currentFrame = Math.round(currentVidTime * this.frameRate);
-        const remainingFrames = this.totalFrameCount - currentFrame;
-        this.analysisTimeRemainingSec = remainingFrames / this.analysisFps;
-        console.log(
-          'time-remaining',
-          this.analysisTimeRemainingSec,
-          'total-frame-count',
-          this.totalFrameCount,
-          'current-frame',
-          currentFrame,
-          'remaining-frames',
-          remainingFrames,
-          'remaining-duration',
-          remainingDuration,
-          'video-current-time',
-          this.video.currentTime,
-          'video-duration',
-          this.video.duration
-        );
-        this.analysisTimeRemaining = moment
-          .duration(this.analysisTimeRemainingSec, 'seconds')
-          .humanize();
-        // .asMinutes()
-        // .toString();
-      }
-
-      this.stopwatch = new Date();
-    }
+    this.analysisTimeRemainingSec = this.analysisTimeRemainingCalc.update(
+      this.video.currentTime
+    );
+    // this.analysisTimeRemaining = moment
+    //   .duration(this.analysisTimeRemainingSec, 'seconds')
+    //   .humanize();
+    // .asMinutes()
+    // .toString();
   }
+
   processVideo() {
     const currentTime = this.video.currentTime;
     const killDetected = this.gameAnalyzer.processVideo(
