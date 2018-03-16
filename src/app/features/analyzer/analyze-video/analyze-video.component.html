@@ -4,6 +4,12 @@
       <video controls (click)="toggleVideo()" (canplay)="onFrameLoad()" #videoPlayer>
         <source [src]="videoFileUrl" /> Browser not supported
       </video>
+      <div class="remaining-time" *ngIf="startAnalysis">
+        <p flex class="text-right">Remaining Time:
+          <span *ngIf="analysisTimeRemainingSec >= 60">{{analysisTimeRemaining}}</span>
+          <span *ngIf="analysisTimeRemainingSec < 60">{{analysisTimeRemainingSec}} seconds</span>
+        </p>
+      </div>
       <mat-progress-bar color="primary" *ngIf="startAnalysis" mode="determinate" [value]="clip.currentProgress"></mat-progress-bar>
     </div>
     <div flex="100">
@@ -25,7 +31,6 @@
   <mat-card flex="77" layout="row">
     <mat-tab-group>
       <mat-tab label="POI's" layout="column">
-        <p flex>FPS: {{analysisFps}} {{analysisFpsFrameCount}} Remaining Time: {{analysisTimeRemaining}} {{analysisTimeRemainingSec}}</p>
         <div flex="auto" class="poi-chips">
           <clpn-poi-chip *ngFor="let poi of clip.pois" [poi]="poi"></clpn-poi-chip>
         </div>

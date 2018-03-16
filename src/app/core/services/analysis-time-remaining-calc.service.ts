@@ -65,21 +65,21 @@ export class AnalysisTimeRemainingCalcService {
         const remainingFrames = this.totalFrameCount - currentFrame;
         this.analysisTimeRemainingSec = remainingFrames / this.analysisFps;
 
-        console.log('--------------------------------------------');
-        console.log('analysis-fps', this.analysisFps);
-        console.log('time-remaining', this.analysisTimeRemainingSec);
-        console.log('total-frame-count', this.totalFrameCount);
-        console.log('current-frame', currentFrame);
-        console.log('remaining-frames', remainingFrames);
-        console.log('remaining-duration', remainingDuration);
-        console.log('video-current-time', currentVideoTime);
-        console.log('video-duration', this.videoDuration);
-        console.log('--------------------------------------------');
+        // console.log('--------------------------------------------');
+        // console.log('analysis-fps', this.analysisFps);
+        // console.log('time-remaining', this.analysisTimeRemainingSec);
+        // console.log('total-frame-count', this.totalFrameCount);
+        // console.log('current-frame', currentFrame);
+        // console.log('remaining-frames', remainingFrames);
+        // console.log('remaining-duration', remainingDuration);
+        // console.log('video-current-time', currentVideoTime);
+        // console.log('video-duration', this.videoDuration);
+        // console.log('--------------------------------------------');
       }
       this.stopwatch = new Date();
-
-      return this.analysisTimeRemainingSec;
     }
+
+    return this.analysisTimeRemainingSec;
   }
 
   private getFrameCount(duration: number) {
@@ -92,7 +92,7 @@ export class AnalysisTimeRemainingCalcService {
       duration * this.frameRate / this.gameAnalysisFps -
         this.gameAnalysisFps * 2
     );
-    console.log('frame-count', frameCount);
+    // console.log('frame-count', frameCount);
 
     return frameCount;
   }

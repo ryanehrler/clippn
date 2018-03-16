@@ -275,12 +275,13 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy {
     );
   }
   private updateAnalysisFPS() {
-    this.analysisTimeRemainingSec = this.analysisTimeRemainingCalc.update(
-      this.video.currentTime
+    this.analysisTimeRemainingSec = Math.round(
+      this.analysisTimeRemainingCalc.update(this.video.currentTime)
     );
-    // this.analysisTimeRemaining = moment
-    //   .duration(this.analysisTimeRemainingSec, 'seconds')
-    //   .humanize();
+
+    this.analysisTimeRemaining = moment
+      .duration(this.analysisTimeRemainingSec, 'seconds')
+      .humanize();
     // .asMinutes()
     // .toString();
   }
