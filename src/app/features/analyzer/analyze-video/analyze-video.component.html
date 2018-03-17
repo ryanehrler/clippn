@@ -14,8 +14,8 @@
     </div>
     <div flex="100">
       <button mat-button color="primary" (click)="togglePlayVideo()" [disabled]="startAnalysis">
-        <mat-icon *ngIf="video.paused">play_arrow</mat-icon>
-        <mat-icon *ngIf="!video.paused">pause</mat-icon>
+        <mat-icon *ngIf="video?.paused">play_arrow</mat-icon>
+        <mat-icon *ngIf="!video?.paused">pause</mat-icon>
       </button>
       <button mat-button color="primary" (click)="seekTime(-3)">
         <mat-icon>skip_previous</mat-icon>
@@ -32,7 +32,7 @@
     <mat-tab-group>
       <mat-tab label="POI's" layout="column">
         <div flex="auto" class="poi-chips">
-          <clpn-poi-chip *ngFor="let poi of clip.pois" [poi]="poi"></clpn-poi-chip>
+          <clpn-poi-chip *ngFor="let poi of clip?.pois" [poi]="poi"></clpn-poi-chip>
         </div>
       </mat-tab>
       <mat-tab label="Interval Analysis" layout="row">

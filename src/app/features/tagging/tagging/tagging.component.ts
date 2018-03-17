@@ -322,6 +322,10 @@ export class TaggingComponent implements OnInit {
   myTagControl = new FormControl();
 
   constructor(private dragulaService: DragulaService) {
+    const bag: any = this.dragulaService.find('first-bag');
+    if (bag !== undefined) {
+      this.dragulaService.destroy('first-bag');
+    }
     dragulaService.setOptions('first-bag', {
       // copy: true,
       copySortSource: true,
