@@ -7,11 +7,7 @@ import { AngularFireModule } from 'angularfire2';
 import { environment } from '../environments/environment.prod';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
-import { AdminModule } from './features/admin/admin.module';
-import { AnalyzerModule } from './features/analyzer/analyzer.module';
-import { LibraryModule } from './features/library/library.module';
 import { LoginModule } from './features/login/login.module';
-import { TaggingModule } from './features/tagging/tagging.module';
 import { MaterialModule } from './material/material.module';
 import { SharedModule } from './shared/shared.module';
 
@@ -26,11 +22,7 @@ import { SharedModule } from './shared/shared.module';
     MaterialModule,
     AngularFireModule.initializeApp(environment.firebase),
 
-    // Feature Modules
-    AdminModule,
-    AnalyzerModule,
-    LibraryModule,
-    TaggingModule,
+    // Feature Modules - (Eager loaded)
     LoginModule
   ],
   providers: [],
