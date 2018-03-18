@@ -4,6 +4,7 @@ import { DragulaService } from 'ng2-dragula';
 import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators/map';
 import { startWith } from 'rxjs/operators/startWith';
+import { ClipService } from '../../../core/services/clip/clip.service';
 import { Clip, Poi } from '../../../core/services/clip/index';
 
 @Component({
@@ -12,302 +13,7 @@ import { Clip, Poi } from '../../../core/services/clip/index';
   styleUrls: ['./tagging.component.scss']
 })
 export class TaggingComponent implements OnInit {
-  clips: any[] = [
-    {
-      name: 'Clip',
-      uid: 1,
-      currentProgress: 100,
-      isProcessed: true
-    },
-    {
-      name: 'Clip2',
-      uid: 2,
-      currentProgress: 100,
-      isProcessed: true
-    },
-    {
-      name: 'Clip5',
-      uid: 2,
-      currentProgress: 100,
-      isProcessed: true
-    },
-    {
-      name: 'Clip6',
-      uid: 2,
-      currentProgress: 100,
-      isProcessed: true,
-      gameTitle: 'Pubtacular',
-      pois: [
-        {
-          time: 1,
-          displayTime: '2:01',
-          fireLevel: 'fire',
-          tags: [
-            {
-              value: 'sniper',
-              deleted: false
-            },
-            {
-              value: 'headshot',
-              deleted: false
-            }
-          ],
-          deleted: false
-        },
-        {
-          time: 5,
-          displayTime: '5:27',
-          fireLevel: 'fire',
-          tags: [
-            {
-              value: 'pistol',
-              deleted: false
-            },
-            {
-              value: 'headshot',
-              deleted: false
-            },
-            {
-              value: 'other tag',
-              deleted: false
-            }
-          ],
-          deleted: false
-        },
-        {
-          time: 7,
-          displayTime: '7:27',
-          fireLevel: 'warm',
-          tags: [
-            {
-              value: 'pistol',
-              deleted: false
-            }
-          ],
-          deleted: false
-        },
-        {
-          time: 9,
-          displayTime: '9:27',
-          fireLevel: 'hot',
-          tags: [
-            {
-              value: 'uzi',
-              deleted: false
-            }
-          ],
-          deleted: false
-        }
-      ]
-    },
-    {
-      name: 'Clip7',
-      uid: 2,
-      currentProgress: 100,
-      isProcessed: true,
-      gameTitle: 'Halo 4',
-      pois: [
-        {
-          time: 1,
-          displayTime: '2:01',
-          fireLevel: 'fire',
-          tags: [
-            {
-              value: 'sniper',
-              deleted: false
-            },
-            {
-              value: 'headshot',
-              deleted: false
-            }
-          ],
-          deleted: false
-        },
-        {
-          time: 5,
-          displayTime: '5:27',
-          fireLevel: 'fire',
-          tags: [
-            {
-              value: 'Glock 27',
-              deleted: false
-            },
-            {
-              value: 'headshot',
-              deleted: false
-            },
-            {
-              value: 'other tag',
-              deleted: false
-            }
-          ],
-          deleted: false
-        },
-        {
-          time: 7,
-          displayTime: '7:27',
-          fireLevel: 'warm',
-          tags: [
-            {
-              value: '1911',
-              deleted: false
-            }
-          ],
-          deleted: false
-        },
-        {
-          time: 9,
-          displayTime: '9:27',
-          fireLevel: 'hot',
-          tags: [
-            {
-              value: 'smg',
-              deleted: false
-            }
-          ],
-          deleted: false
-        }
-      ]
-    },
-    {
-      name: 'Clip3',
-      uid: 2,
-      currentProgress: 100,
-      isProcessed: true,
-      gameTitle: 'Halo 5',
-      pois: [
-        {
-          time: 1,
-          displayTime: '2:01',
-          fireLevel: 'fire',
-          tags: [
-            {
-              value: 'M4 Carbine',
-              deleted: false
-            },
-            {
-              value: 'headshot',
-              deleted: false
-            }
-          ],
-          deleted: false
-        },
-        {
-          time: 5,
-          displayTime: '5:27',
-          fireLevel: 'fire',
-          tags: [
-            {
-              value: 'pistol',
-              deleted: false
-            },
-            {
-              value: 'headshot',
-              deleted: false
-            },
-            {
-              value: 'other tag',
-              deleted: false
-            }
-          ],
-          deleted: false
-        },
-        {
-          time: 7,
-          displayTime: '7:27',
-          fireLevel: 'warm',
-          tags: [
-            {
-              value: 'pistol',
-              deleted: false
-            }
-          ],
-          deleted: false
-        },
-        {
-          time: 9,
-          displayTime: '9:27',
-          fireLevel: 'hot',
-          tags: [
-            {
-              value: 'smg',
-              deleted: false
-            }
-          ],
-          deleted: false
-        }
-      ]
-    },
-    {
-      name: 'Clip4',
-      uid: 2,
-      currentProgress: 100,
-      isProcessed: true,
-      gameTitle: 'Call of duty brah',
-      pois: [
-        {
-          time: 1,
-          displayTime: '2:01',
-          fireLevel: 'fire',
-          tags: [
-            {
-              value: 'sniper',
-              deleted: false
-            },
-            {
-              value: 'headshot',
-              deleted: false
-            }
-          ],
-          deleted: false
-        },
-        {
-          time: 5,
-          displayTime: '5:27',
-          fireLevel: 'fire',
-          tags: [
-            {
-              value: 'pistol',
-              deleted: false
-            },
-            {
-              value: 'headshot',
-              deleted: false
-            },
-            {
-              value: 'other tag',
-              deleted: false
-            }
-          ],
-          deleted: false
-        },
-        {
-          time: 7,
-          displayTime: '7:27',
-          fireLevel: 'warm',
-          tags: [
-            {
-              value: 'pistol',
-              deleted: false
-            }
-          ],
-          deleted: false
-        },
-        {
-          time: 9,
-          displayTime: '9:27',
-          fireLevel: 'hot',
-          tags: [
-            {
-              value: 'smg',
-              deleted: false
-            }
-          ],
-          deleted: false
-        }
-      ]
-    }
-  ];
+  clips: any[] = new Array();
   filterInput = '';
   filterValue = '';
   filterArray: any[] = new Array();
@@ -321,7 +27,10 @@ export class TaggingComponent implements OnInit {
 
   myTagControl = new FormControl();
 
-  constructor(private dragulaService: DragulaService) {
+  constructor(
+    private clipService: ClipService,
+    private dragulaService: DragulaService
+  ) {
     const bag: any = this.dragulaService.find('first-bag');
     if (bag !== undefined) {
       this.dragulaService.destroy('first-bag');
@@ -352,19 +61,20 @@ export class TaggingComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.clips = this.clips.filter(x => x.pois != null);
-    this.clips = this.clips.filter(x => x.pois.length > 0);
-
-    this.clips.forEach(clip => {
-      if (this.gameArray.indexOf(clip.gameTitle) < 0) {
-        this.gameArray.push(clip.gameTitle);
-      }
+    this.clipService.getClipsByUser().then(() => {
+      this.clips = this.clipService.userClips;
+      this.clips = this.clips.filter(x => x.pois != null);
+      this.clips = this.clips.filter(x => x.pois.length > 0);
+      this.clips.forEach(clip => {
+        if (this.gameArray.indexOf(clip.gameTitle) < 0) {
+          this.gameArray.push(clip.gameTitle);
+        }
+      });
+      this.filteredTagArray = this.myTagControl.valueChanges.pipe(
+        startWith(''),
+        map(val => this.filterAutocomplete(val))
+      );
     });
-
-    this.filteredTagArray = this.myTagControl.valueChanges.pipe(
-      startWith(''),
-      map(val => this.filterAutocomplete(val))
-    );
   }
 
   // (0 - bagname, 1 - el, 2 - container, 3 - source)
@@ -374,8 +84,6 @@ export class TaggingComponent implements OnInit {
 
   // (0 - bagname, 1 - el, 2 - target, 3 - source, 4 - sibling)
   private onDrop(value) {
-    console.log(value);
-    console.log(this.newVideo);
     if (value[2] != value[3] && this.newVideo.includes(value[1].id)) {
       this.newVideo = Array.from(new Set(this.newVideo));
       value[1].remove();
@@ -438,6 +146,12 @@ export class TaggingComponent implements OnInit {
   havePoiMatch(poi: Poi) {
     // or version
     if (this.filterMethod == 'or') {
+      if (
+        this.foundTags.length < 1 &&
+        (!this.filterValue && this.filterArray.length < 1)
+      ) {
+        return true;
+      }
       if (
         poi.tags.some(r => this.foundTags.indexOf(r.value.toLowerCase()) > -1)
       ) {

@@ -20,6 +20,7 @@ import { Clip } from './clip';
 @Injectable()
 export class ClipService {
   clips: Clip[];
+  userClips: Clip[];
   clip: Clip;
   clipsRef: AngularFirestoreCollection<Clip>;
 
@@ -119,6 +120,18 @@ export class ClipService {
     );
 
     return this.clips;
+  }
+
+  getClipsByUser() {
+    return this.db
+      .colWithIds$<Clip>('clips', ref =>
+        ref.where('uid', '==', this.authService.userId)
+      )
+      .take(1)
+      .map(clips => {
+        this.userClips = clips;
+      })
+      .toPromise();
   }
 
   getAllTags() {
