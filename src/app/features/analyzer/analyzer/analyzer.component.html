@@ -1,4 +1,4 @@
-<mat-toolbar color="accent">
+<mat-toolbar color="primary">
   <nav mat-tab-nav-bar>
     <a mat-tab-link *ngFor="let link of navItems" [routerLink]="link.path" routerLinkActive #rla="routerLinkActive" [active]="rla.isActive">
       <mat-icon>{{link.iconName}}</mat-icon>

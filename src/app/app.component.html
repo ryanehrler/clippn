@@ -3,8 +3,8 @@
 </ng-container>
 <ng-container *ngIf="auth.user | async">
   <td-layout>
-    <td-layout-nav>
-      <div td-toolbar-content layout="row" layout-align="start center" flex>
+    <td-layout-nav color="primary">
+      <div td-toolbar-content color="primary" layout="row" layout-align="start center" flex>
         <button mat-icon-button class="td-menu-button" (click)="sidenav.toggle()" mdTooltip="Main menu">
           <mat-icon>menu</mat-icon>
         </button>

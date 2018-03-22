@@ -10,22 +10,22 @@
           <span *ngIf="analysisTimeRemainingSec < 60">{{analysisTimeRemainingSec}} seconds</span>
         </p>
       </div>
-      <mat-progress-bar color="primary" *ngIf="startAnalysis" mode="determinate" [value]="clip.currentProgress"></mat-progress-bar>
+      <mat-progress-bar color="accent" *ngIf="startAnalysis" mode="determinate" [value]="clip.currentProgress"></mat-progress-bar>
     </div>
     <div flex="100">
-      <button mat-button color="primary" (click)="togglePlayVideo()" [disabled]="startAnalysis">
+      <button mat-button color="accent" (click)="togglePlayVideo()" [disabled]="startAnalysis">
         <mat-icon *ngIf="video?.paused">play_arrow</mat-icon>
         <mat-icon *ngIf="!video?.paused">pause</mat-icon>
       </button>
-      <button mat-button color="primary" (click)="seekTime(-3)">
+      <button mat-button color="accent" (click)="seekTime(-3)">
         <mat-icon>skip_previous</mat-icon>
       </button>
-      <button mat-button color="primary" (click)="seekTime(3)">
+      <button mat-button color="accent" (click)="seekTime(3)">
         <mat-icon>skip_next</mat-icon>
       </button>
-      <button mat-button color="primary" (click)="analyzeVideo()" [disabled]="startAnalysis">Start Analysis</button>
-      <button mat-button color="primary" (click)="resetVideo()" *ngIf="!startAnalysis">Restart</button>
-      <button mat-button color="primary" (click)="pauseAnalysis()" *ngIf="startAnalysis">Stop</button>
+      <button mat-button color="accent" (click)="analyzeVideo()" [disabled]="startAnalysis">Start Analysis</button>
+      <button mat-button color="accent" (click)="resetVideo()" *ngIf="!startAnalysis">Restart</button>
+      <button mat-button color="accent" (click)="pauseAnalysis()" *ngIf="startAnalysis">Stop</button>
     </div>
   </mat-card>
   <mat-card flex="77" layout="row">

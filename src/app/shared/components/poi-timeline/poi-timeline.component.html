@@ -1,5 +1,5 @@
 <div class="full-width controls">
-  <mat-slider class="interval-slider" [min]="1" max="20" [step]="'1'" [(ngModel)]="intervalTime" (change)="setupTimeline()"></mat-slider>
+  <mat-slider color="warn" class="interval-slider" [min]="1" max="20" [step]="'1'" [(ngModel)]="intervalTime" (change)="setupTimeline()"></mat-slider>
 </div>
 <div class="full-width poi-timeline">
   <div class="mouse-cursor" [ngStyle]="mouseCursor.style"></div>
