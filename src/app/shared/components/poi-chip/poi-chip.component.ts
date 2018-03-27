@@ -1,5 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Poi } from '../../../core/services/clip';
+
+import { ClipTimeNavigationService } from '../../../core/services/clip/clip-time-navigation.service';
 
 @Component({
   selector: 'clpn-poi-chip',
@@ -9,7 +11,11 @@ import { Poi } from '../../../core/services/clip';
 export class PoiChipComponent implements OnInit {
   @Input() poi: Poi;
 
-  constructor() {}
+  constructor(private clipTimeNavigationService: ClipTimeNavigationService) {}
 
   ngOnInit() {}
+
+  gotoTime(time: number) {
+    this.clipTimeNavigationService.gotoTime(time);
+  }
 }

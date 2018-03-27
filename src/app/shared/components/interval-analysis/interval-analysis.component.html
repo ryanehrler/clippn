@@ -1,0 +1,33 @@
+<div class="main">
+
+  <mat-table #table [dataSource]="dataSource" matSort>
+
+
+    <ng-container matColumnDef="poiCount">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> # of Pois </mat-header-cell>
+      <mat-cell *matCellDef="let interval"> {{interval.poiCount}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="startPoi">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Start Time </mat-header-cell>
+      <mat-cell *matCellDef="let interval">
+        <button mat-button (click)="gotoTime(interval.startPoi.time)">{{interval.startPoi.displayTime}}</button>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="endPoi">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> End Time </mat-header-cell>
+      <mat-cell *matCellDef="let interval">
+        <button mat-button (click)="gotoTime(interval.endPoi.time)">{{interval.endPoi.displayTime}}</button>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="totalTime">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Total Time </mat-header-cell>
+      <mat-cell *matCellDef="let interval"> {{interval.totalTime}}s </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+</div>

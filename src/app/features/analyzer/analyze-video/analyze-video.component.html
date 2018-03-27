@@ -31,13 +31,17 @@
   <mat-card flex="77" layout="row">
     <mat-tab-group>
       <mat-tab label="POI's" layout="column">
-        <div flex="auto" class="poi-chips">
+        <div flex="auto" class="poi-chips clip-tab">
           <clpn-poi-chip *ngFor="let poi of clip?.pois" [poi]="poi"></clpn-poi-chip>
         </div>
       </mat-tab>
       <mat-tab label="Interval Analysis" layout="row">
-        <h1>Some more tab content</h1>
-        <p>...</p>
+        <div class="clip-tab">
+          <mat-form-field>
+            <input matInput placeholder="Interval in seconds" [(ngModel)]="intervalAnalysisLength">
+          </mat-form-field>
+          <app-interval-analysis *ngIf="clip" [pois]="clip.pois" [intervalLength]="intervalAnalysisLength"></app-interval-analysis>
+        </div>
       </mat-tab>
     </mat-tab-group>
   </mat-card>

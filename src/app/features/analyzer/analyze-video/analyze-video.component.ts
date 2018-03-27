@@ -17,6 +17,7 @@ import { Router } from '@angular/router';
 import { FileStorageService } from '../../../core/services/file-storage/file-storage.service';
 
 import { AnalysisTimeRemainingCalcService } from '../../../core/services/analysis-time-remaining-calc.service';
+import { ClipTimeNavigationService } from '../../../core/services/clip/clip-time-navigation.service';
 import { Clip, ClipService, Poi } from '../../../core/services/clip/index';
 import {
   GameAnalyzerService,
@@ -49,6 +50,7 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy {
   analysisTimeRemainingSec: number;
   analysisTimeRemaining: string;
   killDuration: number; // length of kill - gameAnalyzer.durationOfKill
+  intervalAnalysisLength = 80;
 
   startAnalysis = false;
 
@@ -69,12 +71,17 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy {
     private gameAnalyzerService: GameAnalyzerService,
     private googleAnalyticsService: GoogleAnalyticsService,
     private poiAnalyzerService: PoiAnalyzerService,
-    private analysisTimeRemainingCalc: AnalysisTimeRemainingCalcService
+    private analysisTimeRemainingCalc: AnalysisTimeRemainingCalcService,
+    private clipTimeNavigationService: ClipTimeNavigationService
   ) {}
 
   ngOnInit() {
     this.clip = this.clipService.clip;
     if (this.clip != null) {
+      if (this.clip.gameTitle == null) {
+        this.router.navigate(['404']);
+        return;
+      }
       this.videoFile = this.fileStorageService.getFile(
         this.clipService.clip.name
       );
@@ -84,13 +91,14 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy {
 
       // We provide each of the services to @analyzer.component.ts then grab the one we need, these
       // services will be singletons to each "analyzer" so they should be provided whereever the clipService is
-      if (this.clip.gameTitle == null) {
-        this.router.navigate(['404']);
-      }
       this.gameAnalyzer = this.injector.get(
         this.gameAnalyzerService.analyzerMap[this.clip.gameTitle]
       );
       this.killDuration = this.gameAnalyzer.durationOfKill;
+
+      this.clipTimeNavigationService.currentTimeSubject.subscribe(value => {
+        this.gotoKill(value);
+      });
 
       // Setup the video element
       this.setVideoElementIfNull();
