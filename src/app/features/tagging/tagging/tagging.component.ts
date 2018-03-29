@@ -1,11 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { DragulaService } from 'ng2-dragula';
 import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators/map';
 import { startWith } from 'rxjs/operators/startWith';
 import { ClipService } from '../../../core/services/clip/clip.service';
-import { Clip, Poi } from '../../../core/services/clip/index';
+import { Clip, Poi, Tag } from '../../../core/services/clip/index';
+import {
+  EventCategory,
+  GoogleAnalyticsService
+} from '../../../core/services/google-analytics/index';
 
 @Component({
   selector: 'app-tagging',
@@ -24,13 +34,24 @@ export class TaggingComponent implements OnInit {
   filteredTagArray: Observable<string[]>;
   selectedGame = '';
   public newVideo: string[] = [];
-
+  contextMenu = false;
+  contextMenuX = 0;
+  contextMenuY = 0;
+  tagging: any;
   myTagControl = new FormControl();
+  mouseCursorScrollOffset = 0;
 
+  private onScroll: (e) => void;
   constructor(
     private clipService: ClipService,
-    private dragulaService: DragulaService
+    private dragulaService: DragulaService,
+    private googleAnalyticsService: GoogleAnalyticsService,
+    private elementRef: ElementRef
   ) {
+    this.onScroll = event => {
+      this.mouseCursorScrollOffset = event.srcElement.scrollTop;
+    };
+
     const bag: any = this.dragulaService.find('first-bag');
     if (bag !== undefined) {
       this.dragulaService.destroy('first-bag');
@@ -77,6 +98,15 @@ export class TaggingComponent implements OnInit {
     });
   }
 
+  ngAfterViewInit() {
+    this.tagging = this.elementRef.nativeElement.offsetParent;
+    this.tagging.addEventListener('scroll', this.onScroll);
+  }
+
+  ngOnDestroy() {
+    this.tagging.removeEventListener('scroll', this.onScroll);
+  }
+
   // (0 - bagname, 1 - el, 2 - container, 3 - source)
   private onRemove(value) {
     this.newVideo = this.newVideo.filter(x => x != value[1].id);
@@ -99,6 +129,27 @@ export class TaggingComponent implements OnInit {
       return;
     }
     this.newVideo.push(value[1].id);
+  }
+
+  saveClip(clip: Clip) {
+    // GA - SaveClip
+    this.googleAnalyticsService.emitEvent(
+      EventCategory.Analyzer.toString(),
+      'SaveClip'
+    );
+
+    if (clip != null) {
+      this.clipService.saveClip(clip);
+    }
+  }
+
+  addTag(value: string, poi: Poi, clip: Clip) {
+    const newTag = new Tag();
+    newTag.value = value;
+    poi.tags.push(newTag);
+    console.log(poi);
+    console.log(clip);
+    // save
   }
 
   filterAutocomplete(val: string): string[] {
@@ -142,6 +193,18 @@ export class TaggingComponent implements OnInit {
     return matched;
   }
 
+  onRightClick(event: any) {
+    this.contextMenuX = event.clientX;
+    this.contextMenuY = event.clientY + this.mouseCursorScrollOffset - 65; // event.layerY + event.screenY - event.offsetY;
+    this.contextMenu = true;
+    return false;
+  }
+
+  // disables the menu
+  disableContextMenu() {
+    this.contextMenu = false;
+  }
+
   // these probably need better function names -- and this one filters the poi row out
   havePoiMatch(poi: Poi) {
     // or version
@@ -157,6 +220,12 @@ export class TaggingComponent implements OnInit {
       ) {
         return true;
       } else {
+        if (
+          poi.tags.length < 1 &&
+          (!this.filterValue && this.filterArray.length < 1)
+        ) {
+          return true;
+        }
         return false;
       }
     }
