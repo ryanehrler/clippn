@@ -1,4 +1,4 @@
-<div layout="row" layout-wrap>
+<div layout="row" layout-wrap (click)="disableContextMenu()">
   <mat-card flex="33" layout="row">
     <div flex="100">
       <video controls (click)="toggleVideo()" (canplay)="onFrameLoad()" #videoPlayer>
@@ -32,7 +32,7 @@
     <mat-tab-group>
       <mat-tab label="POI's" layout="column">
         <div flex="auto" class="poi-chips clip-tab">
-          <clpn-poi-chip *ngFor="let poi of clip?.pois" [poi]="poi"></clpn-poi-chip>
+          <clpn-poi-chip (contextmenu)="onRightClick($event, poi)" *ngFor="let poi of clip?.pois" [poi]="poi"></clpn-poi-chip>
         </div>
       </mat-tab>
       <mat-tab label="Interval Analysis" layout="row">
@@ -52,3 +52,6 @@
 
 <canvas #myCanvasTwo></canvas>
 <canvas #myCanvas></canvas>
+<div *ngIf="contextMenu == true">
+  <app-context-menu [x]="contextMenuX" [y]="contextMenuY" [poi]="contextPoi" [(open)]="contextMenu"></app-context-menu>
+</div>

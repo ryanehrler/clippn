@@ -63,8 +63,7 @@
                 <div layout="row" style="padding-bottom: 5px" id={{clip.name+poi.time}}>
                   <div *ngIf="this.havePoiMatch(poi) == true">
                     <mat-chip-list>
-                      <mat-chip matTooltip="Right click to add tag" (contextmenu)="onRightClick($event, poi)" (click)="addTag('test add', poi, clip)"
-                        selected="true" disabled color="warn">{{poi.displayTime}}</mat-chip>
+                      <mat-chip matTooltip="Right click to add tag" (contextmenu)="onRightClick($event, poi, clip)" selected="true" disabled color="warn">{{poi.displayTime}}</mat-chip>
                       <div *ngFor="let fireClipTag of poi.tags">
                         <mat-chip disabled *ngIf="this.foundTags.indexOf(fireClipTag.value.toLowerCase()) > -1">
                           {{fireClipTag.value}}
@@ -83,5 +82,5 @@
   </div>
 </div>
 <div *ngIf="contextMenu == true">
-  <app-context-menu [x]="contextMenuX" [y]="contextMenuY" [poi]="contextPoi" [(open)]="contextMenu"></app-context-menu>
+  <app-context-menu [x]="contextMenuX" [y]="contextMenuY" [poi]="contextPoi" [(open)]="contextMenu" (openChange)="receivedCloseEvent($event)"></app-context-menu>
 </div>

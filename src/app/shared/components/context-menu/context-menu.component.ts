@@ -36,7 +36,9 @@ export class ContextMenuComponent implements OnInit {
       // setting focus in a timeout removes an error:
       // ExpressionChangedAfterItHasBeenCheckedError
       setTimeout(() => {
-        elements.last.nativeElement.focus();
+        if (elements.last) {
+          elements.last.nativeElement.focus();
+        }
       }, 1);
     });
   }
@@ -48,7 +50,14 @@ export class ContextMenuComponent implements OnInit {
   add() {
     const newTag = new Tag();
     newTag.value = '';
+    newTag.deleted = false;
     this.poi.tags.push(newTag);
+    // this is a little weird but basically must convert regular object into
+    // "pure" javascript object for firebase -- see here: https://stackoverflow.com/questions/47190803/firestore-adding-object-with-an-array
+    const map = this.poi.tags.map(obj => {
+      return { ...obj };
+    });
+    this.poi.tags = map;
   }
 
   remove(tag: Tag) {

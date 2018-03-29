@@ -16,6 +16,7 @@ import {
   EventCategory,
   GoogleAnalyticsService
 } from '../../../core/services/google-analytics/index';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'app-tagging',
@@ -24,6 +25,7 @@ import {
 })
 export class TaggingComponent implements OnInit {
   clips: any[] = new Array();
+  clip: Clip;
   filterInput = '';
   filterValue = '';
   filterArray: any[] = new Array();
@@ -32,8 +34,10 @@ export class TaggingComponent implements OnInit {
   tagArray: any[] = new Array();
   gameArray: any[] = new Array();
   filteredTagArray: Observable<string[]>;
+  contextMenuWatch: Observable<boolean>;
   selectedGame = '';
   public newVideo: string[] = [];
+  contextMenuSubject = new Subject<boolean>();
   contextMenu = false;
   contextMenuX = 0;
   contextMenuY = 0;
@@ -80,6 +84,8 @@ export class TaggingComponent implements OnInit {
     dragulaService.remove.subscribe(value => {
       this.onRemove(value);
     });
+
+    this.contextMenuWatch = this.contextMenuSubject.asObservable(); //Observable.of(this.contextMenu);
   }
 
   ngOnInit() {
@@ -97,6 +103,12 @@ export class TaggingComponent implements OnInit {
         map(val => this.filterAutocomplete(val))
       );
     });
+
+    this.contextMenuWatch.subscribe(value => {
+      if (value == false && this.clip) {
+        this.saveClip(this.clip);
+      }
+    });
   }
 
   ngAfterViewInit() {
@@ -105,6 +117,7 @@ export class TaggingComponent implements OnInit {
   }
 
   ngOnDestroy() {
+    //this.saveClip(this.clip);
     this.tagging.removeEventListener('scroll', this.onScroll);
   }
 
@@ -144,13 +157,8 @@ export class TaggingComponent implements OnInit {
     }
   }
 
-  addTag(value: string, poi: Poi, clip: Clip) {
-    const newTag = new Tag();
-    newTag.value = value;
-    poi.tags.push(newTag);
-    console.log(poi);
-    console.log(clip);
-    // save
+  receivedCloseEvent(event: any) {
+    this.contextMenuSubject.next(event);
   }
 
   filterAutocomplete(val: string): string[] {
@@ -194,17 +202,22 @@ export class TaggingComponent implements OnInit {
     return matched;
   }
 
-  onRightClick(event: any, poi: Poi) {
+  onRightClick(event: any, poi: Poi, clip: Clip) {
     this.contextMenuX = event.clientX;
     this.contextMenuY = event.clientY + this.mouseCursorScrollOffset - 65; // event.layerY + event.screenY - event.offsetY;
+    this.contextMenuSubject.next(true);
     this.contextMenu = true;
+    this.clip = clip;
     this.contextPoi = poi;
     return false;
   }
 
   // disables the menu
   disableContextMenu() {
-    this.contextMenu = false;
+    if (this.contextMenu == true) {
+      this.contextMenuSubject.next(false);
+      this.contextMenu = false;
+    }
   }
 
   // these probably need better function names -- and this one filters the poi row out

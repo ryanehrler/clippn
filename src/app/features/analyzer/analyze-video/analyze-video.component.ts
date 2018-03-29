@@ -19,6 +19,7 @@ import { FileStorageService } from '../../../core/services/file-storage/file-sto
 import { AnalysisTimeRemainingCalcService } from '../../../core/services/analysis-time-remaining-calc.service';
 import { ClipTimeNavigationService } from '../../../core/services/clip/clip-time-navigation.service';
 import { Clip, ClipService, Poi } from '../../../core/services/clip/index';
+import { Tag } from '../../../core/services/clip/tag';
 import {
   GameAnalyzerService,
   IGameAnalyzer,
@@ -51,6 +52,12 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy {
   analysisTimeRemaining: string;
   killDuration: number; // length of kill - gameAnalyzer.durationOfKill
   intervalAnalysisLength = 80;
+  contextMenu = false;
+  contextMenuX = 0;
+  contextMenuY = 0;
+  contextPoi: Poi;
+  tagging: any;
+  mouseCursorScrollOffset = 0;
 
   startAnalysis = false;
 
@@ -62,6 +69,7 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy {
   @ViewChild('myCanvasTwo') myCanvasTwo: any;
   @ViewChildren('p') popOver: QueryList<ElementRef>;
 
+  private onScroll: (e) => void;
   constructor(
     private router: Router,
     private sanitizer: DomSanitizer,
@@ -72,8 +80,13 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy {
     private googleAnalyticsService: GoogleAnalyticsService,
     private poiAnalyzerService: PoiAnalyzerService,
     private analysisTimeRemainingCalc: AnalysisTimeRemainingCalcService,
-    private clipTimeNavigationService: ClipTimeNavigationService
-  ) {}
+    private clipTimeNavigationService: ClipTimeNavigationService,
+    private elementRef: ElementRef
+  ) {
+    this.onScroll = event => {
+      this.mouseCursorScrollOffset = event.srcElement.scrollTop;
+    };
+  }
 
   ngOnInit() {
     this.clip = this.clipService.clip;
@@ -106,8 +119,14 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy {
       this.router.navigate(['add-video']);
     }
   }
+  ngAfterViewInit() {
+    this.tagging = this.elementRef.nativeElement.offsetParent;
+    this.tagging.addEventListener('scroll', this.onScroll);
+  }
+
   ngOnDestroy() {
     this.saveClip();
+    this.tagging.removeEventListener('scroll', this.onScroll);
   }
 
   togglePlayVideo() {
@@ -146,6 +165,7 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy {
     );
 
     if (this.clip != null) {
+      console.log(this.clip);
       this.clipService.saveClip(this.clip);
     }
   }
@@ -277,10 +297,17 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy {
     this.setAnalysisPercentDone();
   }
   private setAnalysisPercentDone() {
-    this.clip.currentProgress = this.clipService.getPercentDone(
-      this.video.currentTime,
-      this.video.duration
-    );
+    // onFrame load is getting called as soon as analyze tab is hit this causes
+    // us to drop into here and reset the progress to 0 no matter what.
+    // adding this if so that if we're already at 100 we don't reset.
+    // not sure we actually always want this but it fixes it for now.
+    if (this.clip.currentProgress != 100) {
+      this.clip.currentProgress = this.clipService.getPercentDone(
+        this.video.currentTime,
+        this.video.duration
+      );
+    }
+    console.log(this.clip.currentProgress);
   }
   private updateAnalysisFPS() {
     this.analysisTimeRemainingSec = Math.round(
@@ -333,6 +360,19 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy {
     }
   }
 
+  onRightClick(event: any, poi: Poi) {
+    this.contextMenuX = event.clientX;
+    this.contextMenuY = event.clientY + this.mouseCursorScrollOffset - 65; // event.layerY + event.screenY - event.offsetY;
+    this.contextMenu = true;
+    this.contextPoi = poi;
+    return false;
+  }
+
+  // disables the menu
+  disableContextMenu() {
+    this.contextMenu = false;
+  }
+
   seekTime(seconds: number) {
     this.video.currentTime = this.video.currentTime + seconds;
   }
@@ -344,9 +384,9 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy {
   deleteKill(kill: Poi) {
     kill.deleted = true;
   }
-  addTag(kill: Poi) {
-    kill.tags.push({ value: '', deleted: false });
-  }
+  // addTag(kill: Poi) {
+  //   kill.tags.push({ value: '', deleted: false });
+  // }
   deleteTag(kill: Poi, index: number) {
     _.pullAt(kill.tags, [index]);
   }
