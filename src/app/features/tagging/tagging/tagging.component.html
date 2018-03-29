@@ -1,81 +1,87 @@
-<div>
-  <mat-form-field>
-    <input id="filterInput" matInput (keyup)="applyFilter($event.target.value)" [formControl]="myTagControl" [(ngModel)]="this.filterInput"
-      [matAutocomplete]="auto" placeholder="Search Tags">
-    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="tagSelected($event)">
-      <mat-option *ngFor="let option of filteredTagArray | async" [value]="option">
-        {{ option }}
-      </mat-option>
-    </mat-autocomplete>
-  </mat-form-field>
-  <button mat-raised-button color="accent" (click)="addSearchTag(this.filterValue)">
-    <mat-icon>add</mat-icon> Add Another Tag
-  </button>
-  <mat-chip-list>
-    <mat-chip color="primary" selected="true" *ngFor="let filter of filterArray" [selectable]="true" [removable]="true" (remove)="remove(filter)">
-      {{filter}}
-      <mat-icon matChipRemove>cancel</mat-icon>
-    </mat-chip>
-  </mat-chip-list>
-  <section class="radio-section">
-    <label class="label-margin">Filter Method:</label>
-    <mat-radio-group [(ngModel)]="filterMethod">
-      <mat-radio-button class="example-margin" value="and">
-        And
-      </mat-radio-button>
-      <mat-radio-button class="example-margin" value="or">
-        Or
-      </mat-radio-button>
-    </mat-radio-group>
-  </section>
-  <mat-form-field>
-    <mat-select placeholder="Game Filter" [(ngModel)]="selectedGame">
-      <mat-option>None</mat-option>
-      <mat-option *ngFor="let title of gameArray" [value]="title">{{title}}</mat-option>
-    </mat-select>
-  </mat-form-field>
-</div>
-<div>
-  <div layout-fill flex="25" style="min-width: 275px;">
-    <mat-card class="example-card">
-      <mat-card-header>
-        <mat-card-title>Create custom video</mat-card-title>
-        <mat-card-subtitle>Drop your clips here beeotch</mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content [dragula]='"first-bag"' id="content">
+<div (click)="disableContextMenu()" class="tagging">
+  <div>
+    <mat-form-field>
+      <input id="filterInput" matInput (keyup)="applyFilter($event.target.value)" [formControl]="myTagControl" [(ngModel)]="this.filterInput"
+        [matAutocomplete]="auto" placeholder="Search Tags">
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="tagSelected($event)">
+        <mat-option *ngFor="let option of filteredTagArray | async" [value]="option">
+          {{ option }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <button mat-raised-button color="accent" (click)="addSearchTag(this.filterValue)">
+      <mat-icon>add</mat-icon> Add Another Tag
+    </button>
+    <mat-chip-list>
+      <mat-chip color="primary" selected="true" *ngFor="let filter of filterArray" [selectable]="true" [removable]="true" (remove)="remove(filter)">
+        {{filter}}
+        <mat-icon matChipRemove>cancel</mat-icon>
+      </mat-chip>
+    </mat-chip-list>
+    <section class="radio-section">
+      <label class="label-margin">Filter Method:</label>
+      <mat-radio-group [(ngModel)]="filterMethod">
+        <mat-radio-button class="example-margin" value="and">
+          And
+        </mat-radio-button>
+        <mat-radio-button class="example-margin" value="or">
+          Or
+        </mat-radio-button>
+      </mat-radio-group>
+    </section>
+    <mat-form-field>
+      <mat-select placeholder="Game Filter" [(ngModel)]="selectedGame">
+        <mat-option>None</mat-option>
+        <mat-option *ngFor="let title of gameArray" [value]="title">{{title}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div>
+    <div layout-fill flex="25" style="min-width: 275px;">
+      <mat-card class="example-card">
+        <mat-card-header>
+          <mat-card-title>Create custom video</mat-card-title>
+          <mat-card-subtitle>Drop your clips here beeotch</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content [dragula]='"first-bag"' id="content">
 
-      </mat-card-content>
-    </mat-card>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+  <div layout="row" layout-wrap>
+    <ng-container *ngFor="let clip of clips | clipFilter: [['currentProgress', 100]]">
+      <ng-container *ngIf="this.haveMatch(clip) == true">
+        <div layout-fill flex="25" style="min-width: 275px;">
+          <mat-card class="example-card">
+            <mat-card-header>
+              <mat-card-title>{{clip.name}}</mat-card-title>
+              <mat-card-subtitle>{{clip.gameTitle}}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content [dragula]='"first-bag"'>
+              <ng-container *ngFor="let poi of clip.pois">
+                <div layout="row" style="padding-bottom: 5px" id={{clip.name+poi.time}}>
+                  <div *ngIf="this.havePoiMatch(poi) == true">
+                    <mat-chip-list>
+                      <mat-chip matTooltip="Right click to add tag" (contextmenu)="onRightClick($event)" (click)="addTag('test add', poi, clip)"
+                        selected="true" disabled color="warn">{{poi.displayTime}}</mat-chip>
+                      <div *ngFor="let fireClipTag of poi.tags">
+                        <mat-chip disabled *ngIf="this.foundTags.indexOf(fireClipTag.value.toLowerCase()) > -1">
+                          {{fireClipTag.value}}
+                        </mat-chip>
+                      </div>
+
+                    </mat-chip-list>
+                  </div>
+                </div>
+              </ng-container>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </ng-container>
+    </ng-container>
   </div>
 </div>
-<div layout="row" layout-wrap>
-  <ng-container *ngFor="let clip of clips | clipFilter: [['currentProgress', 100]]">
-    <ng-container *ngIf="this.haveMatch(clip) == true">
-      <div layout-fill flex="25" style="min-width: 275px;">
-        <mat-card class="example-card">
-          <mat-card-header>
-            <mat-card-title>{{clip.name}}</mat-card-title>
-            <mat-card-subtitle>{{clip.gameTitle}}</mat-card-subtitle>
-          </mat-card-header>
-          <mat-card-content [dragula]='"first-bag"'>
-            <ng-container *ngFor="let poi of clip.pois">
-              <div layout="row" style="padding-bottom: 5px" id={{clip.name+poi.time}}>
-                <div *ngIf="this.havePoiMatch(poi) == true">
-                  <mat-chip-list>
-                    <mat-chip matTooltip="Jump to clip" selected="true" disabled color="warn">{{poi.displayTime}}</mat-chip>
-                    <div *ngFor="let fireClipTag of poi.tags">
-                      <mat-chip disabled *ngIf="this.foundTags.indexOf(fireClipTag.value.toLowerCase()) > -1">
-                        {{fireClipTag.value}}
-                      </mat-chip>
-                    </div>
-
-                  </mat-chip-list>
-                </div>
-              </div>
-            </ng-container>
-          </mat-card-content>
-        </mat-card>
-      </div>
-    </ng-container>
-  </ng-container>
+<div *ngIf="contextMenu">
+  <app-context-menu [x]="contextMenuX" [y]="contextMenuY"></app-context-menu>
 </div>
