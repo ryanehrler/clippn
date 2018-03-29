@@ -12,7 +12,8 @@
     "e2e": "ng e2e",
     "electronq": "./node_modules/.bin/electron .",
     "electron": "ng build --base-href ./ && .\\node_modules\\.bin\\electron .",
-    "electron-build": "ng build --prod --base-href ./ && .\\node_modules\\.bin\\electron ."
+    "electron-build":
+      "ng build --prod --base-href ./ && .\\node_modules\\.bin\\electron ."
   },
   "private": true,
   "dependencies": {
@@ -49,6 +50,7 @@
     "@angular/cli": "1.7.3",
     "@angular/compiler-cli": "5.2.9",
     "@angular/language-service": "5.2.9",
+    "@types/electron": "^1.6.10",
     "@types/jasmine": "~2.5.53",
     "@types/jasminewd2": "~2.0.2",
     "@types/node": "~6.0.60",

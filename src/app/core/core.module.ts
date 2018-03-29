@@ -15,6 +15,7 @@ import { AuthGuard } from './services/auth/auth.guard';
 import { AuthService } from './services/auth/auth.service';
 import { ClipAnalyzerService } from './services/clip/clip-analyzer.service';
 import { ClipService } from './services/clip/clip.service';
+import { ElectronService } from './services/electron/electron.service';
 import { FileStorageService } from './services/file-storage/file-storage.service';
 import { FirestoreService } from './services/firestore/firestore.service';
 import { GoogleAnalyticsService } from './services/google-analytics/index';
@@ -37,7 +38,8 @@ import { GoogleAnalyticsService } from './services/google-analytics/index';
     ClipService,
     ClipAnalyzerService,
     FileStorageService,
-    AnalysisTimeRemainingCalcService
+    AnalysisTimeRemainingCalcService,
+    ElectronService
   ]
 })
 export class CoreModule {
