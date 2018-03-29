@@ -37,6 +37,7 @@ export class TaggingComponent implements OnInit {
   contextMenu = false;
   contextMenuX = 0;
   contextMenuY = 0;
+  contextPoi: Poi;
   tagging: any;
   myTagControl = new FormControl();
   mouseCursorScrollOffset = 0;
@@ -193,10 +194,11 @@ export class TaggingComponent implements OnInit {
     return matched;
   }
 
-  onRightClick(event: any) {
+  onRightClick(event: any, poi: Poi) {
     this.contextMenuX = event.clientX;
     this.contextMenuY = event.clientY + this.mouseCursorScrollOffset - 65; // event.layerY + event.screenY - event.offsetY;
     this.contextMenu = true;
+    this.contextPoi = poi;
     return false;
   }
 
