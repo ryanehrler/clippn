@@ -59,7 +59,7 @@
               <mat-card-subtitle>{{clip.gameTitle}}</mat-card-subtitle>
             </mat-card-header>
             <mat-card-content [dragula]='"first-bag"'>
-              <ng-container *ngFor="let poi of clip.pois">
+              <ng-container *ngFor="let poi of clip.pois | clipFilter: [['deleted', false]]">
                 <div layout="row" style="padding-bottom: 5px" id={{clip.name+poi.time}}>
                   <div *ngIf="this.havePoiMatch(poi) == true">
                     <mat-chip-list>

@@ -153,6 +153,7 @@ export class TaggingComponent implements OnInit {
     );
 
     if (clip != null) {
+      console.log(clip);
       this.clipService.saveClip(clip);
     }
   }

@@ -10,8 +10,10 @@ import {
   Renderer,
   ViewChildren
 } from '@angular/core';
+import { MatDialog } from '@angular/material';
 import { Poi } from '../../../core/services/clip/index';
 import { Tag } from '../../../core/services/clip/tag';
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-context-menu',
@@ -21,7 +23,9 @@ import { Tag } from '../../../core/services/clip/tag';
 export class ContextMenuComponent implements OnInit {
   @ViewChildren('inputBox') vc: QueryList<ElementRef>;
 
-  constructor() {}
+  deletePrompt = false;
+
+  constructor(public dialog: MatDialog) {}
 
   @Input() x = 0;
   @Input() y = 0;
@@ -58,6 +62,24 @@ export class ContextMenuComponent implements OnInit {
       return { ...obj };
     });
     this.poi.tags = map;
+  }
+
+  deletePoi() {
+    this.poi.deleted = true;
+    this.close();
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '250px',
+      data: {}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.deletePoi();
+      }
+    });
   }
 
   remove(tag: Tag) {
