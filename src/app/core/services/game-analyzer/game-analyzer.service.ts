@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 
 import { AnalyzerListItem } from '.';
-import { Battlefield1AnalyzerService } from './battlefield1-analyzer.service';
-import { FortniteAnalyzerService } from './fortnite-analyzer.service';
+import { Battlefield1AnalyzerService } from './battlefield1/battlefield1-analyzer.service';
+import { FortniteAnalyzerService } from './fortnite/fortnite-analyzer.service';
 
 @Injectable()
 export class GameAnalyzerService {

@@ -9,7 +9,6 @@ export class ElectronService {
   constructor() {}
 
   private _electron: Electron.RendererInterface;
-  private _fs: any;
 
   private get electron(): Electron.RendererInterface {
     if (!this._electron) {
@@ -20,16 +19,6 @@ export class ElectronService {
       return null;
     }
     return this._electron;
-  }
-  private get fs(): any {
-    if (!this._fs) {
-      if (window && window.require) {
-        this._fs = window.require('fs');
-        return this._fs;
-      }
-      return null;
-    }
-    return this._fs;
   }
 
   /**
@@ -78,9 +67,5 @@ export class ElectronService {
 
   public get shell(): Electron.Shell {
     return this.electron ? this.electron.shell : null;
-  }
-
-  public get fileSystem(): any {
-    return this.fs;
   }
 }

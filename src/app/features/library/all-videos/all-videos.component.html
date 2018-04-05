@@ -1,1 +1,4 @@
-<button matButton (click)="openFolder()"></button>
+<button matButton (click)="openFolder()">Run bitch</button>
+<div *ngFor="let video of localVideos">
+  <button matButton>{{video.path}}</button>
+</div>

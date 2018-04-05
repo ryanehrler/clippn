@@ -16,9 +16,11 @@ import { AuthService } from './services/auth/auth.service';
 import { ClipAnalyzerService } from './services/clip/clip-analyzer.service';
 import { ClipService } from './services/clip/clip.service';
 import { ElectronService } from './services/electron/electron.service';
+import { NodejsService } from './services/electron/nodejs.service';
 import { FileStorageService } from './services/file-storage/file-storage.service';
 import { FirestoreService } from './services/firestore/firestore.service';
 import { GoogleAnalyticsService } from './services/google-analytics/index';
+import { LocalVideoService } from './services/video-library/local-video.service';
 
 @NgModule({
   imports: [
@@ -39,7 +41,9 @@ import { GoogleAnalyticsService } from './services/google-analytics/index';
     ClipAnalyzerService,
     FileStorageService,
     AnalysisTimeRemainingCalcService,
-    ElectronService
+    ElectronService,
+    NodejsService,
+    LocalVideoService
   ]
 })
 export class CoreModule {

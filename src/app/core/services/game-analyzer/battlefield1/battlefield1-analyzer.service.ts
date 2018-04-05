@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { GameAnalyzerBase } from './game-analyzer-base';
-import { IGameAnalyzer } from './IGameAnalyzer';
+
+import { GameAnalyzerBase } from '../game-analyzer-base';
+import { IGameAnalyzer } from '../IGameAnalyzer';
 
 @Injectable()
 export class Battlefield1AnalyzerService extends GameAnalyzerBase
