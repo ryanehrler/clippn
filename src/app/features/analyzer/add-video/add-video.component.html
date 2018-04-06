@@ -6,18 +6,6 @@
         <div layout="row" layout-xs="column" layout-align="center">
           <!-- Inputs -->
           <div flex="30">
-            <form *ngIf="clip">
-              <mat-form-field color="accent" class="full-width">
-                <input matInput placeholder="Name">
-              </mat-form-field>
-              <mat-form-field color="accent" class="full-width">
-                <input matInput placeholder="File Path" disabled value="">
-              </mat-form-field>
-              <mat-form-field color="accent" class="full-width">
-                <input matInput placeholder="Game" disabled>
-              </mat-form-field>
-            </form>
-
             <mat-form-field>
               <mat-select id="gameTitle" placeholder="Game" [(ngModel)]="gameTitle" (selectionChange)="gameTitleSelect()">
                 <mat-option *ngFor="let title of gameTitleList" [value]="title.key">
@@ -25,17 +13,36 @@
                 </mat-option>
               </mat-select>
             </mat-form-field>
+            <form *ngIf="clip">
+              <mat-form-field color="accent" class="full-width">
+                <input matInput placeholder="Name" name="gameName" disabled value="{{gameName}}" [(ngModel)]="gameName">
+              </mat-form-field>
+              <!-- <mat-form-field color="accent" class="full-width">
+                <input matInput placeholder="File Path" disabled value="{{filePath}}" [(ngModel)]="filePath">
+              </mat-form-field> -->
+              <!-- <mat-form-field color="accent" class="full-width">
+                <input matInput placeholder="Game" disabled>
+              </mat-form-field> -->
+            </form>
+
+
           </div>
           <div flex="auto">
             <td-file-upload #singleFileUpload (select)="selectEvent($event)" [disabled]="disabled" required accept=".mp4">
               <ng-template td-file-input-label>
                 <div flex layout="row" layout-align="center center" class="file-upload">
                   <div layout="column" layout-align="center center" class="full-height">
-                    <ng-container *ngIf="!clip">
+                    <ng-container *ngIf="!clip && disabled">
                       <div flex="30">
                         <mat-icon>attach_file</mat-icon>
                       </div>
-                      <div flex="10">Open/Drop .mp4 to start</div>
+                      <div flex="10">Select Game from dropdown to start</div>
+                    </ng-container>
+                    <ng-container *ngIf="!clip && !disabled">
+                      <div flex="30">
+                        <mat-icon>attach_file</mat-icon>
+                      </div>
+                      <div flex="10">Open/Drop .mp4 to continue</div>
                     </ng-container>
                     <ng-container *ngIf="clip">
                       <div flex="30">

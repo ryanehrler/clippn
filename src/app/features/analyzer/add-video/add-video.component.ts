@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
 
+import { TdDialogService } from '@covalent/core';
 import { Clip } from '../../../core/services/clip/clip';
 import { ClipService } from '../../../core/services/clip/clip.service';
 import { FileStorageService } from '../../../core/services/file-storage/file-storage.service';
@@ -7,7 +8,6 @@ import {
   AnalyzerListItem,
   GameAnalyzerService
 } from '../../../core/services/game-analyzer';
-import { TdDialogService } from '@covalent/core';
 
 @Component({
   selector: 'app-add-video',
@@ -15,10 +15,11 @@ import { TdDialogService } from '@covalent/core';
   styleUrls: ['./add-video.component.scss']
 })
 export class AddVideoComponent implements OnInit {
-  disabled = false;
+  disabled = true;
   clip: Clip;
   file: File;
   gameTitle = '';
+  gameName = '';
   gameTitleList: AnalyzerListItem[];
 
   constructor(
@@ -46,6 +47,7 @@ export class AddVideoComponent implements OnInit {
     }
   }
   gameTitleSelect() {
+    this.disabled = false;
     if (this.file != null) {
       this.submit();
     }
@@ -55,6 +57,7 @@ export class AddVideoComponent implements OnInit {
       .initializeClip(this.file.name, this.file.type, this.gameTitle)
       .then(() => {
         this.clip = this.clipService.clip;
+        this.gameName = this.file.name;
       })
       .catch(err => {
         console.log('init-clip-failed', err);
