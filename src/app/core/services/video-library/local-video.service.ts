@@ -5,8 +5,7 @@ import { Observable } from 'rxjs/Rx';
 
 import { ElectronService } from '../electron/electron.service';
 import { NodejsService } from '../electron/nodejs.service';
-
-import { LocalVideo } from '..';
+import { LocalVideo } from './local-video';
 
 declare let localStorage;
 
