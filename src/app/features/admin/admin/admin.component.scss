@@ -1,0 +1,50 @@
+.example-container {
+  width: 800px;
+  height: 500px;
+  // border: 1px solid rgb(216, 214, 214);
+}
+
+.drawer {
+  width: 300px;
+}
+
+.max-button {
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+.input {
+  margin: 10px;
+}
+
+.card {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  height: 99%;
+}
+
+//have to do this because the header adds an 8 px margin for whatever reason
+.card-body {
+  margin-left: 8px;
+}
+
+.mat-card-header-text {
+  margin: 0 !important;
+}
+
+.section {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  height: 60px;
+}
+
+.main {
+  display: flex;
+  align-content: center;
+  align-items: center;
+}
+
+.margin {
+  margin: 10px;
+}

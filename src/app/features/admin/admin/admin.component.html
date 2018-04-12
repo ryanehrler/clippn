@@ -1,3 +1,93 @@
-<p>
-  admin works!
-</p>
+<div layout="row">
+  <div flex="100">
+    <h1> Manage your settings</h1>
+    <mat-drawer-container class="example-container">
+      <mat-drawer mode="side" opened="true" class="drawer">
+        <button mat-raised-button color="accent" class="max-button" (click)="setCurrentTab('billing')">
+          <mat-icon>attach_money</mat-icon> Subscription and Billing
+        </button>
+        <button mat-raised-button color="accent" class="max-button" (click)="setCurrentTab('notifications')">
+          <mat-icon>notifications</mat-icon> Notification Settings
+        </button>
+
+      </mat-drawer>
+      <mat-drawer-content>
+        <ng-container *ngIf="this.currentTab == 'billing'">
+          <mat-card class="card">
+            <mat-card-header>
+              <mat-card-title>Subscription and Billing</mat-card-title>
+              <mat-card-subtitle>give us money</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="card-body">
+                <section class="section">
+                  <div>Current Subscription: Pro - until May 4th 2018</div>
+                </section>
+                <h5>Billing Address</h5>
+                <section class="section">
+
+                  <mat-input-container class="input">
+                    <input required name="street" matInput placeholder="Enter Street" text="text">
+                  </mat-input-container>
+                </section>
+                <section class="section">
+                  <mat-input-container class="input">
+                    <input required name="city" matInput placeholder="Enter City" text="text">
+                  </mat-input-container>
+                </section>
+                <section class="section">
+                  <mat-input-container class="input">
+                    <input required name="zip" matInput placeholder="Enter Zip" text="text">
+                  </mat-input-container>
+                </section>
+                <section class="section">
+                  <mat-input-container class="input">
+                    <input required name="state" matInput placeholder="Select state" text="text">
+                  </mat-input-container>
+                </section>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </ng-container>
+        <ng-container *ngIf="this.currentTab == 'notifications'">
+          <mat-card class="card">
+            <mat-card-header>
+              <mat-card-title>Notification Settings</mat-card-title>
+              <mat-card-subtitle>seeing little red flags is awesome</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="card-body">
+                <section class="section">
+                  <mat-checkbox class="margin">Recieve Notifcations</mat-checkbox>
+                </section>
+                <section class="section">
+                  <label class="margin">Method:</label>
+                  <mat-radio-group>
+                    <mat-radio-button class="margin" value="email">
+                      E-mail
+                    </mat-radio-button>
+                    <mat-radio-button class="margin" value="phone">
+                      Phone
+                    </mat-radio-button>
+                    <mat-radio-button class="margin" value="both">
+                      Both
+                    </mat-radio-button>
+                  </mat-radio-group>
+                </section>
+
+                <section class="section">
+                  <mat-input-container class="input">
+                    <input required name="phone" matInput placeholder="Enter Phone Number" text="text">
+                  </mat-input-container>
+                </section>
+                <section class="section">
+                  <mat-checkbox class="margin">Play 'clip processed' sound in browser</mat-checkbox>
+                </section>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </ng-container>
+      </mat-drawer-content>
+    </mat-drawer-container>
+  </div>
+</div>
