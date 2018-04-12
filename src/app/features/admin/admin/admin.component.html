@@ -1,14 +1,28 @@
-<div layout="row">
-  <div flex="100">
-    <h1> Manage your settings</h1>
+<div layout="row" layout-fill layout-align="center center">
+  <div>
+    <div style="margin-left: 7px">
+      <h1> Manage your settings</h1>
+    </div>
     <mat-drawer-container class="example-container">
-      <mat-drawer mode="side" opened="true" class="drawer">
-        <button mat-raised-button color="accent" class="max-button" (click)="setCurrentTab('billing')">
+      <mat-drawer mode="side" opened="true" class="drawer" style="background-color: transparent">
+        <mat-card class="card">
+          <div layout="row" layout-align="center center">
+            <button mat-raised-button color="accent" class="max-button" (click)="setCurrentTab('billing')">
+              <mat-icon>attach_money</mat-icon> Subscription and Billing
+            </button>
+          </div>
+          <div layout="row" layout-align="center center">
+            <button mat-raised-button color="accent" class="max-button" (click)="setCurrentTab('notifications')">
+              <mat-icon>notifications</mat-icon> Notification Settings
+            </button>
+          </div>
+        </mat-card>
+        <!-- <button mat-raised-button color="accent" class="max-button" (click)="setCurrentTab('billing')">
           <mat-icon>attach_money</mat-icon> Subscription and Billing
         </button>
         <button mat-raised-button color="accent" class="max-button" (click)="setCurrentTab('notifications')">
           <mat-icon>notifications</mat-icon> Notification Settings
-        </button>
+        </button> -->
 
       </mat-drawer>
       <mat-drawer-content>
@@ -23,28 +37,56 @@
                 <section class="section">
                   <div>Current Subscription: Pro - until May 4th 2018</div>
                 </section>
-                <h5>Billing Address</h5>
-                <section class="section">
 
-                  <mat-input-container class="input">
-                    <input required name="street" matInput placeholder="Enter Street" text="text">
-                  </mat-input-container>
-                </section>
-                <section class="section">
-                  <mat-input-container class="input">
-                    <input required name="city" matInput placeholder="Enter City" text="text">
-                  </mat-input-container>
-                </section>
-                <section class="section">
-                  <mat-input-container class="input">
-                    <input required name="zip" matInput placeholder="Enter Zip" text="text">
-                  </mat-input-container>
-                </section>
-                <section class="section">
-                  <mat-input-container class="input">
-                    <input required name="state" matInput placeholder="Select state" text="text">
-                  </mat-input-container>
-                </section>
+                <div layout="row">
+                  <div flex="50">
+                    <h5>Billing Address</h5>
+                    <section class="section">
+
+                      <mat-input-container class="input">
+                        <input required name="street" matInput placeholder="Enter Street" text="text">
+                      </mat-input-container>
+                    </section>
+                    <section class="section">
+                      <mat-input-container class="input">
+                        <input required name="city" matInput placeholder="Enter City" text="text">
+                      </mat-input-container>
+                    </section>
+                    <section class="section">
+                      <mat-input-container class="input">
+                        <input required name="zip" matInput placeholder="Enter Zip" text="text">
+                      </mat-input-container>
+                    </section>
+                    <section class="section">
+                      <mat-input-container class="input">
+                        <input required name="state" matInput placeholder="Select state" text="text">
+                      </mat-input-container>
+                    </section>
+                  </div>
+                  <div flex="50">
+                    <h5>Card Information</h5>
+                    <section class="section">
+                      <mat-input-container class="input">
+                        <input required name="street" matInput placeholder="Name on card" text="text">
+                      </mat-input-container>
+                    </section>
+                    <section class="section">
+                      <mat-input-container class="input">
+                        <input required name="street" matInput placeholder="Card number" text="text">
+                      </mat-input-container>
+                    </section>
+                    <section class="section">
+                      <mat-input-container class="input">
+                        <input required name="city" matInput placeholder="CVV Code" text="text">
+                      </mat-input-container>
+                    </section>
+                    <section class="section">
+                      <mat-input-container class="input">
+                        <input required name="zip" matInput placeholder="Card Expiration Date" text="text">
+                      </mat-input-container>
+                    </section>
+                  </div>
+                </div>
               </div>
             </mat-card-content>
           </mat-card>
