@@ -30,24 +30,58 @@ export class LocalVideoService {
       })[0];
     }
 
-    const boundReaddir: any = Observable.bindCallback(
+    const readdirBind: any = Observable.bindCallback(
       this.nodejsService.fs.readdir
     );
-    return boundReaddir(this.folder).map(result => {
+    return readdirBind(this.folder).map(result => {
       // result[0] = err
       // result[1] = folders
-      return this.readdirCallback(result[0], result[1]);
+      return this.readdirCallback(result[0], result[1], this.folder);
     });
   }
 
-  private readdirCallback(err, folders): LocalVideo[] {
+  getVideoFile(path: string): Observable<File> {
+    console.log('getVideoFile()');
+    const readFileBind: any = Observable.bindCallback(
+      this.nodejsService.fs.readFile
+    );
+
+    return readFileBind(path).map(result => {
+      console.log('readfilebind');
+      return this.readFileCallback(result[0], result[1]);
+    });
+  }
+  getFileName(path: string) {
+    const extension = this.getExtension(path);
+    return this.nodejsService.path.basename(path, extension);
+  }
+  getExtension(path: string) {
+    return this.nodejsService.path.extname(path);
+  }
+
+  private readdirCallback(
+    err: any,
+    fileNames: string[],
+    folderPath: string
+  ): LocalVideo[] {
     // grab only .mp4 files
-    const localVideos = _.filter(folders, folder => {
-      return this.nodejsService.path.extname(folder) == '.mp4';
-    }).map(folder => {
-      return new LocalVideo(folder, null);
+    const localVideos = _.filter(fileNames, (fileName: string) => {
+      return this.getExtension(fileName) == '.mp4';
+    }).map(fileName => {
+      const path = folderPath + '\\' + fileName;
+      const name = this.getFileName(fileName);
+      return new LocalVideo(path, fileName, name, null);
     });
 
     return localVideos;
+  }
+
+  private readFileCallback(err, file): File {
+    if (err) {
+      console.log('Could not read file: ', err);
+      return null;
+    }
+
+    return file;
   }
 }

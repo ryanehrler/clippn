@@ -11,6 +11,7 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'add-video', pathMatch: 'full' },
       { path: 'add-video', component: AddVideoComponent },
+      { path: 'add-video/:videoName', component: AddVideoComponent },
       { path: 'analyze', component: AnalyzeVideoComponent }
     ]
   }

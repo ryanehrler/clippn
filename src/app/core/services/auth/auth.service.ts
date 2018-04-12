@@ -23,7 +23,7 @@ export class AuthService {
   user: Observable<IUser>;
   userId: string;
   isLoggedIn = false;
-  onLoginRoute = 'add-video/add-video';
+  onLoginRoute = 'analyzer/add-video';
 
   constructor(
     private fireAuth: AngularFireAuth,

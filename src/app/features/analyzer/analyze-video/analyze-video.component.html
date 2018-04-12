@@ -2,7 +2,7 @@
   <mat-card flex="33" layout="row">
     <div flex="100">
       <video controls (click)="toggleVideo()" (canplay)="onFrameLoad()" #videoPlayer>
-        <source [src]="videoFileUrl" /> Browser not supported
+        <source *ngIf="videoFileUrl" [src]="videoFileUrl" /> Browser not supported
       </video>
       <div class="remaining-time" *ngIf="startAnalysis">
         <p flex class="text-right">Remaining Time:

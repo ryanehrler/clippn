@@ -12,7 +12,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {
-        path: 'add-video',
+        path: 'analyzer',
         loadChildren: './features/analyzer/analyzer.module#AnalyzerModule'
       },
       {

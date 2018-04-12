@@ -21,6 +21,7 @@ import { FileStorageService } from './services/file-storage/file-storage.service
 import { FirestoreService } from './services/firestore/firestore.service';
 import { GoogleAnalyticsService } from './services/google-analytics/index';
 import { LocalVideoService } from './services/video-library/local-video.service';
+import { VideoUrlService } from './services/video-url/video-url.service';
 
 @NgModule({
   imports: [
@@ -43,7 +44,8 @@ import { LocalVideoService } from './services/video-library/local-video.service'
     AnalysisTimeRemainingCalcService,
     ElectronService,
     NodejsService,
-    LocalVideoService
+    LocalVideoService,
+    VideoUrlService
   ]
 })
 export class CoreModule {

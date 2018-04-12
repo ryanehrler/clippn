@@ -6,7 +6,8 @@ import {
   OnInit,
   QueryList,
   ViewChild,
-  ViewChildren
+  ViewChildren,
+  AfterViewInit
 } from '@angular/core';
 
 import * as _ from 'lodash';
@@ -14,7 +15,6 @@ import * as moment from 'moment';
 
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { FileStorageService } from '../../../core/services/file-storage/file-storage.service';
 
 import { AnalysisTimeRemainingCalcService } from '../../../core/services/analysis-time-remaining-calc.service';
 import { ClipTimeNavigationService } from '../../../core/services/clip/clip-time-navigation.service';
@@ -29,13 +29,14 @@ import {
   EventCategory,
   GoogleAnalyticsService
 } from '../../../core/services/google-analytics/index';
+import { VideoUrlService } from '../../../core/services';
 
 @Component({
   selector: 'app-analyze-video',
   templateUrl: './analyze-video.component.html',
   styleUrls: ['./analyze-video.component.scss']
 })
-export class AnalyzeVideoComponent implements OnInit, OnDestroy {
+export class AnalyzeVideoComponent implements OnInit, OnDestroy, AfterViewInit {
   frameRate = 29.97; // THIS NEEDS TO BE PULLED FROM VIDEO NOT HARDCODED
   totalFrameCount: number;
   analysisFps: number;
@@ -74,7 +75,7 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy {
     private router: Router,
     private sanitizer: DomSanitizer,
     private clipService: ClipService,
-    private fileStorageService: FileStorageService,
+    private videoUrlService: VideoUrlService,
     private injector: Injector,
     private gameAnalyzerService: GameAnalyzerService,
     private googleAnalyticsService: GoogleAnalyticsService,
@@ -95,12 +96,11 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy {
         this.router.navigate(['404']);
         return;
       }
-      this.videoFile = this.fileStorageService.getFile(
+
+      this.videoFileUrl = this.videoUrlService.getUrl(
         this.clipService.clip.name
       );
-      this.videoFileUrl = this.sanitizer.bypassSecurityTrustUrl(
-        URL.createObjectURL(this.videoFile)
-      );
+      console.log('video-safe-url', this.videoFileUrl);
 
       // We provide each of the services to @analyzer.component.ts then grab the one we need, these
       // services will be singletons to each "analyzer" so they should be provided whereever the clipService is
@@ -113,7 +113,7 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy {
         this.gotoKill(value);
       });
 
-      // Setup the video element
+      // Setup the video element - ties into loadedmetadata event
       this.setVideoElementIfNull();
     } else {
       this.router.navigate(['add-video']);
@@ -284,6 +284,7 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy {
     this.updateAnalysisFPS();
     this.setCurrentTime();
   }
+
   setCurrentTime() {
     let t = 0;
     if (this.video != null) {

@@ -1,4 +1,19 @@
 <button matButton (click)="openFolder()">Run bitch</button>
-<div *ngFor="let video of localVideos">
-  <button matButton>{{video.path}}</button>
+<ng-template tdLoading [tdLoadingUntil]="loading" tdLoadingStrategy="overlay">
+  <mat-icon matListAvatar>
+    folder
+  </mat-icon>
+</ng-template>
+<div layout="row">
+  <mat-card flex="30" *ngFor="let video of localVideos">
+    <mat-card-header>
+      <mat-card-title>{{video.name}}</mat-card-title>
+    </mat-card-header>
+    <img mat-card-image src="../../../../assets/Logo.png" alt="video">
+    <mat-card-content>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button (click)="openVideoAnalysis(video)">Analyze</button>
+    </mat-card-actions>
+  </mat-card>
 </div>

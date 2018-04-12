@@ -28,4 +28,16 @@ export class NodejsService {
     }
     return this._path;
   }
+
+  private _FileAPI: any;
+  public get FileAPI(): any {
+    if (!this._FileAPI) {
+      if (window && window.require) {
+        this._FileAPI = window.require('file-api');
+        return this._FileAPI;
+      }
+      return null;
+    }
+    return this._FileAPI;
+  }
 }
