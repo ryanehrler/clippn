@@ -1,44 +1,22 @@
-<div layout="row">
-  <div flex></div>
-  <div flex-lg="70" flex="100">
+<div layout="row" layout-align="center">
+  <div flex-lg="70" flex="70">
     <mat-card>
-      <mat-card-content>
-        <div layout="row" layout-xs="column" layout-align="center">
-          <!-- Inputs -->
-          <div flex="30">
-            <mat-form-field>
-              <mat-select id="gameTitle" placeholder="Game" [(ngModel)]="gameTitle" (selectionChange)="gameTitleSelect()">
-                <mat-option *ngFor="let title of gameTitleList" [value]="title.key">
-                  {{ title.display }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-            <form *ngIf="clip">
-              <mat-form-field color="accent" class="full-width">
-                <input matInput placeholder="Name" name="gameName" disabled value="{{videoName}}" [(ngModel)]="videoName">
-              </mat-form-field>
-              <!-- <mat-form-field color="accent" class="full-width">
-                <input matInput placeholder="File Path" disabled value="{{filePath}}" [(ngModel)]="filePath">
-              </mat-form-field> -->
-              <!-- <mat-form-field color="accent" class="full-width">
-                <input matInput placeholder="Game" disabled>
-              </mat-form-field> -->
-            </form>
-
-
-          </div>
-          <div flex="auto">
-            <td-file-upload #singleFileUpload (select)="selectEvent($event)" [disabled]="disabled" required accept=".mp4">
+      <mat-vertical-stepper [linear]="'true'" #stepper>
+        <!-- Step 1 -->
+        <mat-step [stepControl]="step1Form">
+          <ng-template matStepLabel>Select Video</ng-template>
+          <form [formGroup]="step1Form">
+            <td-file-upload #singleFileUpload (select)="fileSelectEvent($event)" [disabled]="disableUpload" required accept=".mp4">
               <ng-template td-file-input-label>
                 <div flex layout="row" layout-align="center center" class="file-upload">
                   <div layout="column" layout-align="center center" class="full-height">
-                    <ng-container *ngIf="!clip && disabled">
+                    <ng-container *ngIf="!clip && disableUpload">
                       <div flex="30">
                         <mat-icon>attach_file</mat-icon>
                       </div>
                       <div flex="10">Select Game from dropdown to start</div>
                     </ng-container>
-                    <ng-container *ngIf="!clip && !disabled">
+                    <ng-container *ngIf="!clip && !disableUpload">
                       <div flex="30">
                         <mat-icon>attach_file</mat-icon>
                       </div>
@@ -54,12 +32,21 @@
                 </div>
               </ng-template>
             </td-file-upload>
-          </div>
-
-        </div>
-
-      </mat-card-content>
+          </form>
+        </mat-step>
+        <!-- Step 2 -->
+        <mat-step [stepControl]="step2Form">
+          <ng-template matStepLabel>Select Game</ng-template>
+          <form [formGroup]="step2Form">
+            <mat-button-toggle-group #gameTitle="matButtonToggleGroup" (change)="gameTitleSelect()" vertical="true" class="game-title-btn-group">
+              <mat-button-toggle *ngFor="let title of gameTitleList" [value]="title.key">
+                {{title.display}}
+              </mat-button-toggle>
+            </mat-button-toggle-group>
+          </form>
+        </mat-step>
+      </mat-vertical-stepper>
+      <button mat-raised-button color="primary" (click)="analyze()" [disabled]="!step1Form.valid || !step2Form.valid">Analyze</button>
     </mat-card>
   </div>
-  <div flex></div>
 </div>

@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { DragulaModule } from 'ng2-dragula';
 import { MaterialModule } from '../material/material.module';
@@ -11,8 +12,16 @@ import { PoiTimelineComponent } from './components/poi-timeline/poi-timeline.com
 import { ClipFilterPipe } from './filter/clip-filter.pipe';
 
 @NgModule({
-  imports: [CommonModule, MaterialModule, DragulaModule],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    CommonModule,
+    MaterialModule,
+    DragulaModule
+  ],
   exports: [
+    FormsModule,
+    ReactiveFormsModule,
     ClipFilterPipe,
     PoiTimelineComponent,
     PoiChipComponent,
