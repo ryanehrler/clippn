@@ -23,10 +23,10 @@ export class PoiAnalyzerService {
     _.each(killFeed, currentKill => {
       const nearbyKills = _.filter(killFeed, kill => {
         return (
-          !kill.deleted &&
-          kill.time !== currentKill.time &&
-          currentKill.time - fireThresholdSeconds <= kill.time &&
-          kill.time <= currentKill.time + fireThresholdSeconds
+          !kill.deleted
+          && kill.time !== currentKill.time
+          && currentKill.time - fireThresholdSeconds <= kill.time
+          && kill.time <= currentKill.time + fireThresholdSeconds
         );
       });
 

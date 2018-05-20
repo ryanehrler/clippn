@@ -8,6 +8,7 @@ import { NgModule } from '@angular/core';
 import {
   MatAutocompleteModule,
   MatButtonModule,
+  MatButtonToggleModule,
   MatCardModule,
   MatCheckboxModule,
   MatChipsModule,
@@ -24,12 +25,11 @@ import {
   MatSlider,
   MatSliderModule,
   MatSnackBarModule,
+  MatStepperModule,
   MatTableModule,
   MatTabsModule,
   MatToolbarModule,
-  MatTooltipModule,
-  MatButtonToggleModule,
-  MatStepperModule
+  MatTooltipModule
 } from '@angular/material';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';

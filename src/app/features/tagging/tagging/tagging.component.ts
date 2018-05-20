@@ -10,13 +10,13 @@ import { DragulaService } from 'ng2-dragula';
 import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators/map';
 import { startWith } from 'rxjs/operators/startWith';
+import { Subject } from 'rxjs/Subject';
 import { ClipService } from '../../../core/services/clip/clip.service';
 import { Clip, Poi, Tag } from '../../../core/services/clip/index';
 import {
   EventCategory,
   GoogleAnalyticsService
 } from '../../../core/services/google-analytics/index';
-import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'app-tagging',

@@ -1,4 +1,5 @@
 export interface IGameAnalyzer {
+  //Properties
   width: number;
   height: number;
   xStart: number;
@@ -20,6 +21,7 @@ export interface IGameAnalyzer {
   pixelGreenTolerance: number;
   pixelBlueTolerance: number;
 
+  //Functions
   processVideo(
     webGl: any,
     canvas2d: any,

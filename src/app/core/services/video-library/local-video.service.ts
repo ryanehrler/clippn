@@ -41,13 +41,11 @@ export class LocalVideoService {
   }
 
   getVideoFile(path: string): Observable<File> {
-    console.log('getVideoFile()');
     const readFileBind: any = Observable.bindCallback(
       this.nodejsService.fs.readFile
     );
 
     return readFileBind(path).map(result => {
-      console.log('readfilebind');
       return this.readFileCallback(result[0], result[1]);
     });
   }

@@ -1,16 +1,16 @@
-import { Component, OnInit, ViewContainerRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
+import { MatButtonToggleGroup, MatHorizontalStepper } from '@angular/material';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TdDialogService } from '@covalent/core';
+import { VideoUrlService } from '../../../core/services';
 import { Clip } from '../../../core/services/clip/clip';
 import { ClipService } from '../../../core/services/clip/clip.service';
 import {
   AnalyzerListItem,
   GameAnalyzerService
 } from '../../../core/services/game-analyzer';
-import { ActivatedRoute, Router } from '@angular/router';
-import { VideoUrlService } from '../../../core/services';
-import { MatButtonToggleGroup, MatHorizontalStepper } from '@angular/material';
 
 @Component({
   selector: 'app-add-video',
@@ -57,9 +57,11 @@ export class AddVideoComponent implements OnInit {
     this.gameTitleList = this.gameAnalyzerService.analyzerList;
 
     this.activatedRoute.params.subscribe(params => {
-      const videoName = params['videoName'];
-
-      this.videoName = videoName;
+      this.videoName = params['videoName'];
+      this.setFormValue(this.step1Form, true);
+      if (this.videoName != '' && this.videoName != null) {
+        this.disableUpload = true;
+      }
     });
   }
 

@@ -40,4 +40,41 @@ export class NodejsService {
     }
     return this._FileAPI;
   }
+
+  private _ffmpeg: any;
+  public get ffmpeg(): any {
+    if (!this._ffmpeg) {
+      if (window && window.require) {
+        this._ffmpeg = window.require('fluent-ffmpeg');
+        this._ffmpeg.setFfmpegPath(this.ffmpegStatic.path);
+        this._ffmpeg.setFfprobePath(this.ffprobeStatic.path);
+        return this._ffmpeg;
+      }
+      return null;
+    }
+    return this._ffmpeg;
+  }
+
+  private _ffmpegStatic;
+  public get ffmpegStatic(): any {
+    if (!this._ffmpegStatic) {
+      if (window && window.require) {
+        this._ffmpegStatic = window.require('ffmpeg-static');
+        return this._ffmpegStatic;
+      }
+      return null;
+    }
+    return this._ffmpegStatic;
+  }
+  private _ffprobeStatic;
+  public get ffprobeStatic(): any {
+    if (!this._ffprobeStatic) {
+      if (window && window.require) {
+        this._ffprobeStatic = window.require('ffprobe-static');
+        return this._ffprobeStatic;
+      }
+      return null;
+    }
+    return this._ffprobeStatic;
+  }
 }

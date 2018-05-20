@@ -4,9 +4,9 @@ import {
   ElementRef,
   Input,
   OnChanges,
+  OnDestroy,
   OnInit,
-  ViewChild,
-  OnDestroy
+  ViewChild
 } from '@angular/core';
 
 import * as _ from 'lodash';
@@ -22,7 +22,7 @@ import { Clip, Poi } from '../../../core/services/clip/index';
 export class PoiTimelineComponent
   implements OnInit, OnChanges, AfterViewInit, OnDestroy {
   private _clip: Clip;
-  @Input() // clip
+  @Input()
   set clip(value: Clip) {
     this._clip = value;
     this.setupTimeline();
@@ -36,7 +36,7 @@ export class PoiTimelineComponent
 
   intervalWidth = 400; // pixels
   intervalTime = 5; // minutes
-  intervalTimeSeconds: number; // seconds... duh
+  intervalTimeSeconds: number;
 
   intervalCount: number; // total number of interval lengths in the video.duration
   intervalMinorTickCount = 5; // number of minor ticks between major ones.

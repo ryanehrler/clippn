@@ -16,6 +16,7 @@ import { AuthService } from './services/auth/auth.service';
 import { ClipAnalyzerService } from './services/clip/clip-analyzer.service';
 import { ClipService } from './services/clip/clip.service';
 import { ElectronService } from './services/electron/electron.service';
+import { FrameExtractorService } from './services/electron/frame-extractor.service';
 import { NodejsService } from './services/electron/nodejs.service';
 import { FileStorageService } from './services/file-storage/file-storage.service';
 import { FirestoreService } from './services/firestore/firestore.service';
@@ -45,7 +46,8 @@ import { VideoUrlService } from './services/video-url/video-url.service';
     ElectronService,
     NodejsService,
     LocalVideoService,
-    VideoUrlService
+    VideoUrlService,
+    FrameExtractorService
   ]
 })
 export class CoreModule {

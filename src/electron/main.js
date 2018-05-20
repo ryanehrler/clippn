@@ -2,6 +2,7 @@ const { app, BrowserWindow, Menu } = require('electron');
 const path = require('path');
 const url = require('url');
 const FileAPI = require('file-api');
+const processVideo = require('./process-video');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -19,7 +20,7 @@ function createWindow() {
   // and load the index.html of the app.
   win.loadURL(
     url.format({
-      pathname: path.join(__dirname, '../dist/index.html'),
+      pathname: path.join(__dirname, '../../dist/index.html'),
       protocol: 'file:',
       slashes: true
     })

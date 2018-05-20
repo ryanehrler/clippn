@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   Injector,
@@ -6,8 +7,7 @@ import {
   OnInit,
   QueryList,
   ViewChild,
-  ViewChildren,
-  AfterViewInit
+  ViewChildren
 } from '@angular/core';
 
 import * as _ from 'lodash';
@@ -16,6 +16,7 @@ import * as moment from 'moment';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 
+import { VideoUrlService } from '../../../core/services';
 import { AnalysisTimeRemainingCalcService } from '../../../core/services/analysis-time-remaining-calc.service';
 import { ClipTimeNavigationService } from '../../../core/services/clip/clip-time-navigation.service';
 import { Clip, ClipService, Poi } from '../../../core/services/clip/index';
@@ -29,7 +30,6 @@ import {
   EventCategory,
   GoogleAnalyticsService
 } from '../../../core/services/google-analytics/index';
-import { VideoUrlService } from '../../../core/services';
 
 @Component({
   selector: 'app-analyze-video',
