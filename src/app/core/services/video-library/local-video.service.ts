@@ -23,21 +23,35 @@ export class LocalVideoService {
     private nodejsService: NodejsService
   ) {}
 
-  getLocalVideos(): Observable<LocalVideo[]> {
-    if (!this.folder) {
+  getFolder() {
+    return this.folder;
+  }
+  setFolder() {
+    if (this.electronService.remote != null) {
       this.folder = this.electronService.remote.dialog.showOpenDialog({
         properties: ['openDirectory']
       })[0];
     }
 
-    const readdirBind: any = Observable.bindCallback(
-      this.nodejsService.fs.readdir
-    );
-    return readdirBind(this.folder).map(result => {
-      // result[0] = err
-      // result[1] = folders
-      return this.readdirCallback(result[0], result[1], this.folder);
-    });
+    return this.folder;
+  }
+  getLocalVideos(): Observable<LocalVideo[]> {
+    if (!this.folder) {
+      this.setFolder();
+    }
+
+    if (this.nodejsService.fs != null) {
+      const readdirBind: any = Observable.bindCallback(
+        this.nodejsService.fs.readdir
+      );
+      return readdirBind(this.folder).map(result => {
+        // result[0] = err
+        // result[1] = folders
+        return this.readdirCallback(result[0], result[1], this.folder);
+      });
+    } else {
+      return Observable.of([new LocalVideo('', '', 'Not in Electron', null)]);
+    }
   }
 
   getVideoFile(path: string): Observable<File> {

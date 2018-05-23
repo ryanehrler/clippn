@@ -37,6 +37,15 @@ export class AllVideosComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.folder = this.localVideoService.getFolder();
+    this.openFolder();
+
+    this.folder =
+      'fuckkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk';
+  }
+
+  changeFolder() {
+    this.folder = this.localVideoService.setFolder();
     this.openFolder();
   }
 
