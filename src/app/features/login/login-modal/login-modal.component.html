@@ -16,9 +16,9 @@
           <mat-icon>lock</mat-icon>
         </mat-grid-tile>
         <mat-grid-tile [colspan]="7">
-          <mat-input-container class="justifier">
+          <mat-form-field class="justifier">
             <input required name="username" matInput placeholder="Username" [(ngModel)]="user.username" text="text">
-          </mat-input-container>
+          </mat-form-field>
         </mat-grid-tile>
       </mat-grid-list>
       <!-- Markup for getting Username ends -->
@@ -29,10 +29,10 @@
           <mat-icon>remove_red_eye</mat-icon>
         </mat-grid-tile>
         <mat-grid-tile [colspan]="7">
-          <mat-input-container class="justifier">
+          <mat-form-field class="justifier">
             <input required minlength="8" name="password" matInput placeholder="Password" [(ngModel)]="user.password" type="password">
             <mat-hint align="end">{{ user.password != null ? user.password.length : 0 }} / 8 min</mat-hint>
-          </mat-input-container>
+          </mat-form-field>
         </mat-grid-tile>
       </mat-grid-list>
       <!-- Markup for getting Password starts -->
@@ -41,9 +41,9 @@
           <mat-icon>remove_red_eye</mat-icon>
         </mat-grid-tile>
         <mat-grid-tile [colspan]="7">
-          <mat-input-container class="justifier">
+          <mat-form-field class="justifier">
             <input required name="passwordConfirm" matInput placeholder="Confirm Password" [(ngModel)]="user.passwordConfirm" type="password">
-          </mat-input-container>
+          </mat-form-field>
         </mat-grid-tile>
       </mat-grid-list>
 

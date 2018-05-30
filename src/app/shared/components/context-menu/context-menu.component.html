@@ -8,10 +8,10 @@
       <ng-container *ngFor="let tag of poi.tags">
         <div layout="row">
           <div flex="90">
-            <mat-input-container class="justifier">
+            <mat-form-field class="justifier">
               <input #inputBox (keyup.enter)="add()" (keydown.tab)="add();false" placeholder="Enter tag" matInput [(ngModel)]="tag.value"
                 text="text">
-            </mat-input-container>
+            </mat-form-field>
           </div>
           <div flex="10">
             <button mat-icon-button (click)="remove(tag)">

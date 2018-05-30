@@ -5,14 +5,10 @@ import {
   AngularFirestoreDocument
 } from 'angularfire2/firestore';
 
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/take';
-import 'rxjs/add/operator/toPromise';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import { map, take, tap } from 'rxjs/operators';
 
-import * as firebase from 'firebase/app';
+import { firebase } from '@firebase/app';
 
 type CollectionPredicate<T> = string | AngularFirestoreCollection<T>;
 type DocPredicate<T> = string | AngularFirestoreDocument<T>;
@@ -35,28 +31,36 @@ export class FirestoreService {
   doc$<T>(ref: DocPredicate<T>): Observable<T> {
     return this.doc(ref)
       .snapshotChanges()
-      .map(doc => {
-        return doc.payload.data() as T;
-      });
+      .pipe(
+        map(doc => {
+          return doc.payload.data() as T;
+        })
+      );
   }
   col$<T>(ref: CollectionPredicate<T>, queryFn?): Observable<T[]> {
     return this.col(ref, queryFn)
       .snapshotChanges()
-      .map(docs => {
-        return docs.map(a => a.payload.doc.data()) as T[];
-      });
+      .pipe(
+        map(docs => {
+          return docs.map(a => a.payload.doc.data()) as T[];
+        })
+      );
   }
   /// with Ids
   colWithIds$<T>(ref: CollectionPredicate<T>, queryFn?): Observable<any[]> {
     return this.col(ref, queryFn)
       .snapshotChanges()
-      .map(actions => {
-        return actions.map(a => {
-          const data = a.payload.doc.data();
-          const id = a.payload.doc.id;
-          return { id, ...data };
-        });
-      });
+      .pipe(
+        map(actions => {
+          console.log('fuck offffffffffff');
+          console.log(actions);
+          return actions.map(a => {
+            const data: any = a.payload.doc.data();
+            const id = a.payload.doc.id;
+            return { id, ...data };
+          });
+        })
+      );
   }
   /// **************
   /// Write Data
@@ -97,7 +101,7 @@ export class FirestoreService {
   upsert<T>(ref: DocPredicate<T>, data: any) {
     const doc = this.doc(ref)
       .snapshotChanges()
-      .take(1)
+      .pipe(take(1))
       .toPromise();
     return doc.then(snap => {
       return snap.payload.exists ? this.update(ref, data) : this.set(ref, data);
@@ -111,22 +115,26 @@ export class FirestoreService {
     const tick = new Date().getTime();
     this.doc(ref)
       .snapshotChanges()
-      .take(1)
-      .do(d => {
-        const tock = new Date().getTime() - tick;
-        console.log(`Loaded Document in ${tock}ms`, d);
-      })
+      .pipe(
+        take(1),
+        tap(d => {
+          const tock = new Date().getTime() - tick;
+          console.log(`Loaded Document in ${tock}ms`, d);
+        })
+      )
       .subscribe();
   }
   inspectCol(ref: CollectionPredicate<any>): void {
     const tick = new Date().getTime();
     this.col(ref)
       .snapshotChanges()
-      .take(1)
-      .do(c => {
-        const tock = new Date().getTime() - tick;
-        console.log(`Loaded Collection in ${tock}ms`, c);
-      })
+      .pipe(
+        take(1),
+        tap(c => {
+          const tock = new Date().getTime() - tick;
+          console.log(`Loaded Collection in ${tock}ms`, c);
+        })
+      )
       .subscribe();
   }
   /// **************
@@ -138,14 +146,16 @@ export class FirestoreService {
   }
   /// returns a documents references mapped to AngularFirestoreDocument
   docWithRefs$<T>(ref: DocPredicate<T>) {
-    return this.doc$(ref).map(doc => {
-      for (const k of Object.keys(doc)) {
-        if (doc[k] instanceof firebase.firestore.DocumentReference) {
-          doc[k] = this.doc(doc[k].path);
+    return this.doc$(ref).pipe(
+      map(doc => {
+        for (const k of Object.keys(doc)) {
+          if (doc[k] instanceof firebase.firestore.DocumentReference) {
+            doc[k] = this.doc(doc[k].path);
+          }
         }
-      }
-      return doc;
-    });
+        return doc;
+      })
+    );
   }
   /// **************
   /// Atomic batch example

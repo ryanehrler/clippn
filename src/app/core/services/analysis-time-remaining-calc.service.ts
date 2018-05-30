@@ -9,7 +9,7 @@ export class AnalysisTimeRemainingCalcService {
   analysisTimeRemainingSec: number;
   analysisFpsFrameCount: number;
 
-  analysisFpsArray: number[];
+  analysisFpsArray: number[] = [];
   analysisFps: number;
   gameAnalysisFps: number; // FPS a game is processed at
   videoDuration: number;

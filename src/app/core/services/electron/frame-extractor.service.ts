@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { NodejsService } from '..';
-import { timeout } from 'rxjs/operator/timeout';
+
 
 @Injectable()
 export class FrameExtractorService {

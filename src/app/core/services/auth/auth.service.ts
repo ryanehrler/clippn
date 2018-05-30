@@ -6,13 +6,11 @@ import {
   AngularFirestore,
   AngularFirestoreDocument
 } from 'angularfire2/firestore';
-import * as firebase from 'firebase/app';
 
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/take';
-import { Observable } from 'rxjs/Observable';
+import { firebase } from '@firebase/app';
+
+import { Observable, of } from 'rxjs';
+import { map, switchMap, take, tap } from 'rxjs/operators';
 
 import { error } from 'selenium-webdriver';
 import { IUser } from '../../../shared/models/user';
@@ -31,34 +29,37 @@ export class AuthService {
     private router: Router
   ) {
     // Get auth data, then get firestore user document || null
-    this.user = this.fireAuth.authState.switchMap(user => {
-      if (user) {
-        if (!this.isLoggedIn) {
-          this.isLoggedIn = true;
-          this.router.navigate([this.onLoginRoute]);
+    this.user = this.fireAuth.authState.pipe(
+      switchMap(user => {
+        if (user) {
+          if (!this.isLoggedIn) {
+            this.isLoggedIn = true;
+            this.router.navigate([this.onLoginRoute]);
+          }
+
+          this.userId = user.uid;
+
+          return this.afs.doc<IUser>(`users/${user.uid}`).valueChanges();
+        } else {
+          this.isLoggedIn = false;
+          return of(null);
         }
-
-        this.userId = user.uid;
-
-        return this.afs.doc<IUser>(`users/${user.uid}`).valueChanges();
-      } else {
-        this.isLoggedIn = false;
-        return Observable.of(null);
-      }
-    });
+      })
+    );
   }
 
   // this currently does nothing -- may be used for route guard
   authenticated() {
-    return this.user
-      .take(1)
-      .map(user => !!user)
-      .do(loggedIn => {
+    return this.user.pipe(
+      take(1),
+      map(user => !!user),
+      tap(loggedIn => {
         if (!loggedIn) {
           this.isLoggedIn = false;
           this.router.navigate(['login']);
         }
-      });
+      })
+    );
   }
 
   googleLogin() {

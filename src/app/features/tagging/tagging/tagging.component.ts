@@ -6,11 +6,8 @@ import {
   OnInit
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { DragulaService } from 'ng2-dragula';
-import { Observable } from 'rxjs/Observable';
-import { map } from 'rxjs/operators/map';
-import { startWith } from 'rxjs/operators/startWith';
-import { Subject } from 'rxjs/Subject';
+import { Observable, Subject } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 import { ClipService } from '../../../core/services/clip/clip.service';
 import { Clip, Poi, Tag } from '../../../core/services/clip/index';
 import {
@@ -49,7 +46,6 @@ export class TaggingComponent implements OnInit {
   private onScroll: (e) => void;
   constructor(
     private clipService: ClipService,
-    private dragulaService: DragulaService,
     private googleAnalyticsService: GoogleAnalyticsService,
     private elementRef: ElementRef
   ) {
@@ -57,33 +53,33 @@ export class TaggingComponent implements OnInit {
       this.mouseCursorScrollOffset = event.srcElement.scrollTop;
     };
 
-    const bag: any = this.dragulaService.find('first-bag');
-    if (bag !== undefined) {
-      this.dragulaService.destroy('first-bag');
-    }
-    dragulaService.setOptions('first-bag', {
-      // copy: true,
-      copySortSource: true,
-      copy: (el: Element, source: Element): boolean => {
-        return source.id !== 'content';
-      },
-      removeOnSpill: (el: Element, source: Element): boolean => {
-        return source.id === 'content';
-      },
-      accepts(el, target, source, sibling) {
-        if (target.id == 'content') {
-          // dragged to a container that should add the element
-          return true;
-        }
-      }
-    });
-    dragulaService.drop.subscribe(value => {
-      this.onDrop(value);
-    });
+    // const bag: any = this.dragulaService.find('first-bag');
+    // if (bag !== undefined) {
+    //   this.dragulaService.destroy('first-bag');
+    // }
+    // dragulaService.setOptions('first-bag', {
+    //   // copy: true,
+    //   copySortSource: true,
+    //   copy: (el: Element, source: Element): boolean => {
+    //     return source.id !== 'content';
+    //   },
+    //   removeOnSpill: (el: Element, source: Element): boolean => {
+    //     return source.id === 'content';
+    //   },
+    //   accepts(el, target, source, sibling) {
+    //     if (target.id == 'content') {
+    //       // dragged to a container that should add the element
+    //       return true;
+    //     }
+    //   }
+    // });
+    // dragulaService.drop.subscribe(value => {
+    //   this.onDrop(value);
+    // });
 
-    dragulaService.remove.subscribe(value => {
-      this.onRemove(value);
-    });
+    // dragulaService.remove.subscribe(value => {
+    //   this.onRemove(value);
+    // });
 
     this.contextMenuWatch = this.contextMenuSubject.asObservable(); //Observable.of(this.contextMenu);
   }

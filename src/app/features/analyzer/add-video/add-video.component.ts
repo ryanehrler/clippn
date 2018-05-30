@@ -81,16 +81,15 @@ export class AddVideoComponent implements OnInit {
     if (this.clip != null) {
       this.navigateToAnalyzer();
       return;
-    }
-    if (this.file != null) {
+    } else if (this.file != null) {
       this.submit(this.file.name, this.file.type);
-    }
-    if (this.videoName != '') {
+    } else if (this.videoName != '') {
       this.submit(this.videoName, '.mp4');
     }
   }
 
   submit(name: string, fileType: string) {
+    console.log('submit: ', name);
     this.clipService
       .initializeClip(name, fileType, this.gameTitle.value)
       .then(() => {
@@ -101,7 +100,7 @@ export class AddVideoComponent implements OnInit {
       .catch(err => {
         console.log('init-clip-failed', err);
       });
-    this.toggleVarsOnFileSet();
+    // this.toggleVarsOnFileSet();
   }
 
   toggleVarsOnFileSet() {
@@ -118,6 +117,7 @@ export class AddVideoComponent implements OnInit {
     form.setValue({ ctrl: true });
   }
   private navigateToAnalyzer() {
+    console.log('Navigate-to-analyzer');
     this.router.navigate(['analyzer/analyze']);
   }
 }

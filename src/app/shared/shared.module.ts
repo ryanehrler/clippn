@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { DragulaModule } from 'ng2-dragula';
 import { MaterialModule } from '../material/material.module';
 import { ConfirmationDialogComponent } from './components/context-menu/confirmation-dialog/confirmation-dialog.component';
 import { ContextMenuComponent } from './components/context-menu/context-menu.component';
@@ -12,13 +11,7 @@ import { PoiTimelineComponent } from './components/poi-timeline/poi-timeline.com
 import { ClipFilterPipe } from './filter/clip-filter.pipe';
 
 @NgModule({
-  imports: [
-    FormsModule,
-    ReactiveFormsModule,
-    CommonModule,
-    MaterialModule,
-    DragulaModule
-  ],
+  imports: [FormsModule, ReactiveFormsModule, CommonModule, MaterialModule],
   exports: [
     FormsModule,
     ReactiveFormsModule,

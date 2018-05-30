@@ -11,7 +11,9 @@ import {
   GoogleAnalyticsService
 } from '../google-analytics/index';
 
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import { map, take, filter } from 'rxjs/operators';
+
 import { AuthService } from '../auth/auth.service';
 import { FirestoreService } from '../firestore/firestore.service';
 import { CaptureProperties } from './capture-properties';
@@ -34,18 +36,23 @@ export class ClipService {
   }
 
   initializeClip(name: string, fileType: string, gameTitle: string) {
+    console.log('init: ', name);
+
     return this.getClip(name)
-      .map(clip => {
-        // Get clip from firebase
-        if (clip != null && clip.length > 0) {
-          this.clip = clip[0];
-          this.save();
-        } else {
-          // New up clip.
-          this.clip = this.setupDefaultClip(name, fileType, gameTitle);
-          this.saveClip(this.clip);
-        }
-      })
+      .pipe(
+        map(clip => {
+          console.log('init-map-clip:', clip);
+          // Get clip from firebase
+          if (clip != null && clip.length > 0) {
+            this.clip = clip[0];
+            this.save();
+          } else {
+            // New up clip.
+            this.clip = this.setupDefaultClip(name, fileType, gameTitle);
+            this.saveClip(this.clip);
+          }
+        })
+      )
       .toPromise();
   }
 
@@ -103,13 +110,16 @@ export class ClipService {
       name
     );
 
+    console.log('UserId: ', this.authService.userId);
+    console.log('name: ', name);
+
     return this.db
       .colWithIds$<Clip>('clips', ref =>
         ref
           .where('uid', '==', this.authService.userId)
           .where('name', '==', name)
       )
-      .take(1);
+      .pipe(take(1));
   }
 
   getAllClips() {
@@ -127,10 +137,12 @@ export class ClipService {
       .colWithIds$<Clip>('clips', ref =>
         ref.where('uid', '==', this.authService.userId)
       )
-      .take(1)
-      .map(clips => {
-        this.userClips = clips;
-      })
+      .pipe(
+        take(1),
+        map(clips => {
+          this.userClips = clips;
+        })
+      )
       .toPromise();
   }
 
