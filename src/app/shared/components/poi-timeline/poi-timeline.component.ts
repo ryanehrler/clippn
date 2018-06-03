@@ -12,7 +12,7 @@ import {
 import * as _ from 'lodash';
 import * as moment from 'moment';
 
-import { Clip, Poi } from '../../../core/services/clip/index';
+import { Clip, ClipService, Poi } from '../../../core/services/clip';
 
 @Component({
   selector: 'clpn-poi-timeline',
@@ -33,6 +33,8 @@ export class PoiTimelineComponent
 
   @Input() video: any;
   @Input() killDuration: number; // length of a single kill duration
+
+  isLoading = true;
 
   intervalWidth = 400; // pixels
   intervalTime = 5; // minutes
@@ -61,7 +63,10 @@ export class PoiTimelineComponent
   private onClick: (e) => void;
   private mouseMove: (e) => void;
 
-  constructor(private elementRef: ElementRef) {
+  constructor(
+    private elementRef: ElementRef,
+    private clipService: ClipService
+  ) {
     this.onScroll = event => {
       this.mouseCursorScrollOffset = event.srcElement.scrollLeft;
     };
@@ -71,6 +76,11 @@ export class PoiTimelineComponent
     this.mouseMove = event => {
       this.setMouseCursor(event.clientX, event.clientY);
     };
+
+    this.clipService.onChanges.subscribe(() => {
+      console.log('timeline:on-changes');
+      this.setupTimeline();
+    });
   }
 
   ngOnInit() {
@@ -88,8 +98,7 @@ export class PoiTimelineComponent
     );
     this.timeline.addEventListener('mousemove', this.mouseMove);
     this.timeline.addEventListener('scroll', this.onScroll);
-    // ngClick isn't playing nice ..
-    this.timeline.addEventListener('click', this.onClick);
+    this.timeline.addEventListener('click', this.onClick); // ngClick isn't playing nice ..
   }
 
   ngOnChanges() {
@@ -106,7 +115,12 @@ export class PoiTimelineComponent
 
   setupTimeline() {
     console.log('setup-timeline');
-    if (this.video != null && this.clip != null) {
+    if (
+      this.video != null &&
+      !isNaN(this.video.duration) &&
+      this.clip != null
+    ) {
+      this.isLoading = false;
       console.log('setup-timeline: video set');
       clearInterval(this.videoNullCheckTimer);
 

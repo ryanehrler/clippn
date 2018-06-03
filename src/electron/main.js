@@ -8,16 +8,7 @@ const processVideo = require('./process-video');
 // be closed automatically when the JavaScript object is garbage collected.
 let win;
 
-function createWindow() {
-  // Create the browser window.
-  win = new BrowserWindow({
-    width: 1200,
-    height: 800,
-    minWidth: 1185,
-    minHeight: 768
-  });
-
-  // and load the index.html of the app.
+function loadUrl() {
   win.loadURL(
     url.format({
       pathname: path.join(__dirname, '../../dist/index.html'),
@@ -25,6 +16,18 @@ function createWindow() {
       slashes: true
     })
   );
+}
+function createWindow() {
+  // Create the browser window.
+  win = new BrowserWindow({
+    width: 9999,
+    height: 9999,
+    minWidth: 1185,
+    minHeight: 768
+  });
+
+  // and load the index.html of the app.
+  loadUrl();
 
   // Build menu from template
   const mainMenu = Menu.buildFromTemplate(mainMenuTemplate);
@@ -75,6 +78,12 @@ if (process.env.NODE_ENV !== 'production') {
         label: 'Toggle DevTools',
         click(item, focusedWindow) {
           focusedWindow.toggleDevTools();
+        }
+      },
+      {
+        label: 'Refresh App',
+        click(item, focusedWindow) {
+          loadUrl();
         }
       }
     ]

@@ -3,9 +3,11 @@ import { Injectable } from '@angular/core';
 import * as _ from 'lodash';
 import { Observable, of, bindCallback } from 'rxjs';
 
+
 import { ElectronService } from '../electron/electron.service';
 import { NodejsService } from '../electron/nodejs.service';
 import { LocalVideo } from './local-video';
+import { map } from 'rxjs/operators';
 
 declare let localStorage;
 
@@ -42,11 +44,13 @@ export class LocalVideoService {
 
     if (this.nodejsService.fs != null) {
       const readdirBind: any = bindCallback(this.nodejsService.fs.readdir);
-      return readdirBind(this.folder).map(result => {
+      return readdirBind(this.folder).pipe(
+        map(result => {
         // result[0] = err
         // result[1] = folders
         return this.readdirCallback(result[0], result[1], this.folder);
-      });
+      })
+    );
     } else {
       return of([new LocalVideo('', '', 'Not in Electron', null)]);
     }
@@ -55,9 +59,11 @@ export class LocalVideoService {
   getVideoFile(path: string): Observable<File> {
     const readFileBind: any = bindCallback(this.nodejsService.fs.readFile);
 
-    return readFileBind(path).map(result => {
+    return readFileBind(path).pipe(
+      map(result => {
       return this.readFileCallback(result[0], result[1]);
-    });
+    })
+  );
   }
   getFileName(path: string) {
     const extension = this.getExtension(path);

@@ -20,8 +20,8 @@ $typography: mat-typography-config(
   https://material.io/color/#!/?view.left=0&view.right=0&primary.color=76FF03&secondary.color=E53935
 
   Use map-get to retrieve value from here.  Example: map-get($primary, 'default-contrast') */
-$primary: mat-palette($mat-blue, 700, 400, 700);
-$accent: mat-palette($mat-deep-orange, 700, 900, 900);
+$primary: mat-palette($mat-indigo, 500, 400, 700);
+$accent: mat-palette($mat-lime, 200, 900, 900);
 $warn: mat-palette($mat-red, 700, 100, 900);
 $fire-color-fire: #c41b00;
 $fire-color-hot: #ff5600;

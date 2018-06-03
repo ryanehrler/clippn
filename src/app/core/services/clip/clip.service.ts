@@ -11,9 +11,10 @@ import {
   GoogleAnalyticsService
 } from '../google-analytics/index';
 
-import { Observable } from 'rxjs';
-import { map, take, filter } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { filter, map, take } from 'rxjs/operators';
 
+import { Poi } from '.';
 import { AuthService } from '../auth/auth.service';
 import { FirestoreService } from '../firestore/firestore.service';
 import { CaptureProperties } from './capture-properties';
@@ -25,6 +26,9 @@ export class ClipService {
   userClips: Clip[];
   clip: Clip;
   clipsRef: AngularFirestoreCollection<Clip>;
+
+  private onChangesSubject = new Subject();
+  onChanges = this.onChangesSubject.asObservable();
 
   constructor(
     private googleAnalyticsService: GoogleAnalyticsService,
@@ -171,6 +175,14 @@ export class ClipService {
     }
 
     return percent;
+  }
+  addPoi(poi: Poi) {
+    this.clip.pois.push(poi);
+    this.triggerChange();
+  }
+
+  private triggerChange() {
+    this.onChangesSubject.next();
   }
 
   private setupDefaultClip(name: string, fileType: string, gameTitle: string) {

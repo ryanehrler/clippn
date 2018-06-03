@@ -336,7 +336,7 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy, AfterViewInit {
         .seconds(Math.round(currentTime))
         .format('HH:mm:ss');
 
-      this.clip.pois.push({
+      this.clipService.addPoi({
         time: currentTime,
         displayTime,
         fireLevel: '',

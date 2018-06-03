@@ -2,14 +2,19 @@
   <mat-slider color="warn" class="interval-slider" [min]="1" max="20" [step]="'1'" [(ngModel)]="intervalTime" (change)="setupTimeline()"></mat-slider>
 </div>
 <div class="full-width poi-timeline">
-  <div class="mouse-cursor" [ngStyle]="mouseCursor.style"></div>
-  <div class="video-cursor" [ngStyle]="videoCursor.style"></div>
-  <div class="poi tick" *ngFor="let poiTick of poiTicks" [ngStyle]="poiTick.style" [ngClass]="poiTick.class">
-    <!-- <mat-icon>fiber_manual_record</mat-icon> -->
-    <!-- <mat-icon>album</mat-icon> -->
+  <div class="loader" *ngIf="isLoading">
+    <ng-template tdLoading [tdLoadingUntil]="isLoading" tdLoadingStrategy="replace"></ng-template>
   </div>
-  <div class="interval tick" *ngFor="let tick of intervalTicks" [ngStyle]="tick.style" [ngClass]="tick.class">
-    <div class="label">{{tick.displayLabel}}</div>
-  </div>
+  <ng-container *ngIf="!isLoading">
+    <div class="mouse-cursor" [ngStyle]="mouseCursor.style"></div>
+    <div class="video-cursor" [ngStyle]="videoCursor.style"></div>
+    <div class="poi tick" *ngFor="let poiTick of poiTicks" [ngStyle]="poiTick.style" [ngClass]="poiTick.class">
+      <!-- <mat-icon>fiber_manual_record</mat-icon> -->
+      <!-- <mat-icon>album</mat-icon> -->
+    </div>
+    <div class="interval tick" *ngFor="let tick of intervalTicks" [ngStyle]="tick.style" [ngClass]="tick.class">
+      <div class="label">{{tick.displayLabel}}</div>
+    </div>
+  </ng-container>
   <div class="timeline" [ngStyle]="timelineStyle"></div>
 </div>
