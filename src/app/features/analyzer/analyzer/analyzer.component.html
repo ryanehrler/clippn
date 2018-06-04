@@ -1,11 +1,9 @@
-<mat-toolbar color="primary">
-  <nav mat-tab-nav-bar>
-    <a mat-tab-link *ngFor="let link of navItems" [routerLink]="link.path" routerLinkActive #rla="routerLinkActive" [active]="rla.isActive">
-      <mat-icon>{{link.iconName}}</mat-icon>
-      {{link.label}}
-    </a>
-  </nav>
-</mat-toolbar>
+<nav mat-tab-nav-bar color="primary">
+  <a mat-tab-link *ngFor="let link of navItems" [routerLink]="link.path" routerLinkActive #rla="routerLinkActive" [active]="rla.isActive">
+    <mat-icon>{{link.iconName}}</mat-icon>
+    {{link.label}}
+  </a>
+</nav>
 
 
 <router-outlet></router-outlet>

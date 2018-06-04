@@ -116,7 +116,7 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy, AfterViewInit {
       // Setup the video element - ties into loadedmetadata event
       this.setVideoElementIfNull();
     } else {
-      this.router.navigate(['add-video']);
+      this.router.navigate(['analyzer/add-video']);
     }
   }
   ngAfterViewInit() {

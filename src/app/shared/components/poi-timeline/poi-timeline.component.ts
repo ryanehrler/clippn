@@ -37,7 +37,7 @@ export class PoiTimelineComponent
   isLoading = true;
 
   intervalWidth = 400; // pixels
-  intervalTime = 5; // minutes
+  intervalTime = 20; // minutes
   intervalTimeSeconds: number;
 
   intervalCount: number; // total number of interval lengths in the video.duration
@@ -240,7 +240,7 @@ export class PoiTimelineComponent
     return x * (this.intervalTimeSeconds / this.intervalWidth);
   }
   private setMouseCursor(mouseX: number, mouseY: number) {
-    this.mouseCursorX = mouseX + this.mouseCursorScrollOffset - 33;
+    this.mouseCursorX = mouseX + this.mouseCursorScrollOffset - 10;
     // why minus thirty three .. I don't know probably need to figure this out someday
 
     this.mouseCursor.style = {

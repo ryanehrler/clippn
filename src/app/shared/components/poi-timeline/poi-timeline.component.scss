@@ -5,7 +5,7 @@ $timeline-opacity: 0.75;
 $timeline-color: black;
 $timeline-width: 2px;
 
-$interval-tick-height: 80px;
+$interval-tick-height: 60px;
 $interval-tick-width: 2px;
 
 $poi-size-fire: 100px;
@@ -13,6 +13,7 @@ $poi-size-hot: 80px;
 $poi-size-warm: 60px;
 $poi-size-cool: 40px;
 $poi-opacity: 0.9;
+$poi-distance-from-timeline: 5px;
 
 $video-cursor-height: 150px;
 $video-cursor-width: 3px;
@@ -40,6 +41,7 @@ $mouse-curso-opacity: 0.75;
     position: absolute;
 
     .label {
+      padding-top: 5px;
       padding-left: 5px;
       width: 200px;
       font-size: 0.7em;
@@ -51,19 +53,19 @@ $mouse-curso-opacity: 0.75;
     background-color: $timeline-color;
 
     &.major {
-      top: ($timeline-height / 2) - ($interval-tick-height / 2);
+      top: ($timeline-height / 2);
       height: $interval-tick-height;
       width: $interval-tick-width;
     }
     &.minor {
-      top: ($timeline-height / 2) - ($interval-tick-height / 4);
+      top: ($timeline-height / 2);
       height: $interval-tick-height / 2;
       width: $interval-tick-width / 2;
     }
   }
 
   .poi {
-    top: ($timeline-height / 2) - ($poi-size-cool / 2);
+    top: ($timeline-height / 2) - ($poi-size-cool + $poi-distance-from-timeline);
     background-color: $fire-color-cool;
     height: $poi-size-cool;
 
@@ -82,7 +84,8 @@ $mouse-curso-opacity: 0.75;
 
     &.fire {
       background-color: $fire-color-fire;
-      top: ($timeline-height / 2) - ($poi-size-fire / 2);
+      top: ($timeline-height / 2) -
+        ($poi-size-fire + $poi-distance-from-timeline);
       height: $poi-size-fire;
 
       .mat-icon {
@@ -92,7 +95,8 @@ $mouse-curso-opacity: 0.75;
     }
     &.hot {
       background-color: $fire-color-hot;
-      top: ($timeline-height / 2) - ($poi-size-hot / 2);
+      top: ($timeline-height / 2) -
+        ($poi-size-hot + $poi-distance-from-timeline);
       height: $poi-size-hot;
 
       .mat-icon {
@@ -102,7 +106,8 @@ $mouse-curso-opacity: 0.75;
     }
     &.warm {
       background-color: $fire-color-warm;
-      top: ($timeline-height / 2) - ($poi-size-warm / 2);
+      top: ($timeline-height / 2) -
+        ($poi-size-warm + $poi-distance-from-timeline);
       height: $poi-size-warm;
 
       .mat-icon {
