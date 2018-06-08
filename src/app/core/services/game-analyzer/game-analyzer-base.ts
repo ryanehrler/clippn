@@ -12,6 +12,12 @@ export class GameAnalyzerBase {
   scaledXStart: number;
   scaledYStart: number;
 
+  // Variables used during frame process so we reuse instead of create new vars to be gc'UNSIGNED_BYTE
+  pixelArray: Uint8Array;
+  r: number;
+  g: number;
+  b: number;
+
   isAround(pixelColor: number, desiredColor: number, range: number) {
     return (
       desiredColor - range < pixelColor && desiredColor + range > pixelColor
@@ -67,8 +73,8 @@ export class GameAnalyzerBase {
     this.videoWidth = width;
     this.videoHeight = height;
 
-    this.widthScale = Math.round(width / analysisVideoWidth * 100) / 100;
-    this.heightScale = Math.round(height / analysisVideoHeight * 100) / 100;
+    this.widthScale = Math.round((width / analysisVideoWidth) * 100) / 100;
+    this.heightScale = Math.round((height / analysisVideoHeight) * 100) / 100;
 
     this.scaledWidth = Math.round(analyzerWidth * this.widthScale);
     this.scaledHeight = Math.round(analyzerHeight * this.heightScale);

@@ -194,8 +194,10 @@ export class PoiTimelineComponent
   }
 
   seekVideoToCursor() {
-    console.log('seek-video', this.getSecondsForX(this.mouseCursorX));
-    this.video.currentTime = this.getSecondsForX(this.mouseCursorX);
+    if (this.video != null) {
+      console.log('seek-video', this.getSecondsForX(this.mouseCursorX));
+      this.video.currentTime = this.getSecondsForX(this.mouseCursorX);
+    }
   }
 
   private createIntervalTick(tickX: number, cssClass: any[], label: string) {
@@ -222,10 +224,12 @@ export class PoiTimelineComponent
     });
   }
   private setVideoCursor() {
-    const x = this.getXPositionForSeconds(this.video.currentTime);
-    this.videoCursor.style = {
-      left: x + 'px'
-    };
+    if (this.video != null) {
+      const x = this.getXPositionForSeconds(this.video.currentTime);
+      this.videoCursor.style = {
+        left: x + 'px'
+      };
+    }
   }
   /*
   * x = seconds * (interval width / interval seconds)

@@ -16,6 +16,7 @@ import * as moment from 'moment';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 
+import { timeout } from 'rxjs/operators';
 import { VideoUrlService } from '../../../core/services';
 import { AnalysisTimeRemainingCalcService } from '../../../core/services/analysis-time-remaining-calc.service';
 import { ClipTimeNavigationService } from '../../../core/services/clip/clip-time-navigation.service';
@@ -41,14 +42,17 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy, AfterViewInit {
   totalFrameCount: number;
   analysisFps: number;
   analysisFpsFrameCount = 0;
+  frameResetCounter = 0;
 
   videoFile: File;
   videoFileUrl: SafeUrl;
+  showVideo = true;
   gameAnalyzer: IGameAnalyzer;
   clip: Clip;
   video: any;
   currentTime: string;
   currentTimeDur: moment.Duration;
+  currentVideoDuration: number;
   analysisTimeRemainingSec: number;
   analysisTimeRemaining: string;
   killDuration: number; // length of kill - gameAnalyzer.durationOfKill
@@ -64,6 +68,7 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy, AfterViewInit {
 
   webGl: any;
   canvas2d: any;
+  canvas: any;
 
   @ViewChild('videoPlayer') videoPlayer: any;
   @ViewChild('myCanvas') myCanvas: any;
@@ -112,9 +117,6 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy, AfterViewInit {
       this.clipTimeNavigationService.currentTimeSubject.subscribe(value => {
         this.gotoKill(value);
       });
-
-      // Setup the video element - ties into loadedmetadata event
-      this.setVideoElementIfNull();
     } else {
       this.router.navigate(['analyzer/add-video']);
     }
@@ -144,6 +146,7 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy, AfterViewInit {
       'Start'
     );
 
+    this.currentVideoDuration = this.video.currentTime;
     this.video.pause();
     this.setVideoElementIfNull();
     this.startAnalysis = true;
@@ -151,7 +154,7 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy, AfterViewInit {
     this.analysisTimeRemainingCalc.start(
       this.analysisFpsFrameCount,
       this.analysisFps,
-      this.video.duration,
+      this.currentVideoDuration,
       this.frameRate,
       this.totalFrameCount
     );
@@ -208,51 +211,76 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy, AfterViewInit {
 
   setVideoElement() {
     this.video = this.videoPlayer.nativeElement;
-    this.setVideoPropertiesAndEvents(() => {
-      const width = this.gameAnalyzer.width;
-      const height = this.gameAnalyzer.height;
-      // Load Canvas2d Context
-      this.canvas2d = this.myCanvasTwo.nativeElement.getContext('2d');
-      this.canvas2d.width = width;
-      this.canvas2d.height = height;
-
-      // Load WebGL bullshit
-      const c = this.myCanvas.nativeElement;
-
-      c.width = width;
-      c.height = height;
-      this.webGl = c.getContext('webgl');
-
-      const tex = this.webGl.createTexture();
-      this.webGl.bindTexture(this.webGl.TEXTURE_2D, tex);
-
-      const fbo = this.webGl.createFramebuffer();
-      this.webGl.bindFramebuffer(this.webGl.FRAMEBUFFER, fbo);
-      this.webGl.viewport(0, 0, width, height);
-      this.webGl.framebufferTexture2D(
-        this.webGl.FRAMEBUFFER,
-        this.webGl.COLOR_ATTACHMENT0,
-        this.webGl.TEXTURE_2D,
-        tex,
-        0
-      );
-    });
+    this.setVideoPropertiesAndEvents();
+    this.setVideoResolution();
+    this.setCanvasAndWebGl();
   }
-  setVideoPropertiesAndEvents(callback: () => void) {
+  setCanvasAndWebGl() {
+    console.log('SET-CANVAS-AND-WEB-GL');
+    const width = this.gameAnalyzer.width;
+    const height = this.gameAnalyzer.height;
+
+    // Load Canvas2d Context
+    this.canvas2d = this.myCanvasTwo.nativeElement.getContext('2d');
+    this.canvas2d.width = width;
+    this.canvas2d.height = height;
+
+    // const c = this.myCanvas.nativeElement;
+    // c.width = width;
+    // c.height = height;
+    this.canvas = document.createElement('canvas');
+
+    this.canvas.width = width;
+    this.canvas.height = height;
+    this.webGl = this.canvas.getContext('experimental-webgl');
+
+    const tex = this.webGl.createTexture();
+    this.webGl.bindTexture(this.webGl.TEXTURE_2D, tex);
+
+    const fbo = this.webGl.createFramebuffer();
+    this.webGl.bindFramebuffer(this.webGl.FRAMEBUFFER, fbo);
+    this.webGl.viewport(0, 0, width, height);
+    this.webGl.framebufferTexture2D(
+      this.webGl.FRAMEBUFFER,
+      this.webGl.COLOR_ATTACHMENT0,
+      this.webGl.TEXTURE_2D,
+      tex,
+      0
+    );
+  }
+  setVideoPropertiesAndEvents() {
     // .. Hide video controls ..
+    console.log('SET-VIDEO-PROPERTIES');
     this.video.controls = false;
 
-    this.video.addEventListener(
-      'loadedmetadata',
-      e => {
-        const width = e.srcElement.videoWidth;
-        const height = e.srcElement.videoHeight;
-        console.log('video resolution', width, height, e);
-        this.gameAnalyzer.setVideoResolution(width, height);
-        callback();
-      },
-      false
-    );
+    // this.video.addEventListener(
+    //   'loadedmetadata',
+    //   e => {
+    //     this.setVideoResolution();
+    //     callback();
+    //   },
+    //   false
+    // );
+  }
+  setVideoResolution() {
+    if (this.video != null) {
+      const width = this.video.videoWidth;
+      const height = this.video.videoHeight;
+      console.log('video resolution', width, height, this.video);
+      this.gameAnalyzer.setVideoResolution(width, height);
+    }
+  }
+  // HACK ALERT - right now wegGl.readPixels() slows way down after processing like 10-20 mins of video
+  resetCanvas() {
+    if (this.canvas != null) {
+      this.canvas.remove();
+      this.showVideo = false;
+      this.video = null;
+      setTimeout(() => {
+        console.log('SET-CANVAS');
+        this.showVideo = true;
+      }, 500);
+    }
   }
   setNumberOfFrames() {
     if (this.video == null) {
@@ -269,20 +297,39 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   incrementVideoFrame() {
-    this.video.currentTime += 1 / this.gameAnalyzer.analysisFPS;
-    // 1s / (frame_rate / frames)
+    if (this.frameResetCounter === 500) {
+      this.frameResetCounter = 0;
+      this.resetCanvas();
+    } else {
+      this.frameResetCounter++;
+      this.currentVideoDuration += 1 / this.gameAnalyzer.analysisFPS;
+      this.video.currentTime = this.currentVideoDuration;
+      // 1s / (frame_rate / frames)
+    }
   }
 
   onFrameLoad() {
-    if (this.startAnalysis) {
+    this.setVideoElementIfNull();
+    // If the video is out of sync with the current time which is caused by our hack fix,
+    // then we want to increment the video which will jump the time to pick up where we left off.
+    if (this.startAnalysis && this.isVideoOutOfSync()) {
+      this.incrementVideoFrame();
+    } else if (this.startAnalysis) {
       this.processVideo();
     }
+
     if (this.totalFrameCount == null) {
       this.setNumberOfFrames();
     }
-
     this.updateAnalysisFPS();
     this.setCurrentTime();
+  }
+
+  isVideoOutOfSync() {
+    return (
+      this.video.currentTime < this.currentVideoDuration - 0.5 ||
+      this.video.currentTime > this.currentVideoDuration + 0.5
+    );
   }
 
   setCurrentTime() {
@@ -308,11 +355,10 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy, AfterViewInit {
         this.video.duration
       );
     }
-    console.log(this.clip.currentProgress);
   }
   private updateAnalysisFPS() {
     this.analysisTimeRemainingSec = Math.round(
-      this.analysisTimeRemainingCalc.update(this.video.currentTime)
+      this.analysisTimeRemainingCalc.update(this.currentVideoDuration)
     );
 
     this.analysisTimeRemaining = moment
@@ -323,7 +369,8 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   processVideo() {
-    const currentTime = this.video.currentTime;
+    const currentTime = this.currentVideoDuration;
+
     const killDetected = this.gameAnalyzer.processVideo(
       this.webGl,
       this.canvas2d,

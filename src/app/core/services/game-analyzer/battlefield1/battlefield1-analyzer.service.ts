@@ -40,15 +40,15 @@ export class Battlefield1AnalyzerService extends GameAnalyzerBase
     let index = 0;
     while (index < colorArray.length) {
       // RGB (124, 60, 58)
-      const red = colorArray[index];
-      const green = colorArray[index + 1];
-      const blue = colorArray[index + 2];
+      this.r = colorArray[index];
+      this.g = colorArray[index + 1];
+      this.b = colorArray[index + 2];
 
       // console.log(red, green, blue);
       if (
-        this.isAround(red, this.pixelRedValue, this.pixelRedTolerance) &&
-        this.isAround(green, this.pixelGreenValue, this.pixelGreenTolerance) &&
-        this.isAround(blue, this.pixelBlueValue, this.pixelBlueTolerance)
+        this.isAround(this.r, this.pixelRedValue, this.pixelRedTolerance) &&
+        this.isAround(this.g, this.pixelGreenValue, this.pixelGreenTolerance) &&
+        this.isAround(this.b, this.pixelBlueValue, this.pixelBlueTolerance)
       ) {
         kill = true;
         break;
@@ -71,8 +71,6 @@ export class Battlefield1AnalyzerService extends GameAnalyzerBase
     const yS = this.scaledYStart;
     // console.log(w, h, xS, yS);
 
-    const typedArray = new Uint8Array(w * h * 4);
-
     webGl.texImage2D(
       webGl.TEXTURE_2D,
       0,
@@ -81,14 +79,22 @@ export class Battlefield1AnalyzerService extends GameAnalyzerBase
       webGl.UNSIGNED_BYTE,
       video
     );
-    webGl.readPixels(xS, yS, w, h, webGl.RGBA, webGl.UNSIGNED_BYTE, typedArray);
+    webGl.readPixels(
+      xS,
+      yS,
+      w,
+      h,
+      webGl.RGBA,
+      webGl.UNSIGNED_BYTE,
+      this.pixelArray
+    );
 
     // Render video partial to canvas
-    const palette = canvas2d.getImageData(0, 0, w, h);
-    palette.data.set(new Uint8ClampedArray(typedArray));
-    canvas2d.putImageData(palette, 0, 0);
+    // const palette = canvas2d.getImageData(0, 0, w, h);
+    // palette.data.set(new Uint8ClampedArray(typedArray));
+    // canvas2d.putImageData(palette, 0, 0);
 
-    if (this.hasPoi(typedArray)) {
+    if (this.hasPoi(this.pixelArray)) {
       this.addDetection();
       // console.log('POI Detected');
     } else {
@@ -123,6 +129,8 @@ export class Battlefield1AnalyzerService extends GameAnalyzerBase
     this.height = this.scaledHeight;
     this.xStart = this.scaledXStart;
     this.yStart = this.scaledYStart;
+
+    this.pixelArray = new Uint8Array(this.width * this.height * 4);
 
     // console.log(
     //   'set-video-res',

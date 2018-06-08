@@ -21,7 +21,7 @@ export class FortniteAnalyzerService extends GameAnalyzerBase
   durationOfKill = 2.1; // 71 frames
   fireThresholdSeconds = 10;
 
-  analysisFPS = 5;
+  analysisFPS = 3;
   analysisVideoWidth = 1920;
   analysisVideoHeight = 1080;
 
@@ -40,15 +40,15 @@ export class FortniteAnalyzerService extends GameAnalyzerBase
     let kill = false;
     let index = 0;
     while (index < colorArray.length) {
-      const r = colorArray[index];
-      const g = colorArray[index + 1];
-      const b = colorArray[index + 2];
+      this.r = colorArray[index];
+      this.g = colorArray[index + 1];
+      this.b = colorArray[index + 2];
 
       // console.log(r, g, b);
       if (
-        this.isAround(r, this.pixelRedValue, this.pixelRedTolerance) &&
-        this.isAround(g, this.pixelGreenValue, this.pixelGreenTolerance) &&
-        this.isAround(b, this.pixelBlueValue, this.pixelBlueTolerance)
+        this.isAround(this.r, this.pixelRedValue, this.pixelRedTolerance) &&
+        this.isAround(this.g, this.pixelGreenValue, this.pixelGreenTolerance) &&
+        this.isAround(this.b, this.pixelBlueValue, this.pixelBlueTolerance)
       ) {
         kill = true;
         break;
@@ -72,8 +72,6 @@ export class FortniteAnalyzerService extends GameAnalyzerBase
     const yS = this.scaledYStart;
     // console.log(w, h, xS, yS);
 
-    const typedArray = new Uint8Array(w * h * 4);
-
     webGl.texImage2D(
       webGl.TEXTURE_2D,
       0,
@@ -82,14 +80,23 @@ export class FortniteAnalyzerService extends GameAnalyzerBase
       webGl.UNSIGNED_BYTE,
       video
     );
-    webGl.readPixels(xS, yS, w, h, webGl.RGBA, webGl.UNSIGNED_BYTE, typedArray);
+
+    webGl.readPixels(
+      xS,
+      yS,
+      w,
+      h,
+      webGl.RGBA,
+      webGl.UNSIGNED_BYTE,
+      this.pixelArray
+    );
 
     // Render video partial to canvas
-    const palette = canvas2d.getImageData(0, 0, w, h);
-    palette.data.set(new Uint8ClampedArray(typedArray));
-    canvas2d.putImageData(palette, 0, 0);
+    // const palette = canvas2d.getImageData(0, 0, w, h);
+    // palette.data.set(new Uint8ClampedArray(this.pixelArray));
+    // canvas2d.putImageData(palette, 0, 0);
 
-    if (this.hasPoi(typedArray)) {
+    if (this.hasPoi(this.pixelArray)) {
       this.addDetection();
       // console.log('POI Detected');
     } else {
@@ -123,6 +130,8 @@ export class FortniteAnalyzerService extends GameAnalyzerBase
     this.height = this.scaledHeight;
     this.xStart = this.scaledXStart;
     this.yStart = this.scaledYStart;
+
+    this.pixelArray = new Uint8Array(this.width * this.height * 4);
 
     // console.log(
     //   'set-video-res',

@@ -1,6 +1,6 @@
 <div layout="row" layout-wrap (click)="disableContextMenu()">
   <mat-card flex="33" layout="row">
-    <div flex="100">
+    <div flex="100" *ngIf="showVideo">
       <video controls (click)="toggleVideo()" (canplay)="onFrameLoad()" #videoPlayer>
         <source *ngIf="videoFileUrl" [src]="videoFileUrl" /> Browser not supported
       </video>

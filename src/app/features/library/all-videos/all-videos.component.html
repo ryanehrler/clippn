@@ -1,16 +1,18 @@
-<mat-form-field class="folder-input">
-  <input matInput disabled="true" type="text" placeholder="Set Folder" [(ngModel)]="folder">
-</mat-form-field>
-<button mat-raised-button color="primary" (click)="changeFolder()">
-  Change Folder
-  <mat-icon>mode_edit</mat-icon>
-</button>
+<div layout="row" layout-wrap layout-margin>
+  <mat-form-field class="folder-input" flex="50">
+    <input matInput disabled="true" type="text" placeholder="Set Folder" [(ngModel)]="folder">
+  </mat-form-field>
+  <div flex>
+    <button mat-raised-button class="folder-btn" color="primary" (click)="changeFolder()">
+      Change Folder
+      <mat-icon>mode_edit</mat-icon>
+    </button>
+  </div>
+</div>
 
-<ng-template *ngIf="loading" tdLoading [tdLoadingUntil]="loading" tdLoadingStrategy="overlay">
-  <mat-icon matListAvatar>
-    folder
-  </mat-icon>
-</ng-template>
+<div class="loader" *ngIf="isLoading">
+  <ng-template tdLoading [tdLoadingUntil]="!isLoading" tdLoadingStrategy="replace"></ng-template>
+</div>
 
 <div layout="row" layout-wrap>
   <mat-card flex="30" *ngFor="let video of localVideos">

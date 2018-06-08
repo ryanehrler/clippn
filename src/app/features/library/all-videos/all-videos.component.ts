@@ -25,7 +25,7 @@ export class AllVideosComponent implements OnInit {
   videoPath: string;
   videoFileUrl: SafeUrl;
   showVideo: boolean;
-  loading: boolean;
+  isLoading = true;
 
   constructor(
     private router: Router,
@@ -39,9 +39,6 @@ export class AllVideosComponent implements OnInit {
   ngOnInit() {
     this.folder = this.localVideoService.getFolder();
     this.openFolder();
-
-    this.folder =
-      'fuckkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk';
   }
 
   changeFolder() {
@@ -54,7 +51,7 @@ export class AllVideosComponent implements OnInit {
       .getLocalVideos()
       .subscribe((videos: LocalVideo[]) => {
         this.localVideos = videos;
-        this.loading = true;
+        this.isLoading = false;
       });
   }
 

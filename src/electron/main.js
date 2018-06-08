@@ -17,6 +17,9 @@ function loadUrl() {
     })
   );
 }
+function reload() {
+  win.reload();
+}
 function createWindow() {
   // Create the browser window.
   win = new BrowserWindow({

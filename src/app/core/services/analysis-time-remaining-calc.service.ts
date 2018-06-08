@@ -89,7 +89,7 @@ export class AnalysisTimeRemainingCalcService {
     // This was so we don't go to a frame in the video that doesn't exist if I remember
     // correctly.
     const frameCount = Math.round(
-      duration * this.frameRate / this.gameAnalysisFps -
+      (duration * this.frameRate) / this.gameAnalysisFps -
         this.gameAnalysisFps * 2
     );
     // console.log('frame-count', frameCount);
@@ -119,5 +119,9 @@ export class AnalysisTimeRemainingCalcService {
 
     this.analysisFpsArray.push(currentFps);
     this.analysisFps = _.mean(this.analysisFpsArray);
+
+    // console.log('---------------------');
+    // console.log(currentFps + ' FPS Current');
+    // console.log(this.analysisFps + ' FPS');
   }
 }
