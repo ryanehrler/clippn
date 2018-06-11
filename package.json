@@ -7,13 +7,13 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build-w": "ng build --base-href ./ --watch",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "electronq": "./node_modules/.bin/electron .",
     "electron": "ng build --base-href ./ && .\\node_modules\\.bin\\electron .",
-    "electron-build":
-      "ng build --prod --base-href ./ && .\\node_modules\\.bin\\electron ."
+    "electron-build": "ng build --prod --base-href ./ && .\\node_modules\\.bin\\electron ."
   },
   "private": true,
   "dependencies": {
@@ -30,6 +30,7 @@
     "@angular/router": "6.0.1",
     "@covalent/core": "^2.0.0-beta.1",
     "@types/angular-material": "^1.1.58",
+    "@types/lodash": "^4.14.109",
     "angular2-moment": "^1.9.0",
     "angularfire2": "^5.0.0-rc.9",
     "core-js": "^2.5.4",

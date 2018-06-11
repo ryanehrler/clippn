@@ -16,7 +16,11 @@
             "main": "src/main.ts",
             "tsConfig": "src/tsconfig.app.json",
             "polyfills": "src/polyfills.ts",
-            "assets": ["src/assets", "src/favicon.ico", "src/assets/Logo.png"],
+            "assets": [
+              "src/assets",
+              "src/favicon.ico",
+              "src/assets/Logo.png"
+            ],
             "styles": [
               "node_modules/font-awesome/css/font-awesome.min.css",
               "node_modules/@covalent/core/common/platform.scss",
@@ -80,14 +84,24 @@
               "node_modules/normalize.css/normalize.css",
               "src/app/material/theme.scss"
             ],
-            "assets": ["src/assets", "src/favicon.ico", "src/assets/Logo.png"]
+            "assets": [
+              "src/assets",
+              "src/favicon.ico",
+              "src/assets/Logo.png",
+              "src/assets/icon.png"
+            ]
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["src/tsconfig.app.json", "src/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**"]
+            "tsConfig": [
+              "src/tsconfig.app.json",
+              "src/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         }
       }
@@ -107,8 +121,12 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**"]
+            "tsConfig": [
+              "e2e/tsconfig.e2e.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         }
       }

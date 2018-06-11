@@ -14,16 +14,20 @@
   <ng-template tdLoading [tdLoadingUntil]="!isLoading" tdLoadingStrategy="replace"></ng-template>
 </div>
 
-<div layout="row" layout-wrap>
-  <mat-card flex="30" *ngFor="let video of localVideos">
+<div layout="row" layout-wrap layout-margin>
+  <mat-card *ngFor="let video of localVideos" flex="25" class="video-card">
     <mat-card-header>
       <mat-card-title>{{video.name}}</mat-card-title>
     </mat-card-header>
-    <img mat-card-image src="../../../../assets/Logo.png" alt="video">
+    <img class="thumbnail" mat-card-image [src]="'../clipImages/thumbnails/' + video.name + '.jpeg'" alt="video" *ngIf="!isThumbnailLoading">
+    <ng-container *ngIf="isThumbnailLoading">
+      <ng-template tdLoading [tdLoadingUntil]="!isThumbnailLoading" tdLoadingStrategy="replace"></ng-template>
+    </ng-container>
     <mat-card-content>
     </mat-card-content>
     <mat-card-actions>
       <button mat-button color="primary" (click)="openVideoAnalysis(video)">Analyze</button>
     </mat-card-actions>
   </mat-card>
+
 </div>

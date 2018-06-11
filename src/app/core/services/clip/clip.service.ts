@@ -153,7 +153,7 @@ export class ClipService {
   getAllTags() {
     const uniqueTags = [];
     _.forEach(this.clips, clip => {
-      _.forEach(clip.killFeed, kill => {
+      _.forEach(clip.pois, kill => {
         _.forEach(kill.tags, tag => {
           if (
             _.findIndex(uniqueTags, t => {
@@ -168,7 +168,7 @@ export class ClipService {
     return uniqueTags;
   }
   getPercentDone(currentTime: number, duration: number) {
-    let percent = Math.round(currentTime / duration * 100);
+    let percent = Math.round((currentTime / duration) * 100);
     if (percent >= 97) {
       // We don't necessarily process up to the last second since it is done by frames.
       percent = 100;

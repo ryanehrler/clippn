@@ -5,11 +5,14 @@ import { Router } from '@angular/router';
 import * as _ from 'lodash';
 
 import { TdLoadingService } from '@covalent/core';
+import { of } from 'rxjs';
+
 import {
   FileStorageService,
   LocalVideo,
   LocalVideoService,
   NodejsService,
+  VideoThumbnailService,
   VideoUrlService
 } from '../../../core/services';
 import { FrameExtractorService } from '../../../core/services/electron/frame-extractor.service';
@@ -26,6 +29,7 @@ export class AllVideosComponent implements OnInit {
   videoFileUrl: SafeUrl;
   showVideo: boolean;
   isLoading = true;
+  isThumbnailLoading = true;
 
   constructor(
     private router: Router,
@@ -33,7 +37,7 @@ export class AllVideosComponent implements OnInit {
     private videoUrlService: VideoUrlService,
     private nodejsService: NodejsService,
     private sanitizer: DomSanitizer,
-    private frameExtractor: FrameExtractorService
+    private videoThumbnailService: VideoThumbnailService
   ) {}
 
   ngOnInit() {
@@ -47,19 +51,36 @@ export class AllVideosComponent implements OnInit {
   }
 
   openFolder() {
-    this.localVideoService
-      .getLocalVideos()
-      .subscribe((videos: LocalVideo[]) => {
+    this.isThumbnailLoading = true;
+    this.localVideoService.getLocalVideos().subscribe(
+      (videos: LocalVideo[]) => {
         this.localVideos = videos;
+        this.generateThumbnails(videos);
         this.isLoading = false;
-      });
+      },
+      error => {
+        console.log('Open Folder - Timed Out');
+      }
+    );
   }
 
   openVideoAnalysis(video: LocalVideo) {
-    // this.frameExtractor.extractFrames(video.path, progress => {
-    //   console.log('fuck', progress);
-    // });
     this.videoUrlService.storeVideoUrl(video.path, video.fileName);
     this.router.navigate(['/analyzer/add-video', video.fileName]);
+  }
+
+  generateThumbnails(videos: LocalVideo[]) {
+    this.videoThumbnailService.generate(videos).subscribe(
+      val => {
+        console.log('Video Complete: ', val.fileName);
+      },
+      error => {
+        console.log('Error Loading Thumbnails');
+      },
+      () => {
+        // Completed
+        this.isThumbnailLoading = false;
+      }
+    );
   }
 }

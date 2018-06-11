@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { NodejsService } from '..';
-
+import { NodejsService } from './nodejs.service';
 
 @Injectable()
 export class FrameExtractorService {
@@ -67,7 +66,7 @@ export class FrameExtractorService {
       });
 
     for (let i = 1; i <= slices; i++) {
-      const seekToTime = duration / slices * i;
+      const seekToTime = (duration / slices) * i;
       console.log('seek-to-time: ', seekToTime);
 
       cmd
@@ -89,17 +88,22 @@ export class FrameExtractorService {
       return;
     }
     this.ffmpegCount++;
-    const cmd = this.nodeService
-      .ffmpeg(videoPath)
-      .on('end', () => {
-        this.ffmpegCount--;
-      })
-      .seekInput(time)
-      // .inputOptions(['-accurate_seek', '-ss ' + time])
-      // .size('360x?')
-      .outputOptions(['-frames:v 1'])
-      .output('./clipImages/' + time + '.jpeg')
-      .run();
+    this.takeScreenshot(videoPath, time, time.toString()).on('end', () => {
+      this.ffmpegCount--;
+    });
+  }
+
+  takeScreenshot(videoPath: string, time: number, targetImgName: string) {
+    return (
+      this.nodeService
+        .ffmpeg(videoPath)
+        .seekInput(time)
+        // .inputOptions(['-accurate_seek', '-ss ' + time])
+        // .size('360x?')
+        .outputOptions(['-frames:v 1'])
+        .output('./clipImages/' + targetImgName + '.jpeg')
+        .run()
+    );
   }
 
   getArray(duration: number): number[] {

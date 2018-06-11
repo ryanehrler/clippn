@@ -8,3 +8,5 @@ export * from './firestore/firestore.service';
 export * from './video-library/local-video.service';
 export * from './video-library/local-video';
 export * from './electron/nodejs.service';
+export * from './electron/nodejs-utility.service';
+export * from './video-thumbnail/video-thumbnail.service';

@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 
 import * as _ from 'lodash';
-import { Observable, of, bindCallback } from 'rxjs';
+import { bindCallback, Observable, of } from 'rxjs';
 
-
+import { map, retry, tap, timeout } from 'rxjs/operators';
 import { ElectronService } from '../electron/electron.service';
+import { NodejsUtilityService } from '../electron/nodejs-utility.service';
 import { NodejsService } from '../electron/nodejs.service';
 import { LocalVideo } from './local-video';
-import { map } from 'rxjs/operators';
 
 declare let localStorage;
 
@@ -22,7 +22,8 @@ export class LocalVideoService {
 
   constructor(
     private electronService: ElectronService,
-    private nodejsService: NodejsService
+    private nodejsService: NodejsService,
+    private nodeUtilService: NodejsUtilityService
   ) {}
 
   getFolder() {
@@ -46,11 +47,11 @@ export class LocalVideoService {
       const readdirBind: any = bindCallback(this.nodejsService.fs.readdir);
       return readdirBind(this.folder).pipe(
         map(result => {
-        // result[0] = err
-        // result[1] = folders
-        return this.readdirCallback(result[0], result[1], this.folder);
-      })
-    );
+          // result[0] = err
+          // result[1] = folders
+          return this.readdirCallback(result[0], result[1], this.folder);
+        })
+      );
     } else {
       return of([new LocalVideo('', '', 'Not in Electron', null)]);
     }
@@ -61,16 +62,9 @@ export class LocalVideoService {
 
     return readFileBind(path).pipe(
       map(result => {
-      return this.readFileCallback(result[0], result[1]);
-    })
-  );
-  }
-  getFileName(path: string) {
-    const extension = this.getExtension(path);
-    return this.nodejsService.path.basename(path, extension);
-  }
-  getExtension(path: string) {
-    return this.nodejsService.path.extname(path);
+        return this.readFileCallback(result[0], result[1]);
+      })
+    );
   }
 
   private readdirCallback(
@@ -79,13 +73,15 @@ export class LocalVideoService {
     folderPath: string
   ): LocalVideo[] {
     // grab only .mp4 files
-    const localVideos = _.filter(fileNames, (fileName: string) => {
-      return this.getExtension(fileName) == '.mp4';
-    }).map(fileName => {
-      const path = folderPath + '\\' + fileName;
-      const name = this.getFileName(fileName);
-      return new LocalVideo(path, fileName, name, null);
-    });
+    const localVideos = _
+      .filter(fileNames, (fileName: string) => {
+        return this.nodeUtilService.getExtension(fileName) == '.mp4';
+      })
+      .map(fileName => {
+        const path = folderPath + '\\' + fileName;
+        const name = this.nodeUtilService.getFileName(fileName);
+        return new LocalVideo(path, fileName, name, null);
+      });
 
     return localVideos;
   }

@@ -10,6 +10,7 @@ import { TdDialogService } from '@covalent/core';
 import { MaterialModule } from '../material/material.module';
 import { ErrorComponent } from './components/error/error.component';
 import { SideNavComponent } from './components/side-nav/side-nav.component';
+import { NodejsUtilityService } from './services';
 import { AnalysisTimeRemainingCalcService } from './services/analysis-time-remaining-calc.service';
 import { AuthGuard } from './services/auth/auth.guard';
 import { AuthService } from './services/auth/auth.service';
@@ -22,6 +23,7 @@ import { FileStorageService } from './services/file-storage/file-storage.service
 import { FirestoreService } from './services/firestore/firestore.service';
 import { GoogleAnalyticsService } from './services/google-analytics/index';
 import { LocalVideoService } from './services/video-library/local-video.service';
+import { VideoThumbnailService } from './services/video-thumbnail/video-thumbnail.service';
 import { VideoUrlService } from './services/video-url/video-url.service';
 
 @NgModule({
@@ -45,9 +47,11 @@ import { VideoUrlService } from './services/video-url/video-url.service';
     AnalysisTimeRemainingCalcService,
     ElectronService,
     NodejsService,
+    NodejsUtilityService,
     LocalVideoService,
     VideoUrlService,
-    FrameExtractorService
+    FrameExtractorService,
+    VideoThumbnailService
   ]
 })
 export class CoreModule {

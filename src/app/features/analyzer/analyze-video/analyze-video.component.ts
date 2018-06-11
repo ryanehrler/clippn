@@ -73,7 +73,6 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('videoPlayer') videoPlayer: any;
   @ViewChild('myCanvas') myCanvas: any;
   @ViewChild('myCanvasTwo') myCanvasTwo: any;
-  @ViewChildren('p') popOver: QueryList<ElementRef>;
 
   private onScroll: (e) => void;
   constructor(
@@ -425,22 +424,15 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy, AfterViewInit {
     this.video.currentTime = this.video.currentTime + seconds;
   }
   gotoKill(time: number) {
-    this.closePopovers();
+    // this.closePopovers();
     this.setVideoElementIfNull();
     this.video.currentTime = time - 1;
   }
   deleteKill(kill: Poi) {
     kill.deleted = true;
   }
-  // addTag(kill: Poi) {
-  //   kill.tags.push({ value: '', deleted: false });
-  // }
+
   deleteTag(kill: Poi, index: number) {
     _.pullAt(kill.tags, [index]);
-  }
-  closePopovers() {
-    _.forEach(this.popOver.toArray(), element => {
-      element.close();
-    });
   }
 }
