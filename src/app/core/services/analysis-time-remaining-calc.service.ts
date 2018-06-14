@@ -120,8 +120,8 @@ export class AnalysisTimeRemainingCalcService {
     this.analysisFpsArray.push(currentFps);
     this.analysisFps = _.mean(this.analysisFpsArray);
 
-    // console.log('---------------------');
-    // console.log(currentFps + ' FPS Current');
-    // console.log(this.analysisFps + ' FPS');
+    console.log('---------------------');
+    console.log(currentFps + ' FPS Current');
+    console.log(this.analysisFps + ' FPS');
   }
 }

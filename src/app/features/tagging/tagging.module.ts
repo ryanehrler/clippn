@@ -5,6 +5,7 @@ import { MaterialModule } from '../../material/material.module';
 import { SharedModule } from '../../shared/shared.module';
 import { TaggingRoutingModule } from './tagging-routing.module';
 import { TaggingComponent } from './tagging/tagging.component';
+import { ClipTimeNavigationService } from '../../core/services/clip';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { TaggingComponent } from './tagging/tagging.component';
     FormsModule,
     SharedModule
   ],
-  declarations: [TaggingComponent]
+  declarations: [TaggingComponent],
+  providers: [ClipTimeNavigationService]
 })
 export class TaggingModule {}

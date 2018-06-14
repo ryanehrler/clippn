@@ -21,7 +21,7 @@ $typography: mat-typography-config(
 
   Use map-get to retrieve value from here.  Example: map-get($primary, 'default-contrast') */
 $primary: mat-palette($mat-indigo, 500, 400, 700);
-$accent: mat-palette($mat-lime, 200, 900, 900);
+$accent: mat-palette($mat-grey, 200, 900, 900);
 $warn: mat-palette($mat-red, 700, 100, 900);
 $fire-color-fire: #c41b00;
 $fire-color-hot: #ff5600;

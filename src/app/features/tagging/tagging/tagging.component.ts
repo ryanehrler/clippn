@@ -6,7 +6,7 @@ import {
   OnInit
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Observable, Subject } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { ClipService } from '../../../core/services/clip/clip.service';
 import { Clip, Poi, Tag } from '../../../core/services/clip/index';
@@ -20,7 +20,7 @@ import {
   templateUrl: './tagging.component.html',
   styleUrls: ['./tagging.component.scss']
 })
-export class TaggingComponent implements OnInit {
+export class TaggingComponent implements OnInit, AfterViewInit, OnDestroy {
   clips: any[] = new Array();
   clip: Clip;
   filterInput = '';
@@ -30,6 +30,7 @@ export class TaggingComponent implements OnInit {
   foundTags: any[] = new Array();
   tagArray: any[] = new Array();
   gameArray: any[] = new Array();
+  availableTags: string[];
   filteredTagArray: Observable<string[]>;
   contextMenuWatch: Observable<boolean>;
   selectedGame = '';
@@ -42,6 +43,14 @@ export class TaggingComponent implements OnInit {
   tagging: any;
   myTagControl = new FormControl();
   mouseCursorScrollOffset = 0;
+
+  FILTER_COLUMNS = {
+    DEFAULT: 100,
+    FILTERED: 33
+  };
+
+  clipColumns = this.FILTER_COLUMNS.DEFAULT;
+  isFiltered = false;
 
   private onScroll: (e) => void;
   constructor(
@@ -81,7 +90,7 @@ export class TaggingComponent implements OnInit {
     //   this.onRemove(value);
     // });
 
-    this.contextMenuWatch = this.contextMenuSubject.asObservable(); //Observable.of(this.contextMenu);
+    this.contextMenuWatch = this.contextMenuSubject.asObservable(); // Observable.of(this.contextMenu);
   }
 
   ngOnInit() {
@@ -94,6 +103,7 @@ export class TaggingComponent implements OnInit {
           this.gameArray.push(clip.gameTitle);
         }
       });
+      this.availableTags = this.filterAutocomplete(''); // fill in possible tags;ags;
       this.filteredTagArray = this.myTagControl.valueChanges.pipe(
         startWith(''),
         map(val => this.filterAutocomplete(val))
@@ -113,7 +123,7 @@ export class TaggingComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    //this.saveClip(this.clip);
+    // this.saveClip(this.clip);
     this.tagging.removeEventListener('scroll', this.onScroll);
   }
 
@@ -164,11 +174,16 @@ export class TaggingComponent implements OnInit {
     );
   }
 
+  onSearchKeyUp(e: any) {
+    if (e.keyCode == 13) {
+      this.addSearchTag(this.filterValue);
+    } else {
+      this.applyFilter(e.target.value);
+    }
+  }
   applyFilter(filterInput: string) {
-    this.filterValue = filterInput;
-    // this.filterValue = this.filterValue.trim();
-    // Remove whitespace -- removed for now since i think including spaces in search is useful in this case
-    this.filterValue = this.filterValue.toLowerCase(); // default to lowercase
+    this.filterValue = filterInput.toLowerCase();
+    this.setIsFilterFlag();
   }
 
   // these probably need better function names but this filters the main clip white box
@@ -330,6 +345,7 @@ export class TaggingComponent implements OnInit {
       this.filterInput = '';
       this.filterValue = '';
       this.filterArray.push(tag);
+      this.applyFilter(tag);
       document.getElementById('filterInput').focus();
     }
   }
@@ -339,6 +355,17 @@ export class TaggingComponent implements OnInit {
 
     if (index >= 0) {
       this.filterArray.splice(index, 1);
+    }
+    this.applyFilter('');
+  }
+
+  setIsFilterFlag() {
+    if (this.filterValue != '' || this.filterArray.length > 0) {
+      this.clipColumns = this.FILTER_COLUMNS.FILTERED; // 3 columns
+      this.isFiltered = true;
+    } else {
+      this.clipColumns = this.FILTER_COLUMNS.DEFAULT;
+      this.isFiltered = false;
     }
   }
 }

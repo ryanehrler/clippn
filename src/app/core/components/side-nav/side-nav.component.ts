@@ -9,7 +9,7 @@ import { NavigationEnd, Router, RouterModule, Routes } from '@angular/router';
 export class SideNavComponent implements OnInit {
   navItems = [
     { label: 'Add Clip', iconName: 'add', path: 'analyzer' },
-    { label: 'Tagging', iconName: 'tagging', path: 'tagging' },
+    { label: 'Tags', iconName: 'tagging', path: 'tagging' },
     { label: 'Library', iconName: 'video_library', path: 'library' },
     { label: 'Admin', iconName: 'settings', path: 'admin' }
   ];
