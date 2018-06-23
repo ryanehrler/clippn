@@ -17,7 +17,7 @@ let win;
 function loadUrl() {
   win.loadURL(
     url.format({
-      pathname: path.join(__dirname, '../../dist/index.html'),
+      pathname: path.join(__dirname, '../../build/index.html'),
       protocol: 'file:',
       slashes: true
     })
@@ -33,7 +33,10 @@ function createWindow() {
     height: 9999,
     minWidth: 1185,
     minHeight: 768,
-    icon: path.join(__dirname, '../../dist/assets/icon.png')
+    icon: path.join(__dirname, '../../build/assets/icon.png'),
+    'web-preferences': {
+      'web-security': false
+    }
   });
 
   // and load the index.html of the app.

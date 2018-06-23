@@ -14,4 +14,8 @@ export class NodejsUtilityService {
   getExtension(path: string) {
     return this.nodejsService.path.extname(path);
   }
+  getLocalAppDataFolder() {
+    console.log('tmpdir: ', this.nodejsService.os.tmpdir());
+    return this.nodejsService.os.tmpdir() + '\\clippn\\';
+  }
 }

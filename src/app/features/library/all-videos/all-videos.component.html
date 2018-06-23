@@ -19,7 +19,7 @@
     <mat-card-header>
       <mat-card-title>{{video.name}}</mat-card-title>
     </mat-card-header>
-    <img class="thumbnail" mat-card-image [src]="'../clipImages/thumbnails/' + video.name + '.jpeg'" alt="video" *ngIf="!isThumbnailLoading">
+    <img class="thumbnail" mat-card-image [src]="video.safeUrl" alt="video" *ngIf="!isThumbnailLoading">
     <ng-container *ngIf="isThumbnailLoading">
       <ng-template tdLoading [tdLoadingUntil]="!isThumbnailLoading" tdLoadingStrategy="replace"></ng-template>
     </ng-container>

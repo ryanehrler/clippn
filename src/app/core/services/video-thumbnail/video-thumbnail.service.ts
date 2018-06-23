@@ -13,7 +13,7 @@ import { LocalVideo } from '../video-library/local-video';
   providedIn: 'root'
 })
 export class VideoThumbnailService {
-  private ROOT_PATH = 'thumbnails/';
+  private ROOT_PATH = 'thumbnails\\';
 
   constructor(
     private frameExtractorService: FrameExtractorService,
@@ -24,6 +24,8 @@ export class VideoThumbnailService {
   generate(videos: LocalVideo[]): Observable<LocalVideo> {
     const missingVideos = this.getMissingVideos(videos);
 
+    // executes missing video observable and then take screenshots observable, but we return
+    // an observable so nothing is actually executed in here - thats what this concatMap does.
     return missingVideos.pipe(
       concatMap(missingVideo => this.takeScreenshots(missingVideo))
     );
@@ -45,7 +47,7 @@ export class VideoThumbnailService {
     );
   }
   private getMissingVideos(videos: LocalVideo[]): Observable<LocalVideo[]> {
-    const folder = './clipImages/' + this.ROOT_PATH;
+    const folder = this.getThumbnailPath();
     if (this.nodejsService.fs != null) {
       const readdirBind: any = bindCallback(this.nodejsService.fs.readdir);
       return readdirBind(folder).pipe(
@@ -75,5 +77,9 @@ export class VideoThumbnailService {
     } else {
       return of();
     }
+  }
+
+  getThumbnailPath() {
+    return this.nodeUtilService.getLocalAppDataFolder() + this.ROOT_PATH;
   }
 }

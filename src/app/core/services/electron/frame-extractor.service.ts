@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { NodejsService } from './nodejs.service';
+import { NodejsUtilityService } from './nodejs-utility.service';
 
 @Injectable()
 export class FrameExtractorService {
@@ -7,9 +8,16 @@ export class FrameExtractorService {
   ffmpegCount = 0; // number of ffmpeg instances
   maxFfmpegCount = 2;
 
+  appDataPath: string;
+
   noop = () => {};
 
-  constructor(private nodeService: NodejsService) {}
+  constructor(
+    private nodeService: NodejsService,
+    private nodeUtilityService: NodejsUtilityService
+  ) {
+    this.appDataPath = this.nodeUtilityService.getLocalAppDataFolder();
+  }
 
   extractFrames(file, cbProgress) {
     console.log('Start Probe');
@@ -35,7 +43,14 @@ export class FrameExtractorService {
     const options = ['-accurate_seek', '-y', '-r .1'];
 
     return new Promise((resolve, reject) => {
-      this.cutVideo(input, './clipImages', 'clip', 3, duration - 100, resolve);
+      this.cutVideo(
+        input,
+        this.appDataPath,
+        'clip',
+        3,
+        duration - 100,
+        resolve
+      );
       // let time = 0;
       // setInterval(() => {
       //   if (this.ffmpegCount < this.maxFfmpegCount && time < duration) {
@@ -101,7 +116,7 @@ export class FrameExtractorService {
         // .inputOptions(['-accurate_seek', '-ss ' + time])
         // .size('360x?')
         .outputOptions(['-frames:v 1'])
-        .output('./clipImages/' + targetImgName + '.jpeg')
+        .output(this.appDataPath + '/' + targetImgName + '.jpeg')
         .run()
     );
   }

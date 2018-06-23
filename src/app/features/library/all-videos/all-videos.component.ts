@@ -26,6 +26,7 @@ export class AllVideosComponent implements OnInit {
   folder: string;
   localVideos: LocalVideo[];
   videoPath: string;
+  baseThumbnailPath: string;
   videoFileUrl: SafeUrl;
   showVideo: boolean;
   isLoading = true;
@@ -41,6 +42,8 @@ export class AllVideosComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.baseThumbnailPath = this.videoThumbnailService.getThumbnailPath();
+
     this.folder = this.localVideoService.getFolder();
     this.openFolder();
   }
@@ -70,8 +73,10 @@ export class AllVideosComponent implements OnInit {
   }
 
   generateThumbnails(videos: LocalVideo[]) {
+    let count = 0;
     this.videoThumbnailService.generate(videos).subscribe(
       val => {
+        count++;
         console.log('Video Complete: ', val.fileName);
       },
       error => {
@@ -79,8 +84,24 @@ export class AllVideosComponent implements OnInit {
       },
       () => {
         // Completed
-        this.isThumbnailLoading = false;
+
+        // HACK - Unfortunately this method returns before the files are actually finished writing to disk.
+        // So we need to wait until they are created.  This may not be perfect but it worked for me everytime.
+        // What we need to do is get a file watcher on the thumbnail directory and only procuess the SafeUrl
+        // if the file exists.
+        const timeout = count * 200;
+        setTimeout(() => {
+          this.isThumbnailLoading = false;
+          this.generateSafeUrl();
+        }, timeout);
       }
     );
+  }
+
+  private generateSafeUrl() {
+    _.each(this.localVideos, video => {
+      const path = this.baseThumbnailPath + video.name + '.jpeg';
+      video.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(path);
+    });
   }
 }

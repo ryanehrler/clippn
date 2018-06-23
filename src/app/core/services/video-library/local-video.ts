@@ -1,4 +1,5 @@
 import { Clip } from '../clip';
+import { SafeResourceUrl } from '@angular/platform-browser';
 
 export class LocalVideo {
   /**
@@ -15,4 +16,5 @@ export class LocalVideo {
   fileName: string;
   name: string;
   clip: Clip;
+  safeUrl: SafeResourceUrl;
 }

@@ -25,6 +25,7 @@ import { GoogleAnalyticsService } from './services/google-analytics/index';
 import { LocalVideoService } from './services/video-library/local-video.service';
 import { VideoThumbnailService } from './services/video-thumbnail/video-thumbnail.service';
 import { VideoUrlService } from './services/video-url/video-url.service';
+import { AppDataFolderInitService } from './services/app-data-folder-init/app-data-folder-init.service';
 
 @NgModule({
   imports: [
@@ -51,7 +52,8 @@ import { VideoUrlService } from './services/video-url/video-url.service';
     LocalVideoService,
     VideoUrlService,
     FrameExtractorService,
-    VideoThumbnailService
+    VideoThumbnailService,
+    AppDataFolderInitService
   ]
 })
 export class CoreModule {

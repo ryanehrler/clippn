@@ -1,12 +1,47 @@
 {
-  "name": "clippin2",
-  "version": "0.0.0",
+  "name": "clippn",
+  "author": "Clippn <ryanehrler@gmail.com>",
+  "version": "0.0.1",
   "license": "MIT",
   "main": "src/electron/main.js",
+  "build": {
+    "appId": "clippn",
+    "asarUnpack": [
+      "node_modules/ffmpeg-static/bin/${platform}/${arch}/",
+      "node_modules/ffmpeg-static/index.js",
+      "node_modules/ffmpeg-static/package.json",
+      "node_modules/ffprobe-static/bin/${platform}/${arch}/",
+      "node_modules/ffprobe-static/index.js",
+      "node_modules/ffprobe-static/package.json"
+    ],
+    "files": [
+      "**/*",
+      "!src/",
+      "!docs/",
+      "!dist/",
+      "!assets/",
+      "!clipImages/",
+      "src/electron/main.js",
+      "src/electron/config.js",
+      "src/electron/process-video.js",
+      "build"
+    ],
+    "win": {
+      "target": "portable",
+      "icon": "assets/icon.png",
+      "files": [
+        "!node_modules/ffmpeg-static/bin/darwin${/*}",
+        "!node_modules/ffmpeg-static/bin/linux${/*}",
+        "!node_modules/ffprobe-static/bin/darwin${/*}",
+        "!node_modules/ffprobe-static/bin/linux${/*}"
+      ]
+    }
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --base-href ./",
+    "build-prod": "ng build --prod --base-href ./",
     "build-w": "ng build --base-href ./ --watch",
     "test": "ng test",
     "lint": "ng lint",
@@ -14,22 +49,10 @@
     "electronq": "./node_modules/.bin/electron .",
     "electron": "ng build --base-href ./ && .\\node_modules\\.bin\\electron .",
     "electron-build": "ng build --prod --base-href ./ && .\\node_modules\\.bin\\electron .",
-    "electron-pack": ".\\node_modules\\.bin\\electron-forge make"
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
   },
   "private": true,
-  "config": {
-    "forge": {
-      "packagerConfig": {},
-      "makers": [
-        {
-          "name": "@electron-forge/maker-zip",
-          "platforms": [
-            "darwin"
-          ]
-        }
-      ]
-    }
-  },
   "dependencies": {
     "@angular/animations": "6.0.1",
     "@angular/cdk": "^6.1.0",
@@ -87,7 +110,6 @@
     "tslint": "~5.7.0",
     "tslint-config-prettier": "^1.6.0",
     "typescript": "^2.7.2",
-    "electron-builder": "^20.10.0",
-    "@electron-forge/cli": "^6.0.0-beta.1"
+    "electron-builder": "^20.10.0"
   }
 }
