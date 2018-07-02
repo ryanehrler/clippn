@@ -15,7 +15,12 @@ export class NodejsUtilityService {
     return this.nodejsService.path.extname(path);
   }
   getLocalAppDataFolder() {
-    console.log('tmpdir: ', this.nodejsService.os.tmpdir());
-    return this.nodejsService.os.tmpdir() + '\\clippn\\';
+    let path = '';
+    if(this.nodejsService.os) {
+      path = this.nodejsService.os.tmpdir();
+    }
+
+    console.log('tmpdir: ', path);
+    return path + '\\clippn\\';
   }
 }
