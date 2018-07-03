@@ -9,6 +9,8 @@ import { IntervalAnalysisComponent } from './components/interval-analysis/interv
 import { PoiChipComponent } from './components/poi-chip/poi-chip.component';
 import { PoiTimelineComponent } from './components/poi-timeline/poi-timeline.component';
 import { ClipFilterPipe } from './filter/clip-filter.pipe';
+import { SocialGoogleBtnComponent } from './components/social-google-btn/social-google-btn.component';
+import { SocialFacebookBtnComponent } from './components/social-facebook-btn/social-facebook-btn.component';
 
 @NgModule({
   imports: [FormsModule, ReactiveFormsModule, CommonModule, MaterialModule],
@@ -19,7 +21,9 @@ import { ClipFilterPipe } from './filter/clip-filter.pipe';
     PoiTimelineComponent,
     PoiChipComponent,
     IntervalAnalysisComponent,
-    ContextMenuComponent
+    ContextMenuComponent,
+    SocialGoogleBtnComponent,
+    SocialFacebookBtnComponent
   ],
   declarations: [
     ClipFilterPipe,
@@ -27,7 +31,9 @@ import { ClipFilterPipe } from './filter/clip-filter.pipe';
     PoiChipComponent,
     IntervalAnalysisComponent,
     ContextMenuComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    SocialGoogleBtnComponent,
+    SocialFacebookBtnComponent
   ],
   entryComponents: [ConfirmationDialogComponent]
 })

@@ -1,0 +1,40 @@
+// Dark
+$icon: url('../../../../assets/google/btn_google_signin_dark_normal_web@2x.png');
+$icon_pressed: url('../../../../assets/google/btn_google_signin_dark_pressed_web@2x.png');
+$icon_focus: url('../../../../assets/google/btn_google_signin_dark_focus_web@2x.png');
+$icon_disabled: url('../../../../assets/google/btn_google_signin_dark_disabled_web@2x.png');
+
+// Light
+// $icon: url('../../../../assets/google/btn_google_signin_light_normal_web@2x.png');
+// $icon_pressed: url('../../../../assets/google/btn_google_signin_light_pressed_web@2x.png');
+// $icon_focus: url('../../../../assets/google/btn_google_signin_light_focus_web@2x.png');
+// $icon_disabled: url('../../../../assets/google/btn_google_signin_light_disabled_web@2x.png');
+
+button {
+  width: auto;
+  height: calc(width * 0.5);
+}
+.btn-container {
+  position: relative;
+  width: 100%;
+  padding-bottom: 23%;
+}
+.img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image: $icon;
+  background-repeat: no-repeat, no-repeat;
+  background-size: cover;
+  padding: 2px;
+
+  &:active {
+    background-image: $icon_pressed;
+  }
+  &:disabled {
+    background-image: $icon_disabled;
+  }
+  &:focus {
+    background-image: $icon_focus;
+  }
+}

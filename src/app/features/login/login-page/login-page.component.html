@@ -11,67 +11,54 @@
         <div flex="650px">
           <div class="login-container">
 
+
+
             <!-- Template Header starts -->
             <div class="login-box-header">
-              <span class="h1">Clippin</span>
+              <img src="./assets/Logo.png" class="logo">
             </div>
             <!-- Template Header ends -->
 
+
+
+
             <!-- Template Body starts -->
             <div class="login-box-body">
-
-              <!-- Markup for getting Username starts -->
-              <mat-grid-list cols="9" rowHeight="75px">
-                <mat-grid-tile [rowspan]="1" class="login-icon">
-                  <mat-icon>lock</mat-icon>
-                </mat-grid-tile>
-                <mat-grid-tile [colspan]="7">
-                  <mat-form-field class="justifier">
+              <div layout="row" layout-align="center center" layout-wrap>
+                <div flex="60">
+                  <mat-form-field class="full-width">
                     <input matInput placeholder="Username" [(ngModel)]="user.username" text="text">
+                    <!-- <mat-icon matSuffix>account_box</mat-icon> -->
                   </mat-form-field>
-                </mat-grid-tile>
-              </mat-grid-list>
-              <!-- Markup for getting Username ends -->
-
-              <!-- Markup for getting Password starts -->
-              <mat-grid-list cols="9" rowHeight="100px">
-                <mat-grid-tile [rowspan]="1" class="login-icon">
-                  <mat-icon>remove_red_eye</mat-icon>
-                </mat-grid-tile>
-                <mat-grid-tile [colspan]="7">
-                  <mat-form-field class="justifier">
+                </div>
+                <div flex="60">
+                  <mat-form-field class="full-width">
                     <input matInput placeholder="Password" [(ngModel)]="user.password" type="password">
+                    <!-- <mat-icon matSuffix>lock</mat-icon> -->
                   </mat-form-field>
-                </mat-grid-tile>
-              </mat-grid-list>
-              <!-- Markup for getting Password ends signInUser createUser-->
-              <div>
-                <div layout="row">
-                  <div flex="30">
-                    <button flex layout-fill mat-raised-button color="accent" (click)="auth.signInUser(user)">
-                      <mat-icon>input</mat-icon> Login
-                    </button>
-                  </div>
-                  <div flex="3">
-                  </div>
-                  <div flex="30">
-                    <button flex layout-fill mat-raised-button (click)="auth.googleLogin()" color="accent">
-                      <mat-icon>input</mat-icon> Google Login
-                    </button>
-                  </div>
-                  <div flex="3">
-                  </div>
-                  <div flex="30">
-                    <button flex layout-fill mat-raised-button (click)="openDialog()" color="accent">
-                      <mat-icon>input</mat-icon> Register
-                    </button>
-                  </div>
                 </div>
               </div>
 
+              <div layout="row" layout-align="center center" layout-wrap class="local-login-parent">
+                <div flex="40">
+                  <button flex layout-fill mat-raised-button color="primary" (click)="auth.signInUser(user)">Login</button>
+                </div>
+                <div flex="100"></div>
+                <div flex="40">
+                  <button flex layout-fill mat-raised-button (click)="openDialog()" color="accent">Create Account</button>
+                </div>
+              </div>
+
+              <mat-divider></mat-divider>
+
+              <div layout="row" layout-align="center center" layout-margin layout-wrap class="integrated-login-parent">
+                <div flex="100" class="text-center">OR</div>
+                <div flex="35" class="integrated-login">
+                  <app-social-google-btn (click)="auth.googleLogin()"></app-social-google-btn>
+                </div>
+              </div>
             </div>
             <!-- Template Body ends -->
-
           </div>
         </div>
         <div flex="">

@@ -12,11 +12,19 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "outputPath": "build",
+            "outputHashing": "media",
             "index": "src/index.html",
             "main": "src/main.ts",
             "tsConfig": "src/tsconfig.app.json",
             "polyfills": "src/polyfills.ts",
-            "assets": ["src/assets", "src/favicon.ico", "src/assets/Logo.png"],
+            "assets": [
+              "src/favicon.ico",
+              {
+                "glob": "**/*",
+                "input": "src/assets",
+                "output": "/assets"
+              }
+            ],
             "styles": [
               "node_modules/font-awesome/css/font-awesome.min.css",
               "node_modules/@covalent/core/common/platform.scss",
