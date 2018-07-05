@@ -1,21 +1,136 @@
 @import '../../../material/theme';
 
 .poi-chip {
-  display: inline-block;
-  border-radius: 24px;
-  padding: 5px;
+  // display: inline-block;
+  // border-radius: 24px;
+  // padding: 5px;
   margin: 5px;
-  text-align: center;
+  // text-align: center;
 
-  background-color: $fire-color-cool;
+  -webkit-border-radius: 9px;
+  -moz-border-radius: 9px;
+  border-radius: 9px;
+  color: #000000;
+  // font-family: Open Sans;
+  font-size: 15px;
+  font-weight: 100;
+  padding: 5px;
+  text-shadow: 1px 1px 20px #000000;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
 
+  background: $fire-color-cool;
+  background-image: -webkit-linear-gradient(
+    top,
+    $fire-color-cool-grad-normal,
+    $fire-color-cool-grad-dark
+  );
+  background-image: -moz-linear-gradient(
+    top,
+    $fire-color-cool-grad-normal,
+    $fire-color-cool-grad-dark
+  );
+  background-image: -ms-linear-gradient(
+    top,
+    $fire-color-cool-grad-normal,
+    $fire-color-cool-grad-dark
+  );
+  background-image: -o-linear-gradient(
+    top,
+    $fire-color-cool-grad-normal,
+    $fire-color-cool-grad-dark
+  );
+  background-image: linear-gradient(
+    to bottom,
+    $fire-color-cool-grad-normal,
+    $fire-color-cool-grad-dark
+  );
   &.fire {
-    background-color: $fire-color-fire;
+    color: white;
+    background: $fire-color-fire-grad-normal;
+    background-image: -webkit-linear-gradient(
+      top,
+      $fire-color-fire-grad-normal,
+      $fire-color-fire-grad-dark
+    );
+    background-image: -moz-linear-gradient(
+      top,
+      $fire-color-fire-grad-normal,
+      $fire-color-fire-grad-dark
+    );
+    background-image: -ms-linear-gradient(
+      top,
+      $fire-color-fire-grad-normal,
+      $fire-color-fire-grad-dark
+    );
+    background-image: -o-linear-gradient(
+      top,
+      $fire-color-fire-grad-normal,
+      $fire-color-fire-grad-dark
+    );
+    background-image: linear-gradient(
+      to bottom,
+      $fire-color-fire-grad-normal,
+      $fire-color-fire-grad-dark
+    );
   }
   &.hot {
-    background-color: $fire-color-hot;
+    color: white;
+    background: $fire-color-hot-grad-normal;
+    background-image: -webkit-linear-gradient(
+      top,
+      $fire-color-hot-grad-normal,
+      $fire-color-hot-grad-dark
+    );
+    background-image: -moz-linear-gradient(
+      top,
+      $fire-color-hot-grad-normal,
+      $fire-color-hot-grad-dark
+    );
+    background-image: -ms-linear-gradient(
+      top,
+      $fire-color-hot-grad-normal,
+      $fire-color-hot-grad-dark
+    );
+    background-image: -o-linear-gradient(
+      top,
+      $fire-color-hot-grad-normal,
+      $fire-color-hot-grad-dark
+    );
+    background-image: linear-gradient(
+      to bottom,
+      $fire-color-hot-grad-normal,
+      $fire-color-hot-grad-dark
+    );
   }
   &.warm {
-    background-color: $fire-color-warm;
+    color: white;
+    background: $fire-color-warm-grad-normal;
+    background-image: -webkit-linear-gradient(
+      top,
+      $fire-color-warm-grad-normal,
+      $fire-color-warm-grad-dark
+    );
+    background-image: -moz-linear-gradient(
+      top,
+      $fire-color-warm-grad-normal,
+      $fire-color-warm-grad-dark
+    );
+    background-image: -ms-linear-gradient(
+      top,
+      $fire-color-warm-grad-normal,
+      $fire-color-warm-grad-dark
+    );
+    background-image: -o-linear-gradient(
+      top,
+      $fire-color-warm-grad-normal,
+      $fire-color-warm-grad-dark
+    );
+    background-image: linear-gradient(
+      to bottom,
+      $fire-color-warm-grad-normal,
+      $fire-color-warm-grad-dark
+    );
   }
 }
