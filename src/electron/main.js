@@ -91,13 +91,15 @@ if (process.env.NODE_ENV !== 'production') {
         label: 'Toggle DevTools',
         click(item, focusedWindow) {
           focusedWindow.toggleDevTools();
-        }
+        },
+        accelerator: 'F12'
       },
       {
         label: 'Refresh App',
         click(item, focusedWindow) {
           loadUrl();
-        }
+        },
+        accelerator: 'F5'
       }
     ]
   });
