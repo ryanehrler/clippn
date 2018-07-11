@@ -9,6 +9,10 @@ export class FortniteAnalyzerService extends GameAnalyzerBase
   baseWidth = 110;
   baseHeight = 180;
   baseXStart = 979;
+  // PS4
+  // baseYStart = 600;
+
+  // PC
   baseYStart = 650;
 
   width: number;
@@ -26,8 +30,13 @@ export class FortniteAnalyzerService extends GameAnalyzerBase
   analysisVideoHeight = 1080;
 
   pixelRedValue = 221;
+  // ps4
+  // pixelGreenValue = 87;
+  // pixelBlueValue = 98;
+  // PC
   pixelGreenValue = 25;
   pixelBlueValue = 27;
+
   pixelRedTolerance = 15;
   pixelGreenTolerance = 15;
   pixelBlueTolerance = 35;
@@ -92,13 +101,13 @@ export class FortniteAnalyzerService extends GameAnalyzerBase
     );
 
     // Render video partial to canvas
-    // const palette = canvas2d.getImageData(0, 0, w, h);
-    // palette.data.set(new Uint8ClampedArray(this.pixelArray));
-    // canvas2d.putImageData(palette, 0, 0);
+    const palette = canvas2d.getImageData(0, 0, w, h);
+    palette.data.set(new Uint8ClampedArray(this.pixelArray));
+    canvas2d.putImageData(palette, 0, 0);
 
     if (this.hasPoi(this.pixelArray)) {
       this.addDetection();
-      // console.log('POI Detected');
+      console.log('POI Detected');
     } else {
       this.missedDetection();
     }

@@ -38,6 +38,8 @@ import {
   styleUrls: ['./analyze-video.component.scss']
 })
 export class AnalyzeVideoComponent implements OnInit, OnDestroy, AfterViewInit {
+  NUMBER_OF_FRAMES_BEFORE_RESET = 300;
+
   frameRate = 29.97; // THIS NEEDS TO BE PULLED FROM VIDEO NOT HARDCODED
   totalFrameCount: number;
   analysisFps: number;
@@ -224,10 +226,11 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy, AfterViewInit {
     this.canvas2d.width = width;
     this.canvas2d.height = height;
 
-    // const c = this.myCanvas.nativeElement;
-    // c.width = width;
-    // c.height = height;
-    this.canvas = document.createElement('canvas');
+    const c = this.myCanvas.nativeElement;
+    c.width = width;
+    c.height = height;
+    this.canvas = c;
+    // this.canvas = document.createElement('canvas');
 
     this.canvas.width = width;
     this.canvas.height = height;
@@ -296,7 +299,7 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   incrementVideoFrame() {
-    if (this.frameResetCounter === 500) {
+    if (this.frameResetCounter === this.NUMBER_OF_FRAMES_BEFORE_RESET) {
       this.frameResetCounter = 0;
       this.resetCanvas();
     } else {
