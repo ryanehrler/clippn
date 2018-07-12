@@ -5,7 +5,8 @@ import { Router } from '@angular/router';
 import * as _ from 'lodash';
 
 import { TdLoadingService } from '@covalent/core';
-import { of } from 'rxjs';
+import { of, Observable } from 'rxjs';
+import { tap, map } from 'rxjs/operators';
 
 import {
   FileStorageService,
@@ -24,11 +25,12 @@ import { FrameExtractorService } from '../../../core/services/electron/frame-ext
 })
 export class AllVideosComponent implements OnInit {
   folder: string;
-  localVideos: LocalVideo[];
+  localVideos: Observable<LocalVideo[]>;
   videoPath: string;
   baseThumbnailPath: string;
   videoFileUrl: SafeUrl;
   showVideo: boolean;
+
   isLoading = true;
   isThumbnailLoading = true;
 
@@ -55,15 +57,18 @@ export class AllVideosComponent implements OnInit {
 
   openFolder() {
     this.isThumbnailLoading = true;
-    this.localVideoService.getLocalVideos().subscribe(
-      (videos: LocalVideo[]) => {
-        this.localVideos = videos;
-        this.generateThumbnails(videos);
-        this.isLoading = false;
-      },
-      error => {
-        console.log('Open Folder - Timed Out');
-      }
+    this.isLoading = true;
+    this.localVideos = this.localVideoService.getLocalVideos().pipe(
+      tap(
+        (videos: LocalVideo[]) => {
+          console.log('local-video-load-complete');
+          this.isLoading = false;
+          this.generateThumbnails(videos);
+        },
+        error => {
+          console.log('Open Folder - Timed Out');
+        }
+      )
     );
   }
 
@@ -84,7 +89,7 @@ export class AllVideosComponent implements OnInit {
       },
       () => {
         // Completed
-
+        console.log('thumbnail-complete');
         // HACK - Unfortunately this method returns before the files are actually finished writing to disk.
         // So we need to wait until they are created.  This may not be perfect but it worked for me everytime.
         // What we need to do is get a file watcher on the thumbnail directory and only procuess the SafeUrl
@@ -92,14 +97,16 @@ export class AllVideosComponent implements OnInit {
         const timeout = count * 200;
         setTimeout(() => {
           this.isThumbnailLoading = false;
-          this.generateSafeUrl();
+          this.generateSafeUrl(videos);
         }, timeout);
       }
     );
   }
 
-  private generateSafeUrl() {
-    _.each(this.localVideos, video => {
+  private generateSafeUrl(videos: LocalVideo[]) {
+    _.each(videos, video => {
+      console.log('Generate-safe-url: ', video.name);
+
       const path = this.baseThumbnailPath + video.name + '.jpeg';
       video.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(path);
     });

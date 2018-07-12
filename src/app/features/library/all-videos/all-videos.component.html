@@ -15,7 +15,7 @@
 </div>
 
 <div layout="row" layout-wrap layout-margin>
-  <mat-card *ngFor="let video of localVideos" flex="25" class="video-card">
+  <mat-card *ngFor="let video of localVideos | async" flex="25" class="video-card">
     <mat-card-header>
       <mat-card-title>{{video.name}}</mat-card-title>
     </mat-card-header>

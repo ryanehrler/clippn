@@ -38,7 +38,7 @@ export class FortniteAnalyzerService extends GameAnalyzerBase
   pixelBlueValue = 27;
 
   pixelRedTolerance = 15;
-  pixelGreenTolerance = 15;
+  pixelGreenTolerance = 35;
   pixelBlueTolerance = 35;
 
   constructor() {
