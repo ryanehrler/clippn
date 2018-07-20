@@ -71,11 +71,14 @@
     "angular2-moment": "^1.9.0",
     "angularfire2": "^5.0.0-rc.9",
     "core-js": "^2.5.4",
+    "electron-squirrel-startup": "^1.0.0",
     "ffmpeg-extract-frames": "^2.0.0",
     "ffmpeg-static": "^2.2.1",
     "ffprobe-static": "^2.0.0",
     "file-api": "^0.10.4",
     "firebase": "^5.0.2",
+    "firebase-admin": "^5.12.1",
+    "firebase-functions": "^1.1.0",
     "fluent-ffmpeg": "^2.1.2",
     "font-awesome": "^4.7.0",
     "gridlex": "^2.6.1",
@@ -83,8 +86,7 @@
     "lodash": "^4.17.5",
     "normalize.css": "^7.0.0",
     "rxjs": "^6.0.0",
-    "zone.js": "^0.8.26",
-    "electron-squirrel-startup": "^1.0.0"
+    "zone.js": "^0.8.26"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.6.3",
@@ -97,6 +99,7 @@
     "@types/node": "~6.0.60",
     "codelyzer": "^4.0.1",
     "electron": "1.8.2",
+    "electron-builder": "^20.10.0",
     "jasmine-core": "~2.6.2",
     "jasmine-spec-reporter": "~4.1.0",
     "karma": "~1.7.0",
@@ -109,7 +112,6 @@
     "ts-node": "~3.2.0",
     "tslint": "~5.7.0",
     "tslint-config-prettier": "^1.6.0",
-    "typescript": "^2.7.2",
-    "electron-builder": "^20.10.0"
+    "typescript": "^2.7.2"
   }
 }

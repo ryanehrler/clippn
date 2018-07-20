@@ -1,22 +1,16 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-
 import * as _ from 'lodash';
-
-import { TdLoadingService } from '@covalent/core';
-import { of, Observable } from 'rxjs';
-import { tap, map } from 'rxjs/operators';
-
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import {
-  FileStorageService,
   LocalVideo,
   LocalVideoService,
-  NodejsService,
   VideoThumbnailService,
   VideoUrlService
 } from '../../../core/services';
-import { FrameExtractorService } from '../../../core/services/electron/frame-extractor.service';
+import { HttpCdKeyService } from '../../../core/services/http';
 
 @Component({
   selector: 'app-all-videos',
@@ -38,12 +32,16 @@ export class AllVideosComponent implements OnInit {
     private router: Router,
     private localVideoService: LocalVideoService,
     private videoUrlService: VideoUrlService,
-    private nodejsService: NodejsService,
     private sanitizer: DomSanitizer,
-    private videoThumbnailService: VideoThumbnailService
+    private videoThumbnailService: VideoThumbnailService,
+    private h: HttpCdKeyService
   ) {}
 
   ngOnInit() {
+    this.h
+      .validateKey('fuck_off')
+      .then(res => console.log('fuck_off_from_api: ', res));
+
     this.baseThumbnailPath = this.videoThumbnailService.getThumbnailPath();
 
     this.folder = this.localVideoService.getFolder();
@@ -98,6 +96,8 @@ export class AllVideosComponent implements OnInit {
         setTimeout(() => {
           this.isThumbnailLoading = false;
           this.generateSafeUrl(videos);
+          return; // this probably doesn't do anything but I'm just throwing
+                  // shit at the wall at this point on the wierd library hanging issue
         }, timeout);
       }
     );

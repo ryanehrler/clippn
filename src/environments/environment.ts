@@ -12,5 +12,6 @@ export const environment = {
     projectId: 'clippn-qa',
     storageBucket: 'clippn-qa.appspot.com',
     messagingSenderId: '401605255023'
-  }
+  },
+  api: 'https://us-central1-clippn-61b02.cloudfunctions.net'
 };

@@ -1,0 +1,108 @@
+[debug] [2018-07-17T01:21:53.025Z] ----------------------------------------------------------------------
+[debug] [2018-07-17T01:21:53.030Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\ryan\AppData\Roaming\npm\node_modules\firebase-tools\bin\firebase serve --only functions --debug
+[debug] [2018-07-17T01:21:53.031Z] CLI Version:   3.19.3
+[debug] [2018-07-17T01:21:53.032Z] Platform:      win32
+[debug] [2018-07-17T01:21:53.032Z] Node Version:  v6.11.5
+[debug] [2018-07-17T01:21:53.033Z] Time:          Mon Jul 16 2018 21:21:53 GMT-0400 (Eastern Daylight Time)
+[debug] [2018-07-17T01:21:53.033Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-07-17T01:21:53.052Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-07-17T01:21:53.053Z] > authorizing via signed-in user
+[debug] [2018-07-17T01:21:53.057Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/clippn-61b02  
+  
+ Mon Jul 16 2018 21:21:53 GMT-0400 (Eastern Daylight Time)
+[debug] [2018-07-17T01:21:53.401Z] <<< HTTP RESPONSE 200
+[debug] [2018-07-17T01:21:53.403Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/clippn-61b02/tokens  
+  
+ Mon Jul 16 2018 21:21:53 GMT-0400 (Eastern Daylight Time)
+[debug] [2018-07-17T01:21:53.748Z] <<< HTTP RESPONSE 200
+[debug] [2018-07-17T01:21:53.750Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/clippn-61b02  
+  
+ Mon Jul 16 2018 21:21:53 GMT-0400 (Eastern Daylight Time)
+[debug] [2018-07-17T01:21:54.045Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from 'C:\Code\Clippin2'...
+[info] 
+[info] i  functions: Preparing to emulate functions.
+[debug] [2018-07-17T01:21:55.168Z] Fetching environment
+[debug] [2018-07-17T01:21:55.175Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/425263669031:getServerAppConfig  
+  
+ Mon Jul 16 2018 21:21:55 GMT-0400 (Eastern Daylight Time)
+[debug] [2018-07-17T01:21:55.562Z] <<< HTTP RESPONSE 200
+[debug] [2018-07-17T01:21:55.563Z] Starting @google-cloud/functions-emulator
+[debug] [2018-07-17T01:21:55.622Z] Parsing function triggers
+[debug] [2018-07-17T01:21:56.104Z] Error while deploying to emulator: Error: 404 - Not Found
+
+Error: 404 - Not Found
+
+    at RequestError.Error (native)
+    at new RequestError (C:\Users\ryan\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\googleapis\node_modules\google-auth-library\lib\transporters.js:34:42)
+    at Request._callback (C:\Users\ryan\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\googleapis\node_modules\google-auth-library\lib\transporters.js:108:23)
+    at Request.self.callback (C:\Users\ryan\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\request\request.js:185:22)
+    at emitTwo (events.js:106:13)
+    at Request.emit (events.js:191:7)
+    at Request.<anonymous> (C:\Users\ryan\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\request\request.js:1157:10)
+    at emitOne (events.js:96:13)
+    at Request.emit (events.js:188:7)
+    at IncomingMessage.<anonymous> (C:\Users\ryan\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\request\request.js:1079:12)
+[warn] !  functions: Failed to emulate authenticateKey
+[info] i  functions: No HTTPS functions found. Use firebase functions:shell if you would like to emulate other types of functions.
+[info] Shutting down...
+[debug] [2018-07-17T23:08:13.537Z] ----------------------------------------------------------------------
+[debug] [2018-07-17T23:08:13.541Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\ryan\AppData\Roaming\npm\node_modules\firebase-tools\bin\firebase serve --only functions --debug
+[debug] [2018-07-17T23:08:13.542Z] CLI Version:   3.19.3
+[debug] [2018-07-17T23:08:13.543Z] Platform:      win32
+[debug] [2018-07-17T23:08:13.543Z] Node Version:  v6.11.5
+[debug] [2018-07-17T23:08:13.544Z] Time:          Tue Jul 17 2018 19:08:13 GMT-0400 (Eastern Daylight Time)
+[debug] [2018-07-17T23:08:13.544Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-07-17T23:08:13.559Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-07-17T23:08:13.560Z] > authorizing via signed-in user
+[debug] [2018-07-17T23:08:13.563Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2018-07-17T23:08:13.563Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ { refresh_token: '1/vnT_zaeGkl9J-G2TFeSkaFLH6Qd4zsHDXiFTMI9H69QZwBL1blFpiT08c8-RbIy6',
+  client_id: '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com',
+  client_secret: 'j9iVZfS8kkCEFUPaAeJV0sAi',
+  grant_type: 'refresh_token',
+  scope: 'email https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/cloudplatformprojects.readonly https://www.googleapis.com/auth/firebase openid' } 
+ Tue Jul 17 2018 19:08:13 GMT-0400 (Eastern Daylight Time)
+[debug] [2018-07-17T23:08:13.827Z] <<< HTTP RESPONSE 200
+[debug] [2018-07-17T23:08:13.844Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/clippn-61b02  
+  
+ Tue Jul 17 2018 19:08:13 GMT-0400 (Eastern Daylight Time)
+[debug] [2018-07-17T23:08:14.315Z] <<< HTTP RESPONSE 200
+[debug] [2018-07-17T23:08:14.318Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/clippn-61b02/tokens  
+  
+ Tue Jul 17 2018 19:08:14 GMT-0400 (Eastern Daylight Time)
+[debug] [2018-07-17T23:08:14.654Z] <<< HTTP RESPONSE 200
+[debug] [2018-07-17T23:08:14.657Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/clippn-61b02  
+  
+ Tue Jul 17 2018 19:08:14 GMT-0400 (Eastern Daylight Time)
+[debug] [2018-07-17T23:08:15.022Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from 'C:\Code\Clippin2'...
+[info] 
+[info] i  functions: Preparing to emulate functions.
+[debug] [2018-07-17T23:08:16.166Z] Fetching environment
+[debug] [2018-07-17T23:08:16.174Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/425263669031:getServerAppConfig  
+  
+ Tue Jul 17 2018 19:08:16 GMT-0400 (Eastern Daylight Time)
+[debug] [2018-07-17T23:08:16.594Z] <<< HTTP RESPONSE 200
+[debug] [2018-07-17T23:08:16.595Z] Starting @google-cloud/functions-emulator
+[debug] [2018-07-17T23:08:16.666Z] Parsing function triggers
+[debug] [2018-07-17T23:08:17.251Z] Error while deploying to emulator: Error: 404 - Not Found
+
+Error: 404 - Not Found
+
+    at RequestError.Error (native)
+    at new RequestError (C:\Users\ryan\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\googleapis\node_modules\google-auth-library\lib\transporters.js:34:42)
+    at Request._callback (C:\Users\ryan\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\googleapis\node_modules\google-auth-library\lib\transporters.js:108:23)
+    at Request.self.callback (C:\Users\ryan\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\request\request.js:185:22)
+    at emitTwo (events.js:106:13)
+    at Request.emit (events.js:191:7)
+    at Request.<anonymous> (C:\Users\ryan\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\request\request.js:1157:10)
+    at emitOne (events.js:96:13)
+    at Request.emit (events.js:188:7)
+    at IncomingMessage.<anonymous> (C:\Users\ryan\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\request\request.js:1079:12)
+[warn] !  functions: Failed to emulate authenticateKey
+[info] i  functions: No HTTPS functions found. Use firebase functions:shell if you would like to emulate other types of functions.
