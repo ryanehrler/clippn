@@ -3,8 +3,9 @@ import { AuthKeyFunction } from './authKey/auth-key.function';
 import * as c from 'cors';
 
 // Firebase
-// const admin = require('firebase-admin');
-// admin.initializeApp(functions.config().firebase);
+const admin = require('firebase-admin');
+admin.initializeApp(functions.config().firebase);
+
 
 // CORS
 const whitelist = ['http://localhost:4200'];
@@ -29,18 +30,28 @@ const cors = c(corsOptions);
 //   });
 // });
 
+const BAD_REQUEST_MESSAGE = 'Bad Request';
+
 /*
     AuthenticateKey
 */
 export const authenticateKey = functions.https.onRequest((req, res) => {
-  cors(req, res, () => {
-    res.status(200).send(true);
-  });
 
-  // const akf = new AuthKeyFunction(admin);
-  // const isKeyValid = akf.ValidateKey('fuck_off').then(v => {
-  //   cors(req, res, () => {
-  //     res.status(200).send(v.val());
-  //   });
-  // });
+  const body = req.body;
+
+  console.log(body);
+  if(body.key === undefined || body.key === '') {
+    return sendBadRequest(res);
+  }
+
+  const akf = new AuthKeyFunction(admin);
+  const isKeyValid = akf.ValidateKey(body.key).then(v => {
+    cors(req, res, () => {
+      res.status(200).send(v);
+    });
+  });
 });
+
+function sendBadRequest(res: any) {
+  return res.status(400).send(BAD_REQUEST_MESSAGE);
+}

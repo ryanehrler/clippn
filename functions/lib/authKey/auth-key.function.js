@@ -6,12 +6,33 @@ class AuthKeyFunction {
     }
     ValidateKey(key) {
         return new Promise((resolve, reject) => {
-            resolve(true);
+            const query = this.admin
+                .firestore()
+                .collection('cdKeys')
+                .where('key', '==', key)
+                .where('redeemed', '==', false);
+            query.get().then(queryDocs => {
+                try {
+                    if (queryDocs.docs.length > 0) {
+                        const qDoc = queryDocs.docs[0];
+                        const result = qDoc.data();
+                        result.id = qDoc.id;
+                        resolve(result);
+                    }
+                    else {
+                        resolve(this.returnFalse());
+                    }
+                }
+                catch (error) {
+                    resolve(this.returnFalse());
+                }
+            }, () => {
+                resolve(this.returnFalse());
+            });
         });
-        // return this.admin
-        //   .database()
-        //   .ref('/cdKeys/')
-        //   .once('value');
+    }
+    returnFalse() {
+        return { result: false };
     }
 }
 exports.AuthKeyFunction = AuthKeyFunction;

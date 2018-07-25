@@ -1,10 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const functions = require("firebase-functions");
+const auth_key_function_1 = require("./authKey/auth-key.function");
 const c = require("cors");
 // Firebase
-// const admin = require('firebase-admin');
-// admin.initializeApp(functions.config().firebase);
+const admin = require('firebase-admin');
+admin.initializeApp(functions.config().firebase);
 // CORS
 const whitelist = ['http://localhost:4200'];
 const corsOptions = {
@@ -27,18 +28,24 @@ const cors = c(corsOptions);
 //     return res.redirect(303, snapshot.ref.toString());
 //   });
 // });
+const BAD_REQUEST_MESSAGE = 'Bad Request';
 /*
     AuthenticateKey
 */
 exports.authenticateKey = functions.https.onRequest((req, res) => {
-    cors(req, res, () => {
-        res.status(200).send(true);
+    const body = req.body;
+    console.log(body);
+    if (body.key === undefined || body.key === '') {
+        return sendBadRequest(res);
+    }
+    const akf = new auth_key_function_1.AuthKeyFunction(admin);
+    const isKeyValid = akf.ValidateKey(body.key).then(v => {
+        cors(req, res, () => {
+            res.status(200).send(v);
+        });
     });
-    // const akf = new AuthKeyFunction(admin);
-    // const isKeyValid = akf.ValidateKey('fuck_off').then(v => {
-    //   cors(req, res, () => {
-    //     res.status(200).send(v.val());
-    //   });
-    // });
 });
+function sendBadRequest(res) {
+    return res.status(400).send(BAD_REQUEST_MESSAGE);
+}
 //# sourceMappingURL=index.js.map
