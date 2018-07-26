@@ -5,3 +5,16 @@
 ::ng-deep button.mat-simple-snackbar-action {
   color: yellow;
 }
+
+.key-field {
+  width: calc(100% - 26px);
+  transition: width 400ms;
+
+  &.key-field-text {
+    width: calc(100% - 90px);
+  }
+}
+
+.key-is-valid {
+  color: green;
+}
