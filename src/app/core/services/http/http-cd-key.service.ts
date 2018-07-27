@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { IAuthenticateKeyResult } from '../../models/http';
 
 @Injectable({
   providedIn: 'root'
@@ -7,14 +8,14 @@ import { Injectable } from '@angular/core';
 export class HttpCdKeyService {
   constructor(private http: HttpClient) {}
 
-  validateKey(key: string) {
-    return this.http
-      .post('/authenticateKey', { key })
-      .toPromise()
-      .catch((err: any) => {
-        console.log('FUCK OFF');
-        console.log(err);
-        return Promise.reject(err);
-      });
+  validateKey(cdKey: string) {
+    return this.http.post<IAuthenticateKeyResult>('/authenticateKey', {
+      key: cdKey
+    });
+    // .catch((err: any) => {
+    //   console.log('FUCK OFF');
+    //   console.log(err);
+    //   return Promise.reject(err);
+    // });
   }
 }

@@ -25,6 +25,7 @@ import { HttpCdKeyService } from './services/http';
 import { LocalVideoService } from './services/video-library/local-video.service';
 import { VideoThumbnailService } from './services/video-thumbnail/video-thumbnail.service';
 import { VideoUrlService } from './services/video-url/video-url.service';
+import { HttpErrorInterceptor } from './interceptors/http-error-interceptor';
 
 @NgModule({
   imports: [
@@ -38,11 +39,6 @@ import { VideoUrlService } from './services/video-url/video-url.service';
   declarations: [SideNavComponent, ErrorComponent],
   exports: [SideNavComponent],
   providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: ClippnHttpInterceptor,
-      multi: true
-    },
     FirestoreService,
     AuthService,
     AuthGuard,
@@ -61,7 +57,19 @@ import { VideoUrlService } from './services/video-url/video-url.service';
     AppDataFolderInitService,
 
     // HttpServices
-    HttpCdKeyService
+    HttpCdKeyService,
+
+    // Interceptors
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ClippnHttpInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpErrorInterceptor,
+      multi: true
+    }
   ]
 })
 export class CoreModule {

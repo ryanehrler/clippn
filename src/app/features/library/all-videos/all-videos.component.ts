@@ -10,7 +10,6 @@ import {
   VideoThumbnailService,
   VideoUrlService
 } from '../../../core/services';
-import { HttpCdKeyService } from '../../../core/services/http';
 
 @Component({
   selector: 'app-all-videos',
@@ -33,15 +32,10 @@ export class AllVideosComponent implements OnInit {
     private localVideoService: LocalVideoService,
     private videoUrlService: VideoUrlService,
     private sanitizer: DomSanitizer,
-    private videoThumbnailService: VideoThumbnailService,
-    private h: HttpCdKeyService
+    private videoThumbnailService: VideoThumbnailService
   ) {}
 
   ngOnInit() {
-    this.h
-      .validateKey('fuck_off')
-      .then(res => console.log('fuck_off_from_api: ', res));
-
     this.baseThumbnailPath = this.videoThumbnailService.getThumbnailPath();
 
     this.folder = this.localVideoService.getFolder();
@@ -97,7 +91,7 @@ export class AllVideosComponent implements OnInit {
           this.isThumbnailLoading = false;
           this.generateSafeUrl(videos);
           return; // this probably doesn't do anything but I'm just throwing
-                  // shit at the wall at this point on the wierd library hanging issue
+          // shit at the wall at this point on the wierd library hanging issue
         }, timeout);
       }
     );
