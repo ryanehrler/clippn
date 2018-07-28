@@ -29,23 +29,46 @@ const cors = c(corsOptions);
 //   });
 // });
 const BAD_REQUEST_MESSAGE = 'Bad Request';
+const UNAUTHORIZED_MESSAGE = 'Unauthorized';
 /*
     AuthenticateKey
 */
 exports.authenticateKey = functions.https.onRequest((req, res) => {
     const body = req.body;
-    console.log(body);
     if (body.key === undefined || body.key === '') {
-        return sendBadRequest(res);
+        sendBadRequest(res);
     }
     const akf = new auth_key_function_1.AuthKeyFunction(admin);
-    const isKeyValid = akf.ValidateKey(body.key).then(v => {
+    return akf.ValidateKey(body.key).then(v => {
         cors(req, res, () => {
             res.status(200).send(v);
         });
     });
 });
+/*
+    RegisterKey
+*/
+exports.registerKey = functions.https.onRequest((req, res) => {
+    const body = req.body;
+    if (body.id === undefined || body.id === '') {
+        sendBadRequest(res);
+    }
+    const akf = new auth_key_function_1.AuthKeyFunction(admin);
+    return akf.RegisterKey(body.id).then(v => {
+        cors(req, res, () => {
+            if (v) {
+                res.status(200).send(true);
+            }
+            else {
+                sendUnauthorized(res);
+            }
+        });
+    });
+});
 function sendBadRequest(res) {
-    return res.status(400).send(BAD_REQUEST_MESSAGE);
+    res.status(400).send(BAD_REQUEST_MESSAGE);
+}
+function sendUnauthorized(res) {
+    res.status(401).send(UNAUTHORIZED_MESSAGE);
 }
 //# sourceMappingURL=index.js.map

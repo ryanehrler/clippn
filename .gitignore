@@ -7,6 +7,8 @@
 /clipImages
 /out
 /build
+functions/lib
+functions/firebase-debug.log
 
 # dependencies
 /node_modules

@@ -1,11 +1,20 @@
+import { Collections } from '../collections';
+import { CdKey } from '../models/collections/cdKeys.collection';
+import { AuthKeyDataService } from '../dataServices/authKey.dataService';
+
 export class AuthKeyFunction {
-  constructor(private admin: any) {}
+  collections: Collections;
+  authKeyDataService: AuthKeyDataService;
+
+  constructor(private admin: any) {
+    this.collections = new Collections(this.admin);
+    this.authKeyDataService = new AuthKeyDataService(this.admin);
+  }
 
   public ValidateKey(key: string): Promise<any> {
     return new Promise<any>((resolve, reject) => {
-      const query = this.admin
-        .firestore()
-        .collection('cdKeys')
+      const query = this.collections
+        .cdKeyCol()
         .where('key', '==', key)
         .where('redeemed', '==', false);
 
@@ -28,6 +37,26 @@ export class AuthKeyFunction {
           resolve(this.returnFalse());
         }
       );
+    });
+  }
+
+  public RegisterKey(id: string): Promise<boolean> {
+    return new Promise<boolean>((resolve, reject) => {
+      const key = this.authKeyDataService.GetCdKey(id);
+      if (key !== undefined) {
+        this.collections
+          .cdKeysDoc(id)
+          .set({ redeemed: true })
+          .then(() => {
+            resolve(true);
+          })
+          .catch(error => {
+            //TODO: Add errors logging
+            resolve(false);
+          });
+      } else {
+        resolve(false);
+      }
     });
   }
 
