@@ -46,7 +46,7 @@ export class AuthKeyFunction {
         if (key !== undefined) {
           this.collections
             .cdKeysDoc(id)
-            .set({ redeemed: true })
+            .update({ redeemed: true })
             .then(() => {
               resolve(true);
             })

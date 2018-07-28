@@ -11,7 +11,7 @@ export class Collections {
     return this.a.firestore().collection('cdKeys');
   }
   cdKeysDoc(id: string): any {
-    return this.a.doc('cdKeys/' + id);
+    return this.cdKeyCol().doc(id);
   }
 
   clipsCol() {
