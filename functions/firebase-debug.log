@@ -1694,3 +1694,280 @@ query params: {"updateMask":"sourceUploadUrl,name,labels,httpsTrigger"}
   
  Fri Jul 27 2018 23:04:40 GMT-0400 (Eastern Daylight Time)
 [debug] [2018-07-28T03:04:41.331Z] <<< HTTP RESPONSE 200
+[debug] [2018-07-28T03:31:07.409Z] ----------------------------------------------------------------------
+[debug] [2018-07-28T03:31:07.414Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\ryan\AppData\Roaming\npm\node_modules\firebase-tools\bin\firebase deploy --only functions --debug
+[debug] [2018-07-28T03:31:07.415Z] CLI Version:   3.19.3
+[debug] [2018-07-28T03:31:07.420Z] Platform:      win32
+[debug] [2018-07-28T03:31:07.421Z] Node Version:  v8.11.3
+[debug] [2018-07-28T03:31:07.422Z] Time:          Fri Jul 27 2018 23:31:07 GMT-0400 (Eastern Daylight Time)
+[debug] [2018-07-28T03:31:07.423Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-07-28T03:31:07.437Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-07-28T03:31:07.438Z] > authorizing via signed-in user
+[debug] [2018-07-28T03:31:07.441Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2018-07-28T03:31:07.442Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ { refresh_token: '1/0gTMT1d6rtYo0S7z_QqZIUYVQnZXPG7tsQ57HK-lz60',
+  client_id: '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com',
+  client_secret: 'j9iVZfS8kkCEFUPaAeJV0sAi',
+  grant_type: 'refresh_token',
+  scope: 'email https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/cloudplatformprojects.readonly https://www.googleapis.com/auth/firebase openid' } 
+ Fri Jul 27 2018 23:31:07 GMT-0400 (Eastern Daylight Time)
+[debug] [2018-07-28T03:31:07.698Z] <<< HTTP RESPONSE 200
+[debug] [2018-07-28T03:31:07.706Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/clippn-61b02  
+  
+ Fri Jul 27 2018 23:31:07 GMT-0400 (Eastern Daylight Time)
+[debug] [2018-07-28T03:31:08.032Z] <<< HTTP RESPONSE 200
+[debug] [2018-07-28T03:31:08.035Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/clippn-61b02/tokens  
+  
+ Fri Jul 27 2018 23:31:08 GMT-0400 (Eastern Daylight Time)
+[debug] [2018-07-28T03:31:08.397Z] <<< HTTP RESPONSE 200
+[warn] !  functions: package.json indicates an outdated version of firebase-functions.
+ Please upgrade using npm install --save firebase-functions@latest in your functions directory.
+[info] 
+[info] === Deploying to 'clippn-61b02'...
+[info] 
+[info] i  deploying functions
+[info] Running command: npm --prefix functions run lint
+[error] 
+[error] Error: functions predeploy error: Command terminated with non-zero exit code2
+[debug] [2018-07-28T03:31:53.602Z] ----------------------------------------------------------------------
+[debug] [2018-07-28T03:31:53.607Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\ryan\AppData\Roaming\npm\node_modules\firebase-tools\bin\firebase deploy --only functions --debug
+[debug] [2018-07-28T03:31:53.608Z] CLI Version:   3.19.3
+[debug] [2018-07-28T03:31:53.608Z] Platform:      win32
+[debug] [2018-07-28T03:31:53.609Z] Node Version:  v8.11.3
+[debug] [2018-07-28T03:31:53.610Z] Time:          Fri Jul 27 2018 23:31:53 GMT-0400 (Eastern Daylight Time)
+[debug] [2018-07-28T03:31:53.610Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-07-28T03:31:53.626Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-07-28T03:31:53.627Z] > authorizing via signed-in user
+[debug] [2018-07-28T03:31:53.631Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/clippn-61b02  
+  
+ Fri Jul 27 2018 23:31:53 GMT-0400 (Eastern Daylight Time)
+[debug] [2018-07-28T03:31:54.124Z] <<< HTTP RESPONSE 200
+[debug] [2018-07-28T03:31:54.125Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/clippn-61b02/tokens  
+  
+ Fri Jul 27 2018 23:31:54 GMT-0400 (Eastern Daylight Time)
+[debug] [2018-07-28T03:31:54.457Z] <<< HTTP RESPONSE 200
+[warn] !  functions: package.json indicates an outdated version of firebase-functions.
+ Please upgrade using npm install --save firebase-functions@latest in your functions directory.
+[info] 
+[info] === Deploying to 'clippn-61b02'...
+[info] 
+[info] i  deploying functions
+[info] Running command: npm --prefix functions run lint
+[info] Running command: npm --prefix functions run build
+[info] +  functions: Finished running predeploy script.
+[debug] [2018-07-28T03:32:07.875Z] > [functions] package.json contents: {
+  "name": "functions",
+  "scripts": {
+    "lint": "tslint --project tsconfig.json",
+    "build": "tsc --skipLibCheck",
+    "serve": "npm run build && firebase serve --only functions --debug",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions --debug",
+    "logs": "firebase functions:log"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "cors": "^2.8.4",
+    "firebase-admin": "^5.12.1",
+    "firebase-functions": "^1.1.0"
+  },
+  "devDependencies": {
+    "tslint": "^5.8.0",
+    "typescript": "^2.5.3"
+  },
+  "private": true
+}
+[info] i  functions: ensuring necessary APIs are enabled...
+[debug] [2018-07-28T03:32:07.877Z] >>> HTTP REQUEST GET https://servicemanagement.googleapis.com/v1/services/cloudfunctions.googleapis.com/projectSettings/clippn-61b02?view=CONSUMER_VIEW  
+  
+ Fri Jul 27 2018 23:32:07 GMT-0400 (Eastern Daylight Time)
+[debug] [2018-07-28T03:32:07.878Z] >>> HTTP REQUEST GET https://servicemanagement.googleapis.com/v1/services/runtimeconfig.googleapis.com/projectSettings/clippn-61b02?view=CONSUMER_VIEW  
+  
+ Fri Jul 27 2018 23:32:07 GMT-0400 (Eastern Daylight Time)
+[debug] [2018-07-28T03:32:08.552Z] <<< HTTP RESPONSE 200
+[info] +  functions: all necessary APIs are enabled
+[debug] [2018-07-28T03:32:08.633Z] <<< HTTP RESPONSE 200
+[debug] [2018-07-28T03:32:08.636Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/clippn-61b02  
+  
+ Fri Jul 27 2018 23:32:08 GMT-0400 (Eastern Daylight Time)
+[debug] [2018-07-28T03:32:08.919Z] <<< HTTP RESPONSE 200
+[debug] [2018-07-28T03:32:08.920Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/425263669031:getServerAppConfig  
+  
+ Fri Jul 27 2018 23:32:08 GMT-0400 (Eastern Daylight Time)
+[debug] [2018-07-28T03:32:09.289Z] <<< HTTP RESPONSE 200
+[info] i  functions: preparing functions directory for uploading...
+[debug] [2018-07-28T03:32:09.291Z] >>> HTTP REQUEST GET https://runtimeconfig.googleapis.com/v1beta1/projects/clippn-61b02/configs  
+  
+ Fri Jul 27 2018 23:32:09 GMT-0400 (Eastern Daylight Time)
+[debug] [2018-07-28T03:32:09.538Z] <<< HTTP RESPONSE 200
+[info] i  functions: packaged functions (52.94 KB) for uploading
+[debug] [2018-07-28T03:32:09.959Z] >>> HTTP REQUEST POST https://cloudfunctions.googleapis.com/v1/projects/clippn-61b02/locations/us-central1/functions:generateUploadUrl  
+  
+ Fri Jul 27 2018 23:32:09 GMT-0400 (Eastern Daylight Time)
+[debug] [2018-07-28T03:32:10.469Z] <<< HTTP RESPONSE 200
+[debug] [2018-07-28T03:32:10.470Z] >>> HTTP REQUEST PUT https://storage.googleapis.com/gcf-upload-us-central1-3a5f5534-fbb7-4640-9a75-2683b615109f/22982627-4a02-4093-b1a9-6a845d380f92.zip?GoogleAccessId=service-425263669031@gcf-admin-robot.iam.gserviceaccount.com&Expires=1532750528&Signature=WdNyqgLZWPEdKEqjmieIIP1m%2FoZ9kpr4oiZobbzn%2Fg1fLQ%2FsmkSSr7yan99JAt1BoHrzmSWsiMNz9XVGNimpT4wWWcEfLCVMxD7sX6oHtRcgUDnZPl3z8B0LAYWROTJxxbT49dKXG2Rl13SgpP08YoDrUaE8usukpCWc5GbY68v%2FDqPQFkbSqNNsddSpa9xJgBSLuhJtIvHXU1shTLERckAMt1WuMPfvyB9NS16S%2FjQ1KRN3MaPj4VabvfqoL9qroAzlrlvLWxhLx%2BOTKzkYHnq3dwk0vPaIBl75%2FPHS%2BJqgthpPJ0BjSeV9spJP%2B8xoNf%2B0WHmhBXl%2BTaHjfBYQ6g%3D%3D  
+ ReadStream {
+  _readableState: 
+   ReadableState {
+     objectMode: false,
+     highWaterMark: 65536,
+     buffer: BufferList { head: [Object], tail: [Object], length: 1 },
+     length: 54212,
+     pipes: null,
+     pipesCount: 0,
+     flowing: null,
+     ended: true,
+     endEmitted: false,
+     reading: false,
+     sync: false,
+     needReadable: false,
+     emittedReadable: true,
+     readableListening: false,
+     resumeScheduled: false,
+     destroyed: false,
+     defaultEncoding: 'utf8',
+     awaitDrain: 0,
+     readingMore: false,
+     decoder: null,
+     encoding: null },
+  readable: true,
+  domain: null,
+  _events: { end: [Function] },
+  _eventsCount: 1,
+  _maxListeners: undefined,
+  path: 'C:\\Users\\ryan\\AppData\\Local\\Temp\\firebase-functions-8832FSEmLgxLPxQx.zip',
+  fd: 5,
+  flags: 'r',
+  mode: 438,
+  start: undefined,
+  end: Infinity,
+  autoClose: true,
+  pos: undefined,
+  bytesRead: 54212 } 
+ Fri Jul 27 2018 23:32:10 GMT-0400 (Eastern Daylight Time)
+[debug] [2018-07-28T03:32:10.779Z] <<< HTTP RESPONSE 200
+[info] +  functions: functions folder uploaded successfully
+[debug] [2018-07-28T03:32:10.782Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/projects/clippn-61b02/locations/us-central1/functions  
+  
+ Fri Jul 27 2018 23:32:10 GMT-0400 (Eastern Daylight Time)
+[debug] [2018-07-28T03:32:11.158Z] <<< HTTP RESPONSE 200
+[info] i  functions: updating function authenticateKey...
+[debug] [2018-07-28T03:32:11.162Z] Trigger is:  {"httpsTrigger":{}}
+[info] i  functions: updating function registerKey...
+[debug] [2018-07-28T03:32:11.163Z] Trigger is:  {"httpsTrigger":{}}
+[debug] [2018-07-28T03:32:11.166Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/clippn-61b02/locations/us-central1/functions/authenticateKey 
+query params: {"updateMask":"sourceUploadUrl,name,labels,httpsTrigger"} 
+ { sourceUploadUrl: 'https://storage.googleapis.com/gcf-upload-us-central1-3a5f5534-fbb7-4640-9a75-2683b615109f/22982627-4a02-4093-b1a9-6a845d380f92.zip?GoogleAccessId=service-425263669031@gcf-admin-robot.iam.gserviceaccount.com&Expires=1532750528&Signature=WdNyqgLZWPEdKEqjmieIIP1m%2FoZ9kpr4oiZobbzn%2Fg1fLQ%2FsmkSSr7yan99JAt1BoHrzmSWsiMNz9XVGNimpT4wWWcEfLCVMxD7sX6oHtRcgUDnZPl3z8B0LAYWROTJxxbT49dKXG2Rl13SgpP08YoDrUaE8usukpCWc5GbY68v%2FDqPQFkbSqNNsddSpa9xJgBSLuhJtIvHXU1shTLERckAMt1WuMPfvyB9NS16S%2FjQ1KRN3MaPj4VabvfqoL9qroAzlrlvLWxhLx%2BOTKzkYHnq3dwk0vPaIBl75%2FPHS%2BJqgthpPJ0BjSeV9spJP%2B8xoNf%2B0WHmhBXl%2BTaHjfBYQ6g%3D%3D',
+  name: 'projects/clippn-61b02/locations/us-central1/functions/authenticateKey',
+  labels: { 'deployment-tool': 'cli-firebase' },
+  httpsTrigger: {} } 
+ Fri Jul 27 2018 23:32:11 GMT-0400 (Eastern Daylight Time)
+[debug] [2018-07-28T03:32:11.169Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/clippn-61b02/locations/us-central1/functions/registerKey 
+query params: {"updateMask":"sourceUploadUrl,name,labels,httpsTrigger"} 
+ { sourceUploadUrl: 'https://storage.googleapis.com/gcf-upload-us-central1-3a5f5534-fbb7-4640-9a75-2683b615109f/22982627-4a02-4093-b1a9-6a845d380f92.zip?GoogleAccessId=service-425263669031@gcf-admin-robot.iam.gserviceaccount.com&Expires=1532750528&Signature=WdNyqgLZWPEdKEqjmieIIP1m%2FoZ9kpr4oiZobbzn%2Fg1fLQ%2FsmkSSr7yan99JAt1BoHrzmSWsiMNz9XVGNimpT4wWWcEfLCVMxD7sX6oHtRcgUDnZPl3z8B0LAYWROTJxxbT49dKXG2Rl13SgpP08YoDrUaE8usukpCWc5GbY68v%2FDqPQFkbSqNNsddSpa9xJgBSLuhJtIvHXU1shTLERckAMt1WuMPfvyB9NS16S%2FjQ1KRN3MaPj4VabvfqoL9qroAzlrlvLWxhLx%2BOTKzkYHnq3dwk0vPaIBl75%2FPHS%2BJqgthpPJ0BjSeV9spJP%2B8xoNf%2B0WHmhBXl%2BTaHjfBYQ6g%3D%3D',
+  name: 'projects/clippn-61b02/locations/us-central1/functions/registerKey',
+  labels: { 'deployment-tool': 'cli-firebase' },
+  httpsTrigger: {} } 
+ Fri Jul 27 2018 23:32:11 GMT-0400 (Eastern Daylight Time)
+[debug] [2018-07-28T03:32:11.473Z] <<< HTTP RESPONSE 200
+[debug] [2018-07-28T03:32:11.693Z] <<< HTTP RESPONSE 200
+[debug] [2018-07-28T03:32:11.697Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/projects/clippn-61b02/locations/us-central1/functions  
+  
+ Fri Jul 27 2018 23:32:11 GMT-0400 (Eastern Daylight Time)
+[debug] [2018-07-28T03:32:12.056Z] <<< HTTP RESPONSE 200
+[debug] [2018-07-28T03:32:12.059Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/Y2xpcHBuLTYxYjAyL3VzLWNlbnRyYWwxL2F1dGhlbnRpY2F0ZUtleS9tTzlRSUY3a0prVQ  
+  
+ Fri Jul 27 2018 23:32:12 GMT-0400 (Eastern Daylight Time)
+[debug] [2018-07-28T03:32:12.060Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/Y2xpcHBuLTYxYjAyL3VzLWNlbnRyYWwxL3JlZ2lzdGVyS2V5LzFJRzBuTEg4c1lF  
+  
+ Fri Jul 27 2018 23:32:12 GMT-0400 (Eastern Daylight Time)
+[debug] [2018-07-28T03:32:12.415Z] <<< HTTP RESPONSE 200
+[debug] [2018-07-28T03:32:12.423Z] <<< HTTP RESPONSE 200
+[debug] [2018-07-28T03:32:14.418Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/Y2xpcHBuLTYxYjAyL3VzLWNlbnRyYWwxL3JlZ2lzdGVyS2V5LzFJRzBuTEg4c1lF  
+  
+ Fri Jul 27 2018 23:32:14 GMT-0400 (Eastern Daylight Time)
+[debug] [2018-07-28T03:32:14.427Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/Y2xpcHBuLTYxYjAyL3VzLWNlbnRyYWwxL2F1dGhlbnRpY2F0ZUtleS9tTzlRSUY3a0prVQ  
+  
+ Fri Jul 27 2018 23:32:14 GMT-0400 (Eastern Daylight Time)
+[debug] [2018-07-28T03:32:14.775Z] <<< HTTP RESPONSE 200
+[debug] [2018-07-28T03:32:14.777Z] <<< HTTP RESPONSE 200
+[debug] [2018-07-28T03:32:16.777Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/Y2xpcHBuLTYxYjAyL3VzLWNlbnRyYWwxL3JlZ2lzdGVyS2V5LzFJRzBuTEg4c1lF  
+  
+ Fri Jul 27 2018 23:32:16 GMT-0400 (Eastern Daylight Time)
+[debug] [2018-07-28T03:32:16.792Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/Y2xpcHBuLTYxYjAyL3VzLWNlbnRyYWwxL2F1dGhlbnRpY2F0ZUtleS9tTzlRSUY3a0prVQ  
+  
+ Fri Jul 27 2018 23:32:16 GMT-0400 (Eastern Daylight Time)
+[debug] [2018-07-28T03:32:17.133Z] <<< HTTP RESPONSE 200
+[debug] [2018-07-28T03:32:17.147Z] <<< HTTP RESPONSE 200
+[debug] [2018-07-28T03:32:19.135Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/Y2xpcHBuLTYxYjAyL3VzLWNlbnRyYWwxL3JlZ2lzdGVyS2V5LzFJRzBuTEg4c1lF  
+  
+ Fri Jul 27 2018 23:32:19 GMT-0400 (Eastern Daylight Time)
+[debug] [2018-07-28T03:32:19.149Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/Y2xpcHBuLTYxYjAyL3VzLWNlbnRyYWwxL2F1dGhlbnRpY2F0ZUtleS9tTzlRSUY3a0prVQ  
+  
+ Fri Jul 27 2018 23:32:19 GMT-0400 (Eastern Daylight Time)
+[debug] [2018-07-28T03:32:19.489Z] <<< HTTP RESPONSE 200
+[debug] [2018-07-28T03:32:19.501Z] <<< HTTP RESPONSE 200
+[debug] [2018-07-28T03:32:21.491Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/Y2xpcHBuLTYxYjAyL3VzLWNlbnRyYWwxL3JlZ2lzdGVyS2V5LzFJRzBuTEg4c1lF  
+  
+ Fri Jul 27 2018 23:32:21 GMT-0400 (Eastern Daylight Time)
+[debug] [2018-07-28T03:32:21.503Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/Y2xpcHBuLTYxYjAyL3VzLWNlbnRyYWwxL2F1dGhlbnRpY2F0ZUtleS9tTzlRSUY3a0prVQ  
+  
+ Fri Jul 27 2018 23:32:21 GMT-0400 (Eastern Daylight Time)
+[debug] [2018-07-28T03:32:21.856Z] <<< HTTP RESPONSE 200
+[debug] [2018-07-28T03:32:21.871Z] <<< HTTP RESPONSE 200
+[debug] [2018-07-28T03:32:23.858Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/Y2xpcHBuLTYxYjAyL3VzLWNlbnRyYWwxL3JlZ2lzdGVyS2V5LzFJRzBuTEg4c1lF  
+  
+ Fri Jul 27 2018 23:32:23 GMT-0400 (Eastern Daylight Time)
+[debug] [2018-07-28T03:32:23.873Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/Y2xpcHBuLTYxYjAyL3VzLWNlbnRyYWwxL2F1dGhlbnRpY2F0ZUtleS9tTzlRSUY3a0prVQ  
+  
+ Fri Jul 27 2018 23:32:23 GMT-0400 (Eastern Daylight Time)
+[debug] [2018-07-28T03:32:24.210Z] <<< HTTP RESPONSE 200
+[debug] [2018-07-28T03:32:24.228Z] <<< HTTP RESPONSE 200
+[debug] [2018-07-28T03:32:26.213Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/Y2xpcHBuLTYxYjAyL3VzLWNlbnRyYWwxL3JlZ2lzdGVyS2V5LzFJRzBuTEg4c1lF  
+  
+ Fri Jul 27 2018 23:32:26 GMT-0400 (Eastern Daylight Time)
+[debug] [2018-07-28T03:32:26.233Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/Y2xpcHBuLTYxYjAyL3VzLWNlbnRyYWwxL2F1dGhlbnRpY2F0ZUtleS9tTzlRSUY3a0prVQ  
+  
+ Fri Jul 27 2018 23:32:26 GMT-0400 (Eastern Daylight Time)
+[debug] [2018-07-28T03:32:26.560Z] <<< HTTP RESPONSE 200
+[debug] [2018-07-28T03:32:26.582Z] <<< HTTP RESPONSE 200
+[debug] [2018-07-28T03:32:28.562Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/Y2xpcHBuLTYxYjAyL3VzLWNlbnRyYWwxL3JlZ2lzdGVyS2V5LzFJRzBuTEg4c1lF  
+  
+ Fri Jul 27 2018 23:32:28 GMT-0400 (Eastern Daylight Time)
+[debug] [2018-07-28T03:32:28.586Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/Y2xpcHBuLTYxYjAyL3VzLWNlbnRyYWwxL2F1dGhlbnRpY2F0ZUtleS9tTzlRSUY3a0prVQ  
+  
+ Fri Jul 27 2018 23:32:28 GMT-0400 (Eastern Daylight Time)
+[debug] [2018-07-28T03:32:28.914Z] <<< HTTP RESPONSE 200
+[debug] [2018-07-28T03:32:28.951Z] <<< HTTP RESPONSE 200
+[debug] [2018-07-28T03:32:30.918Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/Y2xpcHBuLTYxYjAyL3VzLWNlbnRyYWwxL3JlZ2lzdGVyS2V5LzFJRzBuTEg4c1lF  
+  
+ Fri Jul 27 2018 23:32:30 GMT-0400 (Eastern Daylight Time)
+[debug] [2018-07-28T03:32:30.954Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/Y2xpcHBuLTYxYjAyL3VzLWNlbnRyYWwxL2F1dGhlbnRpY2F0ZUtleS9tTzlRSUY3a0prVQ  
+  
+ Fri Jul 27 2018 23:32:30 GMT-0400 (Eastern Daylight Time)
+[debug] [2018-07-28T03:32:31.276Z] <<< HTTP RESPONSE 200
+[debug] [2018-07-28T03:32:31.301Z] <<< HTTP RESPONSE 200
+[debug] [2018-07-28T03:32:33.278Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/Y2xpcHBuLTYxYjAyL3VzLWNlbnRyYWwxL3JlZ2lzdGVyS2V5LzFJRzBuTEg4c1lF  
+  
+ Fri Jul 27 2018 23:32:33 GMT-0400 (Eastern Daylight Time)
+[debug] [2018-07-28T03:32:33.302Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/Y2xpcHBuLTYxYjAyL3VzLWNlbnRyYWwxL2F1dGhlbnRpY2F0ZUtleS9tTzlRSUY3a0prVQ  
+  
+ Fri Jul 27 2018 23:32:33 GMT-0400 (Eastern Daylight Time)
+[debug] [2018-07-28T03:32:33.628Z] <<< HTTP RESPONSE 200
+[debug] [2018-07-28T03:32:33.664Z] <<< HTTP RESPONSE 200
+[debug] [2018-07-28T03:32:35.631Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/Y2xpcHBuLTYxYjAyL3VzLWNlbnRyYWwxL3JlZ2lzdGVyS2V5LzFJRzBuTEg4c1lF  
+  
+ Fri Jul 27 2018 23:32:35 GMT-0400 (Eastern Daylight Time)
+[debug] [2018-07-28T03:32:35.665Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/Y2xpcHBuLTYxYjAyL3VzLWNlbnRyYWwxL2F1dGhlbnRpY2F0ZUtleS9tTzlRSUY3a0prVQ  
+  
+ Fri Jul 27 2018 23:32:35 GMT-0400 (Eastern Daylight Time)
+[debug] [2018-07-28T03:32:36.005Z] <<< HTTP RESPONSE 200
+[info] +  functions[registerKey]: Successful update operation. 
+[debug] [2018-07-28T03:32:36.010Z] <<< HTTP RESPONSE 200
+[debug] [2018-07-28T03:32:38.012Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/Y2xpcHBuLTYxYjAyL3VzLWNlbnRyYWwxL2F1dGhlbnRpY2F0ZUtleS9tTzlRSUY3a0prVQ  
+  
+ Fri Jul 27 2018 23:32:38 GMT-0400 (Eastern Daylight Time)
+[debug] [2018-07-28T03:32:38.379Z] <<< HTTP RESPONSE 200

@@ -8,13 +8,22 @@ export class AuthKeyDataService {
     this.collections = new Collections(admin);
   }
 
-  GetCdKey(id: string): CdKey {
-    const doc = this.collections.cdKeysDoc(id).get();
-    let key: CdKey;
-    if (doc !== undefined) {
-      key = doc.data();
-      key.id = doc.id;
-    }
-    return key;
+  GetCdKey(id: string): Promise<CdKey> {
+    return new Promise<CdKey>((resolve, reject) => {
+      let key: CdKey;
+      this.collections
+        .cdKeysDoc(id)
+        .get()
+        .then(doc => {
+          if (doc !== undefined) {
+            key = doc.data();
+            key.id = doc.id;
+          }
+          resolve(key);
+        })
+        .catch(() => {
+          resolve(key);
+        });
+    });
   }
 }

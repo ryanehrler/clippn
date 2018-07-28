@@ -11,20 +11,20 @@ export class Collections {
     return this.a.firestore().collection('cdKeys');
   }
   cdKeysDoc(id: string): any {
-    return this.cdKeyCol().doc(id);
+    return this.a.doc('cdKeys/' + id);
   }
 
   clipsCol() {
     return this.a.firestore().collection('clips');
   }
   clipsDoc(id: string) {
-    return this.clipsCol().doc(id);
+    return this.a.doc('clips/' + id);
   }
 
   usersCol() {
     return this.a.firestore().collection('users');
   }
   usersDoc(id: string) {
-    return this.usersCol().doc(id);
+    return this.a.doc('users/' + id);
   }
 }

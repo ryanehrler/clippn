@@ -42,21 +42,22 @@ export class AuthKeyFunction {
 
   public RegisterKey(id: string): Promise<boolean> {
     return new Promise<boolean>((resolve, reject) => {
-      const key = this.authKeyDataService.GetCdKey(id);
-      if (key !== undefined) {
-        this.collections
-          .cdKeysDoc(id)
-          .set({ redeemed: true })
-          .then(() => {
-            resolve(true);
-          })
-          .catch(error => {
-            //TODO: Add errors logging
-            resolve(false);
-          });
-      } else {
-        resolve(false);
-      }
+      const key = this.authKeyDataService.GetCdKey(id).then(cdKey => {
+        if (key !== undefined) {
+          this.collections
+            .cdKeysDoc(id)
+            .set({ redeemed: true })
+            .then(() => {
+              resolve(true);
+            })
+            .catch(error => {
+              //TODO: Add errors logging
+              resolve(false);
+            });
+        } else {
+          resolve(false);
+        }
+      });
     });
   }
 
