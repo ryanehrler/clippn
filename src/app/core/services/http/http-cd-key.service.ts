@@ -18,4 +18,10 @@ export class HttpCdKeyService {
     //   return Promise.reject(err);
     // });
   }
+
+  registerKey(cdKey: string) {
+    return this.http.post<boolean>('/registerKey', {
+      key: cdKey
+    });
+  }
 }

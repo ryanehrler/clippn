@@ -13,6 +13,7 @@ export class LoginModalComponent implements OnInit {
   user: IUser;
   key: string;
   keyIsValid: boolean;
+  registeringUser: boolean;
 
   constructor(
     public auth: AuthService,
@@ -29,16 +30,12 @@ export class LoginModalComponent implements OnInit {
 
   validateKey() {
     console.log(this.key);
-
-    // this.httpCdKeyService.validateKey(this.key).then(res => {
-    //   console.log(res);
-    // });
-
     this.httpCdKeyService.validateKey(this.key).subscribe(res => {
       console.log(res);
 
       if (res.key !== undefined) {
         this.keyIsValid = true;
+        this.user.keyId = res.id;
       }
     });
   }
@@ -48,17 +45,27 @@ export class LoginModalComponent implements OnInit {
     }
   }
   registerUser(user: IUser) {
-    if (user.password === user.passwordConfirm) {
-      this.auth.createUser(user);
+    if (this.keyIsValid) {
+      this.openSnackbar('Please enter a valid key');
+    } else if (user.password === user.passwordConfirm) {
+      this.registeringUser = true;
+      this.httpCdKeyService.registerKey(this.user.keyId).subscribe(res => {
+        if (res) {
+          this.registeringUser = false;
+          this.auth.createUser(user);
+        } else {
+          this.openSnackbar('Sorry but we failed to register key. Please check you have entered a proper key.  If you have then email us @ support@clippn.com.');
+        }
+      });
     } else {
       // tell them the password doesn't match
-      this.openSnackbar('password dont match bitch');
+      this.openSnackbar('Passwords dont match.');
     }
   }
 
   openSnackbar(message: string) {
-    this.snackBar.open(message, 'Shiiiiiiiit', {
-      duration: 50000,
+    this.snackBar.open(message, '', {
+      duration: 2000,
       panelClass: 'custom-class'
     });
   }

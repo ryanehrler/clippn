@@ -7,4 +7,5 @@ export interface IUser {
   photoURL?: string;
   displayName?: string;
   favoriteColor?: string;
+  keyId?: string;
 }

@@ -43,7 +43,7 @@ export class AuthKeyFunction {
   public RegisterKey(id: string): Promise<boolean> {
     return new Promise<boolean>((resolve, reject) => {
       const key = this.authKeyDataService.GetCdKey(id).then(cdKey => {
-        if (key !== undefined) {
+        if (cdKey !== undefined && !cdKey.redeemed) {
           this.collections
             .cdKeysDoc(id)
             .update({ redeemed: true })
