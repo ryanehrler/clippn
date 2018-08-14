@@ -9,7 +9,7 @@ import {
 
 import { firebase } from '@firebase/app';
 
-import { Observable, of } from 'rxjs';
+import { Observable, of, from } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 
 import { error } from 'selenium-webdriver';
@@ -69,12 +69,19 @@ export class AuthService {
 
   createUser(user: IUser) {
     console.log(user);
-    this.fireAuth.auth
-      .createUserWithEmailAndPassword(user.username, user.password)
-      .then(data => {
-        console.log(data);
-        this.updateUserData(data);
-      });
+    // create the user and email in Google's authentication system
+    return from(
+      this.fireAuth.auth.createUserWithEmailAndPassword(
+        user.username,
+        user.password
+      )
+    ).pipe(
+      // create the user data in firebase
+      map(result => {
+        console.log(result);
+        return from(this.updateUserData(result.user));
+      })
+    );
   }
 
   signInUser(user: IUser) {
@@ -103,6 +110,8 @@ export class AuthService {
   }
 
   private updateUserData(user: IUser) {
+    console.log('----UpdateUserData------');
+
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(
       `users/${user.uid}`
     );

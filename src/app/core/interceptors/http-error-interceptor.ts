@@ -34,7 +34,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
         // which could be a default value (which has to be a HttpResponse here)
         // return Observable.of(new HttpResponse({body: [{name: "Default value..."}]}));
         // or simply an empty observable
-        return empty();
+        return Observable.throw(err);
       })
     );
   }

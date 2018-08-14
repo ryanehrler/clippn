@@ -6,41 +6,50 @@
   </mat-toolbar>
   <!-- <h2 color="accent" class="mat-dialog-title" mat-dialog-title="" id="register">Register New User</h2> -->
 
-  <form #form1="ngForm" (ngSubmit)="registerUser(user)" novalidate>
-
+  <form [formGroup]="createAccountForm">
     <div layout="row" layout-wrap layout-align="center center">
       <div flex="70">
         <mat-form-field class="justifier key-field" [ngClass]="keyIsValid ? '' : 'key-field-text'">
-          <input required name="key" matInput placeholder="Key" [(ngModel)]="key" (ngModelChange)="reValidateKey()" text="text">
+          <input required name="key" matInput placeholder="Key" formControlName="key" (ngModelChange)="reValidateKey()" text="text"
+            *tdLoading="'validatingKey'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'">
         </mat-form-field>
-        <button *ngIf="!keyIsValid" mat-button mat-button-raised color="primary" (click)="validateKey()">Validate</button>
+        <button type="button" *ngIf="!keyIsValid" mat-button mat-button-raised color="primary" (click)="validateKey()">Validate</button>
         <mat-icon *ngIf="keyIsValid" class="key-is-valid">check</mat-icon>
       </div>
       <div flex="70">
         <mat-form-field class="justifier full-width">
-          <input required name="email" matInput placeholder="Email" [(ngModel)]="user.username" text="text">
+          <input required name="email" matInput placeholder="Email" formControlName="email" text="text">
         </mat-form-field>
       </div>
       <div flex="70">
         <mat-form-field class="justifier full-width">
-          <input required minlength="8" name="password" matInput placeholder="Password" [(ngModel)]="user.password" type="password">
+          <input required minlength="8" name="password" matInput placeholder="Password" formControlName="password" type="password">
           <mat-hint align="end">{{ user.password != null ? user.password.length : 0 }} / 8 min</mat-hint>
         </mat-form-field>
       </div>
       <div flex="70">
         <mat-form-field class="justifier full-width">
-          <input required name="passwordConfirm" matInput placeholder="Confirm Password" [(ngModel)]="user.passwordConfirm" type="password">
+          <input required name="passwordConfirm" matInput placeholder="Confirm Password" formControlName="confirmPassword" type="password">
         </mat-form-field>
       </div>
     </div>
     <div row="column">
+      <div flex="100" *ngIf="errorMessages !== undefined && errorMessages.length > 0">
+        <mat-card class="error-card">
+          <mat-card-content>
+            <ul>
+              <li *ngFor="let message of errorMessages">{{message}}</li>
+            </ul>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <div flex="70"></div>
       <div flex="30">
-        <button type="submit" flex layout-fill mat-raised-button flex color="accent" [disabled]="!form1.form.valid">
+        <button type="submit" flex layout-fill mat-raised-button flex color="primary" [disabled]="!createAccountForm.valid" (click)="registerUser()">
           <mat-icon>input</mat-icon> Register
         </button>
       </div>
     </div>
-
   </form>
 </div>
 

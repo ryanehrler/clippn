@@ -21,7 +21,7 @@ export class HttpCdKeyService {
 
   registerKey(cdKey: string) {
     return this.http.post<boolean>('/registerKey', {
-      key: cdKey
+      id: cdKey
     });
   }
 }

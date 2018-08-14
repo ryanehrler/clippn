@@ -6,6 +6,16 @@
   color: yellow;
 }
 
+::ng-deep {
+  &.error-card {
+    background: red;
+
+    li {
+      color: white;
+    }
+  }
+}
+
 .key-field {
   width: calc(100% - 26px);
   transition: width 400ms;
