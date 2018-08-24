@@ -1,18 +1,18 @@
 const { app, BrowserWindow, Menu } = require('electron');
+const { autoUpdater } = require('electron-updater');
 const path = require('path');
 const url = require('url');
 const FileAPI = require('file-api');
 const processVideo = require('./process-video');
 
-// Handle creating/removing shortcuts on Windows when installing/uninstalling.
-if (require('electron-squirrel-startup')) {
-  // eslint-disable-line global-require
-  app.quit();
-}
-
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win;
+
+const log = require('electron-log');
+log.transports.file.level = 'debug';
+autoUpdater.logger = log;
+autoUpdater.checkForUpdatesAndNotify();
 
 function loadUrl() {
   win.loadURL(

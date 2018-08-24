@@ -1,11 +1,16 @@
 {
   "name": "clippn",
   "author": "Clippn <ryanehrler@gmail.com>",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "license": "MIT",
   "main": "src/electron/main.js",
+  "repository": {
+    "url": "https://clippn.nyc3.digitaloceanspaces.com"
+  },
+  "description": "First ever game video analyzer for content creators.",
   "build": {
-    "appId": "clippn",
+    "appId": "com.clippn.app",
+    "productName": "clippn",
     "asarUnpack": [
       "node_modules/ffmpeg-static/bin/${platform}/${arch}/",
       "node_modules/ffmpeg-static/index.js",
@@ -26,15 +31,30 @@
       "src/electron/process-video.js",
       "build"
     ],
+    "nsisWeb": {
+      "oneClick": false,
+      "perMachine": true,
+      "allowElevation": true,
+      "allowToChangeInstallationDirectory": true,
+      "installerIcon": "assets/icon.ico",
+      "shortcutName": "clippn"
+    },
     "win": {
-      "target": "portable",
-      "icon": "assets/icon.png",
+      "target": [
+        "nsis-web"
+      ],
+      "icon": "assets/icon.ico",
       "files": [
         "!node_modules/ffmpeg-static/bin/darwin${/*}",
         "!node_modules/ffmpeg-static/bin/linux${/*}",
         "!node_modules/ffprobe-static/bin/darwin${/*}",
         "!node_modules/ffprobe-static/bin/linux${/*}"
       ]
+    },
+    "publish": {
+      "provider": "spaces",
+      "name": "clippn",
+      "region": "nyc3"
     }
   },
   "scripts": {
@@ -50,7 +70,7 @@
     "electron-watch": "ng build --base-href ./ --watch",
     "electron-prod": "ng build --prod --base-href ./ && .\\node_modules\\.bin\\electron .",
     "pack": "electron-builder --dir",
-    "dist": "electron-builder"
+    "release": "cross-env DO_KEY_ID=WQSREDON2TXL3YFLBHUR DO_SECRET_KEY=we+R2f8EemjguJSNhvMl47b+0lIIkqsbzWsIXD5cnEs build"
   },
   "private": true,
   "dependencies": {
@@ -71,7 +91,8 @@
     "angular2-moment": "^1.9.0",
     "angularfire2": "^5.0.0-rc.9",
     "core-js": "^2.5.4",
-    "electron-squirrel-startup": "^1.0.0",
+    "electron-log": "^2.2.17",
+    "electron-updater": "^3.1.1",
     "ffmpeg-extract-frames": "^2.0.0",
     "ffmpeg-static": "^2.2.1",
     "ffprobe-static": "^2.0.0",
@@ -99,7 +120,8 @@
     "@types/node": "~6.0.60",
     "codelyzer": "^4.0.1",
     "electron": "1.8.2",
-    "electron-builder": "^20.10.0",
+    "electron-builder": "^20.28.2",
+    "cross-env": "^5.2.0",
     "jasmine-core": "~2.6.2",
     "jasmine-spec-reporter": "~4.1.0",
     "karma": "~1.7.0",
