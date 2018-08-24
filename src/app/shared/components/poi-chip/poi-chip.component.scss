@@ -46,6 +46,9 @@
     $fire-color-cool-grad-normal,
     $fire-color-cool-grad-dark
   );
+  &.video-is-here {
+    background: green !important;
+  }
   &.fire {
     color: white;
     background: $fire-color-fire-grad-normal;

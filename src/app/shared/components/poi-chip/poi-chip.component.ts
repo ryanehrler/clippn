@@ -1,7 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Poi } from '../../../core/services/clip';
-
-import { ClipTimeNavigationService } from '../../../core/services/clip/clip-time-navigation.service';
+import {
+  ClipTimeNavigationService,
+  ClipTimeService,
+  Poi
+} from '../../../core/services/clip';
 
 @Component({
   selector: 'clpn-poi-chip',
@@ -9,13 +11,31 @@ import { ClipTimeNavigationService } from '../../../core/services/clip/clip-time
   styleUrls: ['./poi-chip.component.scss']
 })
 export class PoiChipComponent implements OnInit {
-  @Input() poi: Poi;
+  @Input()
+  poi: Poi;
+  videoTimeIsHere: boolean;
 
-  constructor(private clipTimeNavigationService: ClipTimeNavigationService) {}
+  constructor(
+    private clipTimeNavigationService: ClipTimeNavigationService,
+    private clipTimeService: ClipTimeService
+  ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.clipTimeService.clipTimeObservable.subscribe(time => {
+      // if video is currently at this poit time
+      const poiTime = Math.floor(this.poi.time);
+      time = Math.floor(time);
+
+      if (time - 1 <= poiTime && poiTime <= time + 1) {
+        this.videoTimeIsHere = true;
+      } else {
+        this.videoTimeIsHere = false;
+      }
+    });
+  }
 
   gotoTime(time: number) {
+    this.videoTimeIsHere = true;
     this.clipTimeNavigationService.gotoTime(time);
   }
 }

@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-
-import { ClipService } from '../../../core/services/clip';
-import { ClipTimeNavigationService } from '../../../core/services/clip/clip-time-navigation.service';
+import {
+  ClipService,
+  ClipTimeNavigationService,
+  ClipTimeService
+} from '../../../core/services/clip';
 import {
   Battlefield1AnalyzerService,
   FortniteAnalyzerService,
@@ -17,6 +19,7 @@ import {
     ClipService,
     PoiAnalyzerService,
     ClipTimeNavigationService,
+    ClipTimeService,
     // Game Analyzers
     FortniteAnalyzerService,
     Battlefield1AnalyzerService

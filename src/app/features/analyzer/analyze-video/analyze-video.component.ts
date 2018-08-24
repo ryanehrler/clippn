@@ -5,23 +5,21 @@ import {
   Injector,
   OnDestroy,
   OnInit,
-  QueryList,
-  ViewChild,
-  ViewChildren
+  ViewChild
 } from '@angular/core';
-
-import * as _ from 'lodash';
-import * as moment from 'moment';
-
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-
-import { timeout } from 'rxjs/operators';
+import * as _ from 'lodash';
+import * as moment from 'moment';
 import { VideoUrlService } from '../../../core/services';
 import { AnalysisTimeRemainingCalcService } from '../../../core/services/analysis-time-remaining-calc.service';
+import {
+  Clip,
+  ClipService,
+  ClipTimeService,
+  Poi
+} from '../../../core/services/clip';
 import { ClipTimeNavigationService } from '../../../core/services/clip/clip-time-navigation.service';
-import { Clip, ClipService, Poi } from '../../../core/services/clip/index';
-import { Tag } from '../../../core/services/clip/tag';
 import {
   GameAnalyzerService,
   IGameAnalyzer,
@@ -72,9 +70,12 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy, AfterViewInit {
   canvas2d: any;
   canvas: any;
 
-  @ViewChild('videoPlayer') videoPlayer: any;
-  @ViewChild('myCanvas') myCanvas: any;
-  @ViewChild('myCanvasTwo') myCanvasTwo: any;
+  @ViewChild('videoPlayer')
+  videoPlayer: any;
+  @ViewChild('myCanvas')
+  myCanvas: any;
+  @ViewChild('myCanvasTwo')
+  myCanvasTwo: any;
 
   private onScroll: (e) => void;
   constructor(
@@ -88,6 +89,7 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy, AfterViewInit {
     private poiAnalyzerService: PoiAnalyzerService,
     private analysisTimeRemainingCalc: AnalysisTimeRemainingCalcService,
     private clipTimeNavigationService: ClipTimeNavigationService,
+    private clipTimeService: ClipTimeService,
     private elementRef: ElementRef
   ) {
     this.onScroll = event => {
@@ -255,14 +257,11 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy, AfterViewInit {
     console.log('SET-VIDEO-PROPERTIES');
     this.video.controls = false;
 
-    // this.video.addEventListener(
-    //   'loadedmetadata',
-    //   e => {
-    //     this.setVideoResolution();
-    //     callback();
-    //   },
-    //   false
-    // );
+    this.video.addEventListener('timeupdate', () => {
+      if (this.video != null) {
+        this.clipTimeService.setTime(this.video.currentTime);
+      }
+    });
   }
   setVideoResolution() {
     if (this.video != null) {
@@ -345,6 +344,8 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy, AfterViewInit {
       .seconds(Math.round(t))
       .format('HH:mm:ss');
     this.setAnalysisPercentDone();
+
+    this.clipTimeService.setTime(t);
   }
   private setAnalysisPercentDone() {
     // onFrame load is getting called as soon as analyze tab is hit this causes

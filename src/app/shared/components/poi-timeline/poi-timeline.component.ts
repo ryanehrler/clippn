@@ -12,7 +12,12 @@ import {
 import * as _ from 'lodash';
 import * as moment from 'moment';
 
-import { Clip, ClipService, Poi } from '../../../core/services/clip';
+import {
+  Clip,
+  ClipService,
+  Poi,
+  ClipTimeService
+} from '../../../core/services/clip';
 
 @Component({
   selector: 'clpn-poi-timeline',
@@ -31,8 +36,10 @@ export class PoiTimelineComponent
     return this._clip;
   }
 
-  @Input() video: any;
-  @Input() killDuration: number; // length of a single kill duration
+  @Input()
+  video: any;
+  @Input()
+  killDuration: number; // length of a single kill duration
 
   isLoading = true;
 
@@ -65,7 +72,8 @@ export class PoiTimelineComponent
 
   constructor(
     private elementRef: ElementRef,
-    private clipService: ClipService
+    private clipService: ClipService,
+    private clipTimeService: ClipTimeService
   ) {
     this.onScroll = event => {
       this.mouseCursorScrollOffset = event.srcElement.scrollLeft;
@@ -87,6 +95,10 @@ export class PoiTimelineComponent
     this.videoNullCheckTimer = setInterval(() => {
       this.setupTimeline();
     }, 250);
+
+    this.clipTimeService.clipTimeObservable.subscribe(() => {
+      this.setVideoCursor();
+    });
   }
 
   ngAfterViewInit() {
@@ -141,7 +153,6 @@ export class PoiTimelineComponent
       this.setTimelineStlye();
       this.setIntervalTicks();
       this.setPoiTicks();
-      this.setVideoEvents();
     }
   }
 
@@ -185,11 +196,6 @@ export class PoiTimelineComponent
       // const poiTimeSec = poi.time; // need for conversion
       const tickX = this.getXPositionForSeconds(poi.time);
       this.createPoiTick(tickX, [poi.fireLevel]);
-    });
-  }
-  setVideoEvents() {
-    this.video.addEventListener('timeupdate', () => {
-      this.setVideoCursor();
     });
   }
 

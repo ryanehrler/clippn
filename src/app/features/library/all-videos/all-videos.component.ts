@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import * as _ from 'lodash';
@@ -32,7 +32,8 @@ export class AllVideosComponent implements OnInit {
     private localVideoService: LocalVideoService,
     private videoUrlService: VideoUrlService,
     private sanitizer: DomSanitizer,
-    private videoThumbnailService: VideoThumbnailService
+    private videoThumbnailService: VideoThumbnailService,
+    private changeDetector: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -104,5 +105,10 @@ export class AllVideosComponent implements OnInit {
       const path = this.baseThumbnailPath + video.name + '.jpeg';
       video.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(path);
     });
+
+    // Angular change detection does not fire when reaching out to nodejs(electron).
+    // So we need to help angular and let it know it needs to detect changes so it
+    // can update the binding to the dom.
+    this.changeDetector.detectChanges();
   }
 }
