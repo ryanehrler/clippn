@@ -10,6 +10,11 @@ video {
 .clip-tab {
   max-height: 350px;
 }
+.tray-buttons {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+}
 .remaining-time {
   position: relative;
   margin-top: -50px;

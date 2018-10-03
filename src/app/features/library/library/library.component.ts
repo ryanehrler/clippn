@@ -135,7 +135,7 @@ export class LibraryComponent implements OnInit {
         )
         .forEach(clip => {
           clip.currentProgress++;
-          //console.log(clip);
+          // console.log(clip);
           if (clip.currentProgress === 100) {
             clip.isProcessed = true;
           }
