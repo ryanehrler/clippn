@@ -37,7 +37,7 @@ export class FortniteAnalyzerService extends GameAnalyzerBase
   pixelGreenValue = 25;
   pixelBlueValue = 27;
 
-  pixelRedTolerance = 15;
+  pixelRedTolerance = 20;
   pixelGreenTolerance = 35;
   pixelBlueTolerance = 35;
 
