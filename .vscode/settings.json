@@ -7,5 +7,12 @@
     "**/.DS_Store": true,
     "**/build": true,
     "**/dist": true
-  }
+  },
+  "workbench.editor.enablePreview": false,
+  //I forget what this^^ does - should look this up
+  "tslint.run": "onSave",
+  "editor.formatOnSave": true,
+  "tslint.autoFixOnSave": true,
+  "typescript.extension.sortImports.sortOnSave": true
+
 }
