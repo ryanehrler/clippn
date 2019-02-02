@@ -10,10 +10,10 @@ export class FortniteAnalyzerService extends GameAnalyzerBase
   baseHeight = 180;
   baseXStart = 979;
   // PS4
-  // baseYStart = 600;
+  baseYStart = 600;
 
   // PC
-  baseYStart = 650;
+  // baseYStart = 650;
 
   width: number;
   height: number;

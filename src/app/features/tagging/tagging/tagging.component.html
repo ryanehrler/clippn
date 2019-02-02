@@ -69,6 +69,11 @@
             <mat-option *ngFor="let title of gameArray" [value]="title">{{title}}</mat-option>
           </mat-select>
         </mat-form-field>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Clip Name</mat-label>
+          <input id="filterClipName" matInput (keyup)="onClipNameKeyUp($event)" [(ngModel)]="filterClipName" placeholder="Enter Name">
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
       </mat-card-content>
     </mat-card>
   </div>
@@ -102,8 +107,8 @@
             <mat-card-content>
               <!-- Horizontal POI Layout -->
               <ng-container *ngIf="!isFiltered">
-                <div layout="column">
-                  <div flex="auto">
+                <div layout="row">
+                  <div flex="100">
                     <clpn-poi-chip *ngFor="let poi of clip.pois | clipFilter: [['deleted', false]]" (contextmenu)="onRightClick($event, poi, clip)"
                       [poi]="poi"></clpn-poi-chip>
                   </div>

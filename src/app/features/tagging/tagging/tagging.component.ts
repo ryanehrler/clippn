@@ -34,6 +34,7 @@ export class TaggingComponent implements OnInit, AfterViewInit, OnDestroy {
   filteredTagArray: Observable<string[]>;
   contextMenuWatch: Observable<boolean>;
   selectedGame = '';
+  filterClipName = '';
   public newVideo: string[] = [];
   contextMenuSubject = new Subject<boolean>();
   contextMenu = false;
@@ -45,7 +46,7 @@ export class TaggingComponent implements OnInit, AfterViewInit, OnDestroy {
   mouseCursorScrollOffset = 0;
 
   FILTER_COLUMNS = {
-    DEFAULT: 100,
+    DEFAULT: 50,
     FILTERED: 33
   };
 
@@ -201,6 +202,12 @@ export class TaggingComponent implements OnInit, AfterViewInit, OnDestroy {
         return matched;
       }
     }
+    if (this.filterClipName !== '' || this.filterClipName !== undefined) {
+      if (this.clip.name.indexOf(this.filterClipName) === -1) {
+        matched = false;
+        return matched;
+      }
+    }
 
     clip.pois.some(poi => {
       if (this.havePoiMatch(poi)) {
@@ -213,6 +220,8 @@ export class TaggingComponent implements OnInit, AfterViewInit, OnDestroy {
     });
     return matched;
   }
+
+  onClipNameKeyUp() {}
 
   onRightClick(event: any, poi: Poi, clip: Clip) {
     this.contextMenuX = event.clientX;
