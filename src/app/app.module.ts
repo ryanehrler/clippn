@@ -11,6 +11,7 @@ import { LoginModule } from './features/login/login.module';
 import { MaterialModule } from './material/material.module';
 import { SharedModule } from './shared/shared.module';
 
+// getting started
 @NgModule({
   declarations: [AppComponent],
   imports: [
