@@ -48,7 +48,8 @@
           <!-- Available Tags -->
           <div flex="60" layout-padding>
             <mat-chip-list>
-              <mat-chip color="accent" selected="true" *ngFor="let tag of tagArray" [selectable]="true" [removable]="true" (click)="addSearchTag(tag)">
+              <mat-chip color="accent" selected="true" *ngFor="let tag of tagArray" [selectable]="true" [removable]="true"
+                (click)="addSearchTag(tag)">
                 {{tag}}
                 <mat-icon matChipRemove>add</mat-icon>
               </mat-chip>
@@ -71,7 +72,8 @@
         </mat-form-field>
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Clip Name</mat-label>
-          <input id="filterClipName" matInput (keyup)="onClipNameKeyUp($event)" [(ngModel)]="filterClipName" placeholder="Enter Name">
+          <input id="filterClipName" matInput (keyup)="onClipNameKeyUp($event)" [(ngModel)]="filterClipName"
+            placeholder="Enter Name">
           <mat-icon matSuffix>search</mat-icon>
         </mat-form-field>
       </mat-card-content>
@@ -95,7 +97,7 @@
 
   <!-- Clip Cards -->
   <div layout="row" layout-wrap>
-    <ng-container *ngFor="let clip of clips | clipFilter: [['currentProgress', 100]]">
+    <ng-container *ngFor="let clip of clips">
       <ng-container *ngIf="this.haveMatch(clip) == true">
         <div layout-fill [attr.flex]="clipColumns" style="min-width: 275px;">
           <mat-card>

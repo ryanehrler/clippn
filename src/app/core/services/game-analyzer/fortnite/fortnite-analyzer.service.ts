@@ -1,7 +1,6 @@
-import { Injectable } from '@angular/core';
-
 import { GameAnalyzerBase } from '../game-analyzer-base';
 import { IGameAnalyzer } from '../IGameAnalyzer';
+import { Injectable } from '@angular/core';
 
 @Injectable()
 export class FortniteAnalyzerService extends GameAnalyzerBase
@@ -10,10 +9,10 @@ export class FortniteAnalyzerService extends GameAnalyzerBase
   baseHeight = 180;
   baseXStart = 979;
   // PS4
-  baseYStart = 600;
+  // baseYStart = 600;
 
   // PC
-  // baseYStart = 650;
+  baseYStart = 650;
 
   width: number;
   height: number;

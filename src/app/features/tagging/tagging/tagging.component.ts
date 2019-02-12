@@ -4,16 +4,13 @@ import {
   ElementRef,
   OnDestroy,
   OnInit
-} from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { Observable, of, Subject } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
-import { ClipService } from '../../../core/services/clip/clip.service';
+  } from '@angular/core';
 import { Clip, Poi, Tag } from '../../../core/services/clip/index';
-import {
-  EventCategory,
-  GoogleAnalyticsService
-} from '../../../core/services/google-analytics/index';
+import { ClipService } from '../../../core/services/clip/clip.service';
+import { EventCategory, GoogleAnalyticsService } from '../../../core/services/google-analytics/index';
+import { FormControl } from '@angular/forms';
+import { map, startWith } from 'rxjs/operators';
+import { Observable, of, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-tagging',
@@ -197,13 +194,21 @@ export class TaggingComponent implements OnInit, AfterViewInit, OnDestroy {
     });
 
     if (this.selectedGame) {
+      console.log('selected-game');
+
       if (clip.gameTitle != this.selectedGame) {
         matched = false;
         return matched;
       }
     }
     if (this.filterClipName !== '' || this.filterClipName !== undefined) {
-      if (this.clip.name.indexOf(this.filterClipName) === -1) {
+      // if (this.clip === undefined) {
+      //   console.log('clip-undefined');
+      //   return false;
+      // }
+
+      if (clip.name.indexOf(this.filterClipName) === -1) {
+        console.log('filter clip name');
         matched = false;
         return matched;
       }

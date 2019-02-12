@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { AppDataFolderInitService } from './core/services/app-data-folder-init/app-data-folder-init.service';
 import { AuthService } from './core/services/auth/auth.service';
 import { Clip } from './core/services/clip/clip';
-import { AppDataFolderInitService } from './core/services/app-data-folder-init/app-data-folder-init.service';
+import { Component, HostListener, OnInit } from '@angular/core';
+import { KeyPressEventService } from './core/services/key-press-event.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -24,10 +25,16 @@ export class AppComponent implements OnInit {
   ];
   maxCounts = 200;
 
+  @HostListener('document:keypress', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    this.keyPressEventService.keyPressEvent(event.key);
+  }
+
   constructor(
     public auth: AuthService,
     private router: Router,
-    private appDataInit: AppDataFolderInitService
+    private appDataInit: AppDataFolderInitService,
+    private keyPressEventService: KeyPressEventService
   ) {}
 
   ngOnInit() {

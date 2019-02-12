@@ -1,29 +1,20 @@
-import { Injectable, Injector, OnInit } from '@angular/core';
-
-import {
-  AngularFirestore,
-  AngularFirestoreCollection
-} from 'angularfire2/firestore';
 import * as _ from 'lodash';
-
-import {
-  EventCategory,
-  GoogleAnalyticsService
-} from '../google-analytics/index';
-
-import { Observable, Subject } from 'rxjs';
-import { filter, map, take } from 'rxjs/operators';
-
-import { Poi } from '.';
+import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { AuthService } from '../auth/auth.service';
-import { FirestoreService } from '../firestore/firestore.service';
 import { CaptureProperties } from './capture-properties';
 import { Clip } from './clip';
+import { EventCategory, GoogleAnalyticsService } from '../google-analytics/index';
+import { filter, map, take } from 'rxjs/operators';
+import { FirestoreService } from '../firestore/firestore.service';
+import { Injectable, Injector, OnInit } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
+import { Poi } from '.';
+import { Tag } from './tag';
 
 @Injectable()
 export class ClipService {
   clips: Clip[];
-  userClips: Clip[];
+  userClips: Clip[] = [];
   clip: Clip;
   clipsRef: AngularFirestoreCollection<Clip>;
 
@@ -137,6 +128,7 @@ export class ClipService {
   }
 
   getClipsByUser() {
+    console.log('get-clips-by-user');
     return this.db
       .colWithIds$<Clip>('clips', ref =>
         ref.where('uid', '==', this.authService.userId)
@@ -150,21 +142,27 @@ export class ClipService {
       .toPromise();
   }
 
-  getAllTags() {
-    const uniqueTags = [];
-    _.forEach(this.clips, clip => {
+  async getAllTags(): Promise<Tag[]> {
+    const uniqueTags: Tag[] = [];
+    if (this.userClips.length === 0) {
+      await this.getClipsByUser();
+    }
+
+    _.forEach(this.userClips, clip => {
       _.forEach(clip.pois, kill => {
         _.forEach(kill.tags, tag => {
           if (
             _.findIndex(uniqueTags, t => {
-              return t === tag.value;
+              return t.value === tag.value;
             }) === -1
           ) {
-            uniqueTags.push(tag.value);
+            uniqueTags.push(tag);
           }
         });
       });
     });
+    console.log('--unique-tags--');
+    console.table(uniqueTags);
     return uniqueTags;
   }
   getPercentDone(currentTime: number, duration: number) {

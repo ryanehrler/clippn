@@ -9,8 +9,8 @@
         <div layout="row">
           <div flex="90">
             <mat-form-field class="justifier">
-              <input #inputBox (keyup.enter)="add()" (keydown.tab)="add();false" placeholder="Enter tag" matInput [(ngModel)]="tag.value"
-                text="text">
+              <input #inputBox (keyup.enter)="add()" (keydown.tab)="add();false" placeholder="Enter tag" matInput
+                [(ngModel)]="tag.value" text="text">
             </mat-form-field>
           </div>
           <div flex="10">
@@ -20,12 +20,24 @@
           </div>
         </div>
       </ng-container>
+      <div layout="row">
+        <div flex="100">
+          <mat-chip-list>
+            <mat-chip color="accent" selected="true" *ngFor="let tag of recentTags" [selectable]="true" [removable]="true"
+              (click)="addTag(tag)">
+              {{tag.value}}
+              <mat-icon matChipRemove>add</mat-icon>
+            </mat-chip>
+          </mat-chip-list>
+        </div>
+      </div>
     </mat-card-content>
     <mat-card-actions>
       <div layout="row">
         <div flex="33">
           <button mat-button (click)="add()">
-            <mat-icon>add</mat-icon>Add</button>
+            <mat-icon>add</mat-icon>Add
+          </button>
         </div>
         <div flex="33">
           <button mat-button (click)="openDialog()">
@@ -35,7 +47,6 @@
           <button mat-button (click)="close()">
             <mat-icon>close</mat-icon>
             Close
-
           </button>
         </div>
       </div>

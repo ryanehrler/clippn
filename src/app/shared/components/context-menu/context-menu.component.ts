@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   Directive,
   ElementRef,
@@ -9,23 +10,24 @@ import {
   QueryList,
   Renderer,
   ViewChildren
-} from '@angular/core';
-import { MatDialog } from '@angular/material';
-import { Poi } from '../../../core/services/clip/index';
-import { Tag } from '../../../core/services/clip/tag';
+  } from '@angular/core';
+import { ClipService, Poi } from '../../../core/services/clip';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
+import { MatDialog } from '@angular/material';
+import { Tag } from '../../../core/services/clip/tag';
 
 @Component({
   selector: 'app-context-menu',
   templateUrl: './context-menu.component.html',
   styleUrls: ['./context-menu.component.scss']
 })
-export class ContextMenuComponent implements OnInit {
+export class ContextMenuComponent implements OnInit, AfterViewInit {
   @ViewChildren('inputBox') vc: QueryList<ElementRef>;
 
   deletePrompt = false;
+  recentTags: Tag[];
 
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog, private clipService: ClipService) {}
 
   @Input() x = 0;
   @Input() y = 0;
@@ -33,8 +35,10 @@ export class ContextMenuComponent implements OnInit {
   @Input() open: boolean;
   @Output() openChange = new EventEmitter<boolean>();
 
-  ngOnInit() {}
-
+  async ngOnInit() {
+    this.recentTags = await this.clipService.getAllTags();
+    console.table(this.recentTags);
+  }
   ngAfterViewInit() {
     this.vc.changes.subscribe(elements => {
       // setting focus in a timeout removes an error:
@@ -55,7 +59,11 @@ export class ContextMenuComponent implements OnInit {
     const newTag = new Tag();
     newTag.value = '';
     newTag.deleted = false;
-    this.poi.tags.push(newTag);
+    this.addTag(newTag);
+  }
+
+  addTag(tag: Tag) {
+    this.poi.tags.push(tag);
     // this is a little weird but basically must convert regular object into
     // "pure" javascript object for firebase -- see here: https://stackoverflow.com/questions/47190803/firestore-adding-object-with-an-array
     const map = this.poi.tags.map(obj => {

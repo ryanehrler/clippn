@@ -21,119 +21,91 @@
   cursor: pointer;
 
   background: $fire-color-cool;
-  background-image: -webkit-linear-gradient(
-    top,
+  background-image: -webkit-linear-gradient(top,
     $fire-color-cool-grad-normal,
-    $fire-color-cool-grad-dark
-  );
-  background-image: -moz-linear-gradient(
-    top,
+    $fire-color-cool-grad-dark);
+  background-image: -moz-linear-gradient(top,
     $fire-color-cool-grad-normal,
-    $fire-color-cool-grad-dark
-  );
-  background-image: -ms-linear-gradient(
-    top,
+    $fire-color-cool-grad-dark);
+  background-image: -ms-linear-gradient(top,
     $fire-color-cool-grad-normal,
-    $fire-color-cool-grad-dark
-  );
-  background-image: -o-linear-gradient(
-    top,
+    $fire-color-cool-grad-dark);
+  background-image: -o-linear-gradient(top,
     $fire-color-cool-grad-normal,
-    $fire-color-cool-grad-dark
-  );
-  background-image: linear-gradient(
-    to bottom,
+    $fire-color-cool-grad-dark);
+  background-image: linear-gradient(to bottom,
     $fire-color-cool-grad-normal,
-    $fire-color-cool-grad-dark
-  );
+    $fire-color-cool-grad-dark);
+
+  &.is-selected.video-is-here {
+    background: purple !important;
+  }
+
   &.video-is-here {
     background: green !important;
   }
+
+  &.is-selected {
+    background: blue !important;
+  }
+
   &.fire {
     color: white;
     background: $fire-color-fire-grad-normal;
-    background-image: -webkit-linear-gradient(
-      top,
+    background-image: -webkit-linear-gradient(top,
       $fire-color-fire-grad-normal,
-      $fire-color-fire-grad-dark
-    );
-    background-image: -moz-linear-gradient(
-      top,
+      $fire-color-fire-grad-dark);
+    background-image: -moz-linear-gradient(top,
       $fire-color-fire-grad-normal,
-      $fire-color-fire-grad-dark
-    );
-    background-image: -ms-linear-gradient(
-      top,
+      $fire-color-fire-grad-dark);
+    background-image: -ms-linear-gradient(top,
       $fire-color-fire-grad-normal,
-      $fire-color-fire-grad-dark
-    );
-    background-image: -o-linear-gradient(
-      top,
+      $fire-color-fire-grad-dark);
+    background-image: -o-linear-gradient(top,
       $fire-color-fire-grad-normal,
-      $fire-color-fire-grad-dark
-    );
-    background-image: linear-gradient(
-      to bottom,
+      $fire-color-fire-grad-dark);
+    background-image: linear-gradient(to bottom,
       $fire-color-fire-grad-normal,
-      $fire-color-fire-grad-dark
-    );
+      $fire-color-fire-grad-dark);
   }
+
   &.hot {
     color: white;
     background: $fire-color-hot-grad-normal;
-    background-image: -webkit-linear-gradient(
-      top,
+    background-image: -webkit-linear-gradient(top,
       $fire-color-hot-grad-normal,
-      $fire-color-hot-grad-dark
-    );
-    background-image: -moz-linear-gradient(
-      top,
+      $fire-color-hot-grad-dark);
+    background-image: -moz-linear-gradient(top,
       $fire-color-hot-grad-normal,
-      $fire-color-hot-grad-dark
-    );
-    background-image: -ms-linear-gradient(
-      top,
+      $fire-color-hot-grad-dark);
+    background-image: -ms-linear-gradient(top,
       $fire-color-hot-grad-normal,
-      $fire-color-hot-grad-dark
-    );
-    background-image: -o-linear-gradient(
-      top,
+      $fire-color-hot-grad-dark);
+    background-image: -o-linear-gradient(top,
       $fire-color-hot-grad-normal,
-      $fire-color-hot-grad-dark
-    );
-    background-image: linear-gradient(
-      to bottom,
+      $fire-color-hot-grad-dark);
+    background-image: linear-gradient(to bottom,
       $fire-color-hot-grad-normal,
-      $fire-color-hot-grad-dark
-    );
+      $fire-color-hot-grad-dark);
   }
+
   &.warm {
     color: white;
     background: $fire-color-warm-grad-normal;
-    background-image: -webkit-linear-gradient(
-      top,
+    background-image: -webkit-linear-gradient(top,
       $fire-color-warm-grad-normal,
-      $fire-color-warm-grad-dark
-    );
-    background-image: -moz-linear-gradient(
-      top,
+      $fire-color-warm-grad-dark);
+    background-image: -moz-linear-gradient(top,
       $fire-color-warm-grad-normal,
-      $fire-color-warm-grad-dark
-    );
-    background-image: -ms-linear-gradient(
-      top,
+      $fire-color-warm-grad-dark);
+    background-image: -ms-linear-gradient(top,
       $fire-color-warm-grad-normal,
-      $fire-color-warm-grad-dark
-    );
-    background-image: -o-linear-gradient(
-      top,
+      $fire-color-warm-grad-dark);
+    background-image: -o-linear-gradient(top,
       $fire-color-warm-grad-normal,
-      $fire-color-warm-grad-dark
-    );
-    background-image: linear-gradient(
-      to bottom,
+      $fire-color-warm-grad-dark);
+    background-image: linear-gradient(to bottom,
       $fire-color-warm-grad-normal,
-      $fire-color-warm-grad-dark
-    );
+      $fire-color-warm-grad-dark);
   }
 }

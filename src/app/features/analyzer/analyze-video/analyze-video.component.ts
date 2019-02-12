@@ -1,3 +1,5 @@
+import * as _ from 'lodash';
+import * as moment from 'moment';
 import {
   AfterViewInit,
   Component,
@@ -6,34 +8,28 @@ import {
   OnDestroy,
   OnInit,
   ViewChild
-} from '@angular/core';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { Router } from '@angular/router';
-import * as _ from 'lodash';
-import * as moment from 'moment';
-import { VideoUrlService } from '../../../core/services';
+  } from '@angular/core';
 import { AnalysisTimeRemainingCalcService } from '../../../core/services/analysis-time-remaining-calc.service';
 import {
   Clip,
   ClipService,
   ClipTimeService,
   Poi
-} from '../../../core/services/clip';
+  } from '../../../core/services/clip';
 import { ClipTimeNavigationService } from '../../../core/services/clip/clip-time-navigation.service';
-import {
-  GameAnalyzerService,
-  IGameAnalyzer,
-  PoiAnalyzerService
-} from '../../../core/services/game-analyzer/index';
-import {
-  EventCategory,
-  GoogleAnalyticsService
-} from '../../../core/services/google-analytics/index';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { EventCategory, GoogleAnalyticsService } from '../../../core/services/google-analytics/index';
+import { GameAnalyzerService, IGameAnalyzer, PoiAnalyzerService } from '../../../core/services/game-analyzer/index';
+import { KeyPressEventService } from '../../../core/services/key-press-event.service';
+import { PoiService } from '../../../core/services/poi/poi.service';
+import { Router } from '@angular/router';
+import { VideoUrlService } from '../../../core/services';
 
 @Component({
   selector: 'app-analyze-video',
   templateUrl: './analyze-video.component.html',
-  styleUrls: ['./analyze-video.component.scss']
+  styleUrls: ['./analyze-video.component.scss'],
+  providers: [PoiService]
 })
 export class AnalyzeVideoComponent implements OnInit, OnDestroy, AfterViewInit {
   NUMBER_OF_FRAMES_BEFORE_RESET = 300;
@@ -90,7 +86,9 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy, AfterViewInit {
     private analysisTimeRemainingCalc: AnalysisTimeRemainingCalcService,
     private clipTimeNavigationService: ClipTimeNavigationService,
     private clipTimeService: ClipTimeService,
-    private elementRef: ElementRef
+    private elementRef: ElementRef,
+    private keyPressEventService: KeyPressEventService,
+    private poiService: PoiService
   ) {
     this.onScroll = event => {
       this.mouseCursorScrollOffset = event.srcElement.scrollTop;
@@ -120,6 +118,8 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy, AfterViewInit {
       this.clipTimeNavigationService.currentTimeSubject.subscribe(value => {
         this.gotoKill(value);
       });
+
+      this.startKeyPressListener();
     } else {
       this.router.navigate(['analyzer/add-video']);
     }
@@ -438,5 +438,23 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy, AfterViewInit {
 
   deleteTag(kill: Poi, index: number) {
     _.pullAt(kill.tags, [index]);
+  }
+
+  private startKeyPressListener() {
+    this.keyPressEventService.events.subscribe((key: string) => {
+      switch (key) {
+        case 'a':
+          this.seekTime(-3);
+          break;
+        case 'd':
+          this.seekTime(3);
+          break;
+        case ' ':
+          this.togglePlayVideo();
+          break;
+        default:
+          break;
+      }
+    });
   }
 }
