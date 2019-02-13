@@ -13,6 +13,8 @@ import {
   } from '@angular/core';
 import { ClipService, Poi } from '../../../core/services/clip';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
+import { ContextEnum } from '../../../core/services/context';
+import { ContextService } from '../../../core/services/context/context.service';
 import { MatDialog } from '@angular/material';
 import { Tag } from '../../../core/services/clip/tag';
 
@@ -27,7 +29,11 @@ export class ContextMenuComponent implements OnInit, AfterViewInit {
   deletePrompt = false;
   recentTags: Tag[];
 
-  constructor(public dialog: MatDialog, private clipService: ClipService) {}
+  constructor(
+    public dialog: MatDialog,
+    private clipService: ClipService,
+    private contextService: ContextService
+  ) {}
 
   @Input() x = 0;
   @Input() y = 0;
@@ -38,7 +44,9 @@ export class ContextMenuComponent implements OnInit, AfterViewInit {
   async ngOnInit() {
     this.recentTags = await this.clipService.getAllTags();
     console.table(this.recentTags);
+    this.contextService.addContext(ContextEnum.PoiEdit);
   }
+
   ngAfterViewInit() {
     this.vc.changes.subscribe(elements => {
       // setting focus in a timeout removes an error:
@@ -52,6 +60,7 @@ export class ContextMenuComponent implements OnInit, AfterViewInit {
   }
 
   close() {
+    this.contextService.popContext();
     this.openChange.emit(false);
   }
 

@@ -1,6 +1,7 @@
 import { ClipTimeNavigationService, ClipTimeService, Poi } from '../../../core/services/clip';
 import { Component, Input, OnInit } from '@angular/core';
-import { KeyPressEventService } from '../../../core/services/key-press-event.service';
+import { ContextEnum } from '../../../core/services/context';
+import { KeyPressEventService } from '../../../core/services/key-press-event/key-press-event.service';
 import { log } from 'util';
 import { PoiService } from '../../../core/services/poi/poi.service';
 
@@ -41,7 +42,7 @@ export class PoiChipComponent implements OnInit {
   }
 
   deletePoi() {
-    if (this.videoTimeIsHere) {
+    if (this.isSelected) {
       this.poi.deleted = true;
     }
   }
@@ -55,8 +56,14 @@ export class PoiChipComponent implements OnInit {
 
   private registerKeyPress() {
     this.keyPressEventService.events.subscribe(key => {
-      if (key == 'd') {
-        this.deletePoi();
+      if (key.context !== ContextEnum.Analyzer) {
+        return;
+      }
+
+      switch (key.key) {
+        case 'd':
+          this.deletePoi();
+          break;
       }
     });
   }

@@ -17,10 +17,11 @@ import {
   Poi
   } from '../../../core/services/clip';
 import { ClipTimeNavigationService } from '../../../core/services/clip/clip-time-navigation.service';
+import { ContextEnum } from '../../../core/services/context';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { EventCategory, GoogleAnalyticsService } from '../../../core/services/google-analytics/index';
 import { GameAnalyzerService, IGameAnalyzer, PoiAnalyzerService } from '../../../core/services/game-analyzer/index';
-import { KeyPressEventService } from '../../../core/services/key-press-event.service';
+import { KeyPress, KeyPressEventService } from '../../../core/services/key-press-event';
 import { PoiService } from '../../../core/services/poi/poi.service';
 import { Router } from '@angular/router';
 import { VideoUrlService } from '../../../core/services';
@@ -120,6 +121,7 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy, AfterViewInit {
       });
 
       this.startKeyPressListener();
+      this.keyPressEventService.registerContext(ContextEnum.Analyzer);
     } else {
       this.router.navigate(['analyzer/add-video']);
     }
@@ -441,12 +443,15 @@ export class AnalyzeVideoComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private startKeyPressListener() {
-    this.keyPressEventService.events.subscribe((key: string) => {
-      switch (key) {
+    this.keyPressEventService.events.subscribe((key: KeyPress) => {
+      if (key.context !== ContextEnum.Analyzer) {
+        return;
+      }
+      switch (key.key) {
         case 'a':
           this.seekTime(-3);
           break;
-        case 'd':
+        case 's':
           this.seekTime(3);
           break;
         case ' ':

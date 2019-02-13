@@ -2,7 +2,7 @@ import { AppDataFolderInitService } from './core/services/app-data-folder-init/a
 import { AuthService } from './core/services/auth/auth.service';
 import { Clip } from './core/services/clip/clip';
 import { Component, HostListener, OnInit } from '@angular/core';
-import { KeyPressEventService } from './core/services/key-press-event.service';
+import { KeyPressEventService } from './core/services/key-press-event/key-press-event.service';
 import { Router } from '@angular/router';
 
 @Component({
