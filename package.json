@@ -69,8 +69,7 @@
     "electron": "ng build --base-href ./ && .\\node_modules\\.bin\\electron .",
     "electron-watch": "ng build --base-href ./ --watch",
     "electron-prod": "ng build --prod --base-href ./ && .\\node_modules\\.bin\\electron .",
-    "pack": "electron-builder --dir",
-    "release": "cross-env DO_KEY_ID=WQSREDON2TXL3YFLBHUR DO_SECRET_KEY=we+R2f8EemjguJSNhvMl47b+0lIIkqsbzWsIXD5cnEs build"
+    "pack": "electron-builder --dir"
   },
   "private": true,
   "dependencies": {
